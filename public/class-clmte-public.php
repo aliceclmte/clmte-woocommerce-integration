@@ -20,6 +20,9 @@
  * @subpackage Clmte/public
  * @author     CLMTE <info@clmte.com>
  */
+
+global $woocommerce;
+
 class Clmte_Public {
 
 	/**
@@ -51,6 +54,9 @@ class Clmte_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+
+		add_action( 'wp_ajax_add_compensation_to_cart', 'add_compensation_to_cart');
+		add_action( 'wp_ajax_remove_compensation_from_cart', 'remove_compensation_from_cart');
 
 	}
 
@@ -97,7 +103,76 @@ class Clmte_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/clmte-public.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( $this->plugin_name, 'ajax_object', array(
+			'ajax_url' => admin_url('admin-ajax.php'),
+		));
 
 	}
+
+	/**
+	 * Add compensation product to cart
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_compensation_to_cart() {
+		// Add compensation product to cart
+		WC()->cart->add_to_cart( 19 );
+
+		wp_die();
+	}
+
+	/**
+	 * Remove compensation products from cart
+	 *
+	 * @since    1.0.0
+	 */
+	public function remove_compensation_from_cart() {
+		// Remove all compensation products
+		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+			if ( $cart_item['product_id'] == 19 ) {
+				 WC()->cart->remove_cart_item( $cart_item_key );
+			}
+	   }
+
+		wp_die();
+	}
+
+	/**
+	 * Add checkbox with CLMTE compensation to cart
+	 *
+	 * @since    1.0.0
+	 */
+	public function clmte_add_compensation_checkbox() {
+		// add_compensation_to_cart();
+		// WC()->cart->add_to_cart( 19 ); --> would need this either way?
+
+		$api_key = get_option('clmte_api_key');
+		$compensation_price = get_option('clmte_compensation_price');
+		
+		// Alternative way
+		// $product_id = get_option('clmte_compensation_product_id');
+		// $compensation_product = wc_get_product( $product_id );
+		// $compensation_price = $compensation_product->get_price();
+		
+
+		if ($compensation_price) {
+			echo '<div 
+					style="border: 1px solid #bbb; padding: 15px; display: flex; align-items: center;"
+				>
+					<p style="margin: 0;">Vill du klimatkompensera dina köp för <b>'. $compensation_price .' SEK</b>?</p> 
+					<input 
+						id="clmte-compensate"
+						type="checkbox" 
+						style="width: 20px; height: 20px; margin: 0 20px;" 
+					/>
+			</div>';
+		}
+
+		
+
+		// 	class="woocommerce-info"
+	}
+
+	
 
 }

@@ -71,9 +71,7 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     );
                     break;
                 default:
-                     $settings = array(                              
-                            array()
-                    );                 
+                    include 'partials/clmte-settings-main.php';               
             }   
 
             return apply_filters( 'woocommerce_get_settings_' . $this->id, $settings, $current_section );                   

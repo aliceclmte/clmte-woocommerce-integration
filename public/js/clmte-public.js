@@ -1,32 +1,53 @@
-(function( $ ) {
-	'use strict';
+(function ($) {
+  "use strict";
 
-	/**
-	 * All of the code for your public-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+  $(window).load(() => {
+    // Check if checkbox is checked
+    const wasChecked = localStorage.getItem(
+      "clmte-compensation-checkbox-checked"
+    );
 
-})( jQuery );
+    if (wasChecked == "true") {
+      // Check it
+      $("#clmte-compensate").prop("checked", true);
+    } else {
+      // Uncheck it
+      $("#clmte-compensate").prop("checked", false);
+    }
+
+    // If checkbox is clicked
+    $("#clmte-compensate").click(() => {
+      const isChecked = $("#clmte-compensate").is(":checked");
+      localStorage.setItem("clmte-compensation-checkbox-checked", isChecked);
+
+      if (isChecked) {
+        // Add Compensation
+        jQuery.ajax({
+          method: "post",
+          url: ajax_object.ajax_url,
+          data: {
+            action: "add_compensation_to_cart",
+          },
+          complete: () => {
+            // Update cart
+            location.reload();
+          },
+        });
+      } else {
+        console.log("unchecked!");
+        // Remove compensation
+        jQuery.ajax({
+          method: "post",
+          url: ajax_object.ajax_url,
+          data: {
+            action: "remove_compensation_from_cart",
+          },
+          complete: () => {
+            // reload page
+            location.reload();
+          },
+        });
+      }
+    });
+  });
+})(jQuery);

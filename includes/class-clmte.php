@@ -176,6 +176,21 @@ class Clmte {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		// Add checkbox with climte compensation to checkout cart
+		$this->loader->add_action( 'woocommerce_after_cart_table', $plugin_public, 'clmte_add_compensation_checkbox' );
+
+		// Add compensation to checkbox
+		$this->loader->add_action( 'wp_ajax_add_compensation_to_cart', 
+		$plugin_public, 'add_compensation_to_cart' );
+		$this->loader->add_action( 'wp_ajax_nopriv_add_compensation_to_cart', 
+		$plugin_public, 'add_compensation_to_cart' );
+
+		// Remove compensation from checkout
+		$this->loader->add_action( 'wp_ajax_remove_compensation_from_cart', 
+		$plugin_public, 'remove_compensation_from_cart' );
+		$this->loader->add_action( 'wp_ajax_nopriv_remove_compensation_from_cart', 
+		$plugin_public, 'remove_compensation_from_cart' );
+
 	}
 
 	/**

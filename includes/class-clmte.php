@@ -191,6 +191,9 @@ class Clmte {
 		$this->loader->add_action( 'wp_ajax_nopriv_remove_compensation_from_cart', 
 		$plugin_public, 'remove_compensation_from_cart' );
 
+		// Check cart after checkout
+		$this->loader->add_action('woocommerce_thankyou', $plugin_public, 'send_tundra_request');
+
 	}
 
 	/**

@@ -173,6 +173,56 @@ class Clmte_Public {
 		// 	class="woocommerce-info"
 	}
 
+	/**
+	 * Check if compensation has been purchased, send API tundra post request
+	 *
+	 * @since    1.0.0
+	 */
+	public function send_tundra_request( $order_id ) {
+		if ( ! $order_id )
+			return;
+	
+		// Allow code execution only once 
+		if( ! get_post_meta( $order_id, '_thankyou_action_done', true ) ) {
+	
+			// Get an instance of the WC_Order object
+			$order = wc_get_order( $order_id );
+	
+			// Get the order key
+			$order_key = $order->get_order_key();
+	
+			// Get the order number
+			$order_key = $order->get_order_number();
+	
+			if($order->is_paid()) {
+
+				// Loop through order items
+				foreach ( $order->get_items() as $item_id => $item ) {
+		
+					// Get the product object
+					$product = $item->get_product();
+		
+					// Get the product Id
+					$product_id = $product->get_id();
+
+					if ($product_id == 19) {
+						// Get the product quantity
+						$product_quantity = $item->get_quantity();
+
+						// HERE, A COMPENSATION IS BOUGHT! SEND API REQUEST TUNDRA
+					}
+
+				}
+
+			}
+	
+			
+	
+			// Flag the action as done (to avoid repetitions on reload for example)
+			$order->update_meta_data( '_thankyou_action_done', true );
+			$order->save();
+		}
+	}
 	
 
 }

@@ -13,9 +13,9 @@
  * @package           Clmte
  *
  * @wordpress-plugin
- * Plugin Name:       CLMTE
+ * Plugin Name:       CLMTE - WooCommerce Integration
  * Plugin URI:        https://github.com/FluffyKod/CLMTE-Woo
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Easily allow your customers to carbon offset their purchases in your WooCommerce shop. Read more at clmte.com.
  * Version:           1.0.0
  * Author:            CLMTE
  * Author URI:        https://github.com/FluffyKod
@@ -63,6 +63,53 @@ function clmte_missing_wc_notice() {
  
     printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) ); 
 }
+
+/**********************************
+* HELPER FUNCTIONS
+**********************************/
+
+/**
+* Makes a curl-request and returns an array with the json data
+*/
+function make_json_request( $url ) { 
+    
+    $ch = curl_init( $url );
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $data = json_decode($response);
+
+    return $data;
+}
+
+/**
+* Fetches the compensation price from the tundra api
+*/
+function get_compensation_price() { 
+
+    $compensation_price = get_option('clmte_compensation_price');
+
+    if ($compensation_price != '') {
+        return $compensation_price;
+    }
+    
+    $api_key = get_option('clmte_api_key');
+	$organisation_id = get_option('clmte_organisation_id');
+
+    $url = 'https://api-sandbox.tundra.clmte.com/organisation/'. $organisation_id .'/cost';
+
+    $data = make_json_request( $url );
+    $compensation_price = $data->price; 
+    
+    return $compensation_price;
+}
+
+/**********************************
+* END OF HELPER FUNCTIONS
+**********************************/
 
 /**
  * The code that runs during plugin activation.

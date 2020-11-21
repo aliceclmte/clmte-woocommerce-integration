@@ -13,16 +13,22 @@ $settings = array(
             'desc_tip'  => __( ' Your organisations Api Key which can be found at clmte.com', 'clmte')
         ),
         array(
-            'id'        => $prefix . 'compensation_price',
-            'name'      => __( 'Compensation price', 'clmte' ), 
-            'type'      => 'number',
-            'desc_tip'  => __( ' Your organisations compensation price which can be found at clmte.com', 'clmte')
-        ), 
+            'id'        => $prefix . 'organisation_id',
+            'name'      => __( 'Organisation ID', 'clmte' ), 
+            'type'      => 'text',
+            'desc_tip'  => __( ' Your organisations id which can be found at clmte.com', 'clmte')
+        ),
         array(
             'id'        => $prefix . 'compensation_product_id',
             'name'      => __( 'Compensation Product Id', 'clmte' ), 
             'type'      => 'number',
-            'desc_tip'  => __( ' Your organisations compensation price which can be found at clmte.com', 'clmte')
+            'desc_tip'  => __( ' The id of the compensation product.', 'clmte')
+        ), 
+        array(
+            'id'        => $prefix . 'compensation_price',
+            'name'      => __( 'Compensation Price', 'clmte' ), 
+            'type'      => 'number',
+            'desc_tip'  => __( ' The price of the compensation. Leave blank to automatically get the compensation price.', 'clmte')
         ), 
         array(
             'id'        => '',

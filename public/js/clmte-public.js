@@ -3,11 +3,23 @@
 
   $(window).load(() => {
     // Check if checkbox is checked
-    const wasChecked = localStorage.getItem(
-      "clmte-compensation-checkbox-checked"
-    );
+    // const wasChecked = localStorage.getItem(
+    //   "clmte-compensation-checkbox-checked"
+    // );
 
-    if (wasChecked == "true") {
+    let checked = false;
+
+    // Check if compensation product is in cart
+    const elements = $("a.remove");
+    elements.each(function () {
+      const product_id = $(this).attr("data-product_id");
+      if (product_id == clmte.compensation_product_id) {
+        checked = true;
+      }
+    });
+
+    // If so, check the checkbox
+    if (checked) {
       // Check it
       $("#clmte-compensate").prop("checked", true);
     } else {
@@ -18,13 +30,13 @@
     // If checkbox is clicked
     $("#clmte-compensate").click(() => {
       const isChecked = $("#clmte-compensate").is(":checked");
-      localStorage.setItem("clmte-compensation-checkbox-checked", isChecked);
+      // localStorage.setItem("clmte-compensation-checkbox-checked", isChecked);
 
       if (isChecked) {
         // Add Compensation
         jQuery.ajax({
           method: "post",
-          url: ajax_object.ajax_url,
+          url: clmte.ajax_url,
           data: {
             action: "add_compensation_to_cart",
           },
@@ -38,7 +50,7 @@
         // Remove compensation
         jQuery.ajax({
           method: "post",
-          url: ajax_object.ajax_url,
+          url: clmte.ajax_url,
           data: {
             action: "remove_compensation_from_cart",
           },

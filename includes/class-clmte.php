@@ -185,6 +185,9 @@ class Clmte {
 		$this->loader->add_action( 'wp_ajax_nopriv_add_compensation_to_cart', 
 		$plugin_public, 'add_compensation_to_cart' );
 
+		// Change price
+		$this->loader->add_action('woocommerce_before_calculate_totals', $plugin_public, 'before_calculate_totals');
+
 		// Remove compensation from checkout
 		$this->loader->add_action( 'wp_ajax_remove_compensation_from_cart', 
 		$plugin_public, 'remove_compensation_from_cart' );

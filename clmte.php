@@ -70,16 +70,22 @@ function clmte_missing_wc_notice() {
 
 /**
 * Makes a curl-request and returns an array with the json data
+*
+* @param string $url the url to be fetched and parsed as json
+* @return array
 */
 function make_json_request( $url ) { 
     
+    // Initialize curl request
     $ch = curl_init( $url );
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     
+    // Execute curl request and save response
     $response = curl_exec($ch);
     curl_close($ch);
 
+    // Save the json formatted data as an array
     $data = json_decode($response);
 
     return $data;
@@ -87,6 +93,8 @@ function make_json_request( $url ) {
 
 /**
 * Fetches the compensation price from the tundra api
+*
+* @return float
 */
 function get_compensation_price() { 
 

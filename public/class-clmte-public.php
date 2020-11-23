@@ -243,8 +243,10 @@ class Clmte_Public {
 						$response = curl_exec($ch);
 						$data = json_decode($response);
 
+						// Extract tracking id
 						$tracking_id = $data->trackingID;
 
+						// Compose a tracking url
 						$tracking_url = "https://clmte.com/track-compensation/?trackingID=$tracking_id&amount=$product_quantity";
 
 						// Create section to display CLMTE information

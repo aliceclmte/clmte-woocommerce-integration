@@ -168,20 +168,24 @@ class Clmte_Public {
 		$compensation_price = get_compensation_price();
 		
 		if ($compensation_price) {
-			echo '<div 
-					style="border: 1px solid #bbb; padding: 15px; display: flex; align-items: center;"
-				>
-					<p style="margin: 0;">Vill du klimatkompensera dina köp för <b>'. $compensation_price .' SEK</b>?</p> 
+			echo '<div id="clmte-compensation">
+					<img class="logo" src="'. plugin_dir_url( __FILE__ ) . 'assets/logo-white.png' .'" />
+					<p>Vill du klimatkompensera dina köp för <b>'. $compensation_price .' SEK</b>?</p> 
 					<input 
-						id="clmte-compensate"
+						id="clmte-checkbox"
 						type="checkbox" 
-						style="width: 20px; height: 20px; margin: 0 20px;" 
 					/>
-			</div>';
+					<img id="clmte-info" src="'. plugin_dir_url( __FILE__ ) . 'assets/info.png' .'">
+				</div>';
+
+			echo '<div id="clmte-panel">
+					<h4>Vad är klimatkompensering?</h4>
+					<p>En klimatkompensation är när man kompenserar sin negativa påverkan på miljön med något som har en positiv påverkan på miljön. Detta kan exempelvis ske genom att planetera träd som binder koldioxid eller vara med att stödja miljöfrämjande intitiativ. Genom att kompensera sina utsläpp kan man ta det första steget mot att minska sitt ekologiska fotavtryck och förhindra den pågående globala uppvärmningen.</p>
+					<p>Med CLMTE är det enkelt att klimatkompensera, bara klicka i checkboxen ovanför!</p>
+					<p>Läs mer på <a target="_blank" href="https://clmte.com">clmte.com</a></p>
+		  		</div>';
 		}
 
-		// 	class="woocommerce-info"
-		// https://clmte.com/track-compensation/?trackingID='sdsfsdf'&amount=3
 	}
 
 	/**
@@ -223,7 +227,7 @@ class Clmte_Public {
 						$product_quantity = $item->get_quantity();
 
 						// Send request to CLMTE tundra API
-						$url = 'https://api-sandbox.tundra.clmte.com/compensation';
+						$url = "https://api-sandbox.tundra.clmte.com/compensation?amount=$product_quantity";
 						$api_key = get_option('clmte_api_key');
 						
 						$header = array();
@@ -237,7 +241,11 @@ class Clmte_Public {
 						curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
 						$response = curl_exec($ch);
-						echo $response;
+						$data = json_decode($response);
+
+						$tracking_id = $data->trackingID;
+
+						$tracking_url = "https://clmte.com/track-compensation/?trackingID=$tracking_id&amount=$product_quantity";
 
 						// Create section to display CLMTE information
 						echo '<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
@@ -246,6 +254,14 @@ class Clmte_Public {
 								<strong>' . $product_quantity . '</strong>
 								</li>
 
+								<li class="woocommerce-order-overview__order order">
+								TRACK YOUR COMPENSATION
+
+								<img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl='. $tracking_url .'&choe=UTF-8" title="Link to clmte.com" />
+								
+								Scan or go to <a target="_blank" href="'. $tracking_url .'">CLMTE.COM/tracking</a> to track your compensation.
+								</li>
+								
 								<li class="woocommerce-order-overview__order order">
 								
 								READ MORE AT <a href="https://clmte.com" target="_blank">CLMTE.COM</a>

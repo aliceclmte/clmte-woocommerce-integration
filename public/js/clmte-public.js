@@ -7,6 +7,26 @@
     //   "clmte-compensation-checkbox-checked"
     // );
 
+    // Open panel if info is clicked
+    $("#clmte-info").on("click", (e) => {
+      const panel = document.getElementById("clmte-panel");
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    });
+
+    const updateBtn = $('button[name="update_cart"]');
+
+    const updateCart = () => {
+      // location.reload();
+      $("[name='update_cart']").prop("disabled", false);
+      $("[name='update_cart']").trigger("click");
+
+      // $("#clmte-checkbox").load(location.href + " #clmte-checkbox");
+    };
+
     let checked = false;
 
     // Check if compensation product is in cart
@@ -21,15 +41,15 @@
     // If so, check the checkbox
     if (checked) {
       // Check it
-      $("#clmte-compensate").prop("checked", true);
+      $("#clmte-checkbox").prop("checked", true);
     } else {
       // Uncheck it
-      $("#clmte-compensate").prop("checked", false);
+      $("#clmte-checkbox").prop("checked", false);
     }
 
     // If checkbox is clicked
-    $("#clmte-compensate").click(() => {
-      const isChecked = $("#clmte-compensate").is(":checked");
+    $("#clmte-checkbox").on("click", (e) => {
+      const isChecked = $("#clmte-checkbox").is(":checked");
       // localStorage.setItem("clmte-compensation-checkbox-checked", isChecked);
 
       if (isChecked) {
@@ -42,11 +62,10 @@
           },
           complete: () => {
             // Update cart
-            location.reload();
+            updateCart();
           },
         });
       } else {
-        console.log("unchecked!");
         // Remove compensation
         jQuery.ajax({
           method: "post",
@@ -55,8 +74,8 @@
             action: "remove_compensation_from_cart",
           },
           complete: () => {
-            // reload page
-            location.reload();
+            // Update cart
+            updateCart();
           },
         });
       }

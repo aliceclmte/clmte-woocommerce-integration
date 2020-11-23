@@ -2,3 +2,57 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+#clmte-compensation {
+  background-color: #23b97a;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  color: #eee;
+  font-weight: 600;
+}
+
+#clmte-compensation .logo {
+  position: relative;
+  top: -3px;
+  left: 3px;
+}
+
+#clmte-compensation p {
+  margin: 0 0 0 10px;
+}
+
+#clmte-compensation p b {
+  color: #fff;
+  font-weight: 700;
+}
+
+#clmte-compensation #clmte-checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 0 20px;
+  filter: hue-rotate(220deg) brightness(1.6);
+}
+
+#clmte-compensation #clmte-checkbox:focus {
+  outline: none;
+}
+
+#clmte-info {
+  width: 30px;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+#clmte-panel {
+  padding: 0 15px;
+  background-color: #eee;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+#clmte-panel h4 {
+  font-size: 20px;
+  margin-top: 15px;
+}

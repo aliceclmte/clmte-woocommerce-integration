@@ -92,17 +92,20 @@ function get_compensation_price() {
 
     $compensation_price = get_option('clmte_compensation_price');
 
-    if ($compensation_price != '') {
-        return $compensation_price;
+    if ($compensation_price == null or $compensation_price == '') {
+
+        $api_key = get_option('clmte_api_key');
+        $organisation_id = get_option('clmte_organisation_id');
+
+        $url = 'https://api-sandbox.tundra.clmte.com/organisation/'. $organisation_id .'/cost';
+
+        $data = make_json_request( $url );
+        $compensation_price = $data->price; 
+
     }
-    
-    $api_key = get_option('clmte_api_key');
-	$organisation_id = get_option('clmte_organisation_id');
 
-    $url = 'https://api-sandbox.tundra.clmte.com/organisation/'. $organisation_id .'/cost';
-
-    $data = make_json_request( $url );
-    $compensation_price = $data->price; 
+    // Format compensation price to two decimals
+    $compensation_price = number_format((float)$compensation_price, 2, ',', '');
     
     return $compensation_price;
 }

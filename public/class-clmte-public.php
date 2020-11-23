@@ -105,7 +105,8 @@ class Clmte_Public {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/clmte-public.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script( $this->plugin_name, 'clmte', array(
 			'ajax_url' => admin_url('admin-ajax.php'),
-			'compensation_product_id' => get_option('clmte_compensation_product_id')
+			'compensation_product_id' => get_option('clmte_compensation_product_id'),
+			'script_url' => plugin_dir_url( __FILE__ ) . 'js/clmte-public.js'
 		));
 
 	}

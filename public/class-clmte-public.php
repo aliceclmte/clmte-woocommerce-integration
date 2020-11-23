@@ -240,35 +240,55 @@ class Clmte_Public {
 						curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
 						$response = curl_exec($ch);
+						if (curl_errno($ch)) {
+							$error_msg = curl_error($ch);
+						}
+						curl_close($ch);
+						
+						if (isset($error_msg)) {
+							// TODO: Handle error
+							break;
+						}
+
 						$data = json_decode($response);
 
 						// Extract tracking id
-						$tracking_id = $data->trackingID;
+						if (array_key_exists('trackingID', $data)) {
+							$tracking_id = $data->trackingID;
 
-						// Compose a tracking url
-						$tracking_url = "https://clmte.com/track-compensation/?trackingID=$tracking_id&amount=$product_quantity";
-
+							// Compose a tracking url
+							$tracking_url = "https://clmte.com/track-compensation/?trackingID=$tracking_id&amount=$product_quantity";
+						}
+						
 						// Create section to display CLMTE information
 						echo '<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
 								<li class="woocommerce-order-overview__order order">
 								COMPENSATIONS PURCHASED
 								<strong>' . $product_quantity . '</strong>
-								</li>
+								</li>';
 
-								<li class="woocommerce-order-overview__order order">
-								TRACK YOUR COMPENSATION
+						// Only display tracking section if trackingId exists
+						if (isset($tracking_url)) {
+							echo '<li class="woocommerce-order-overview__order 	order">
+							TRACK YOUR COMPENSATION
 
-								<img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl='. $tracking_url .'&choe=UTF-8" title="Link to clmte.com" />
-								
-								Scan or go to <a target="_blank" href="'. $tracking_url .'">CLMTE.COM/tracking</a> to track your compensation.
-								</li>
-								
-								<li class="woocommerce-order-overview__order order">
-								
-								READ MORE AT <a href="https://clmte.com" target="_blank">CLMTE.COM</a>
+							<img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl='. $tracking_url .'&choe=UTF-8" title="Link to clmte.com" />
+							
+							Scan or go to <a target="_blank" href="'. $tracking_url .'">CLMTE.COM/tracking</a> to track your compensation.
+							</li>';
+						}
+
+						// Close of the CLMTE information
+						echo '
+							<li class="woocommerce-order-overview__order 	order">
+							
+							READ MORE AT <a href="https://clmte.com" target="_blank">CLMTE.COM</a>
 								
 								</li>
 							</ul>';
+
+						// Prevent code from running multiple times
+						break;
 					}
 
 				}

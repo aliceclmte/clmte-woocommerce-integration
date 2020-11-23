@@ -3,6 +3,7 @@
  * included in this file.
  */
 
+/* CLMTE COMPENSATION CHECKBOX */
 #clmte-compensation {
   background-color: #23b97a;
   padding: 15px;
@@ -44,6 +45,7 @@
   cursor: pointer;
 }
 
+/* CLMTE COMPENSATION INFO PANEL */
 #clmte-panel {
   padding: 0 15px;
   background-color: #eee;

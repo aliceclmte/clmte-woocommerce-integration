@@ -31,8 +31,9 @@ class Clmte_Activator {
 	 */
 	public static function activate() {
 
-		// Check if compensation is already added
-		if ( get_option('clmte_compensation_added') == false ) {
+		// Create compensation product if not already added
+		$product_id = get_option('clmte_compensation_product_id');
+		if ( !$product_id || $product_id == '' ) {
 			// Add compensation product on plugin activation
 			$post_id = wp_insert_post( array(
 				'post_title' => 'Klimatkompensation',
@@ -45,7 +46,17 @@ class Clmte_Activator {
 			wp_set_object_terms( $post_id, 'simple', 'product_type' );
 			update_post_meta( $post_id, '_price', '0' );
 
-			// Upload img to media library if the img is not there already
+			// Save product id and option added
+			update_option('clmte_compensation_product_id', $post_id);
+			update_option('clmte_compensation_price', '');
+		}
+
+		$post_id = get_option('clmte_compensation_product_id');
+
+		// Add img to product
+		if ( !get_option('clmte_img_id') || get_option('clmte_img_id') == '' ) {
+
+			// Upload img to media library
 			$desc = 'Carbon Offset powered by CLMTE';
 			$file = 'https://i.postimg.cc/L8vDWrWN/website-logo.png';
 
@@ -63,23 +74,23 @@ class Clmte_Activator {
 			if ( is_wp_error( $img_id ) ) {
 				@unlink( $file_array['tmp_name'] );
 				return $img_id;
-			}		
-
-			// Set product image
-			update_post_meta( $post_id, '_thumbnail_id', $img_id );
+			}	
 
 			// Do not show as product in shop or search
 			$terms = array( 'exclude-from-catalog', 'exclude-from-search' );
 			wp_set_object_terms( $post_id, $terms, 'product_visibility' );
 
-			// Set product id and option added
-			update_option('clmte_compensation_product_id', $post_id);
-			update_option('clmte_compensation_added', true);
-			update_option('clmte_compensation_price', '');
+			// Save image id
 			update_option('clmte_img_id', $img_id);
 
 		}
 
+		// Get old or new img_id
+		$img_id = get_option('clmte_img_id');
+
+		// Set product image
+		update_post_meta( $post_id, '_thumbnail_id', $img_id );
+			
 	}
 
 }

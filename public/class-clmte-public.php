@@ -112,7 +112,7 @@ class Clmte_Public {
 	}
 
 	/**
-	 * Change cart data compensation product based on settings
+	 * Change cart data compensation product price based on settings
 	 *
 	 * @since    1.0.0
 	 */
@@ -199,8 +199,7 @@ class Clmte_Public {
 			return;
 	
 		// Allow code execution only once 
-		// if( ! get_post_meta( $order_id, '_thankyou_action_done', true ) ) {
-		if (true) {
+		if( ! get_post_meta( $order_id, '_thankyou_action_done', true ) ) {
 	
 			// Get an instance of the WC_Order object
 			$order = wc_get_order( $order_id );

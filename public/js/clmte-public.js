@@ -1,57 +1,56 @@
 (function ($) {
   "use strict";
 
-  $(window).load(() => {
-    // Open panel if info is clicked
-    $(".woocommerce").on("click", "#clmte-info", (e) => {
-      const panel = document.getElementById("clmte-panel");
-      if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
-      } else {
-        panel.style.maxHeight = panel.scrollHeight + "px";
+  ///////////////////////////////////
+  // CUSTOM FUNCTIONS
+  ///////////////////////////////////
+
+  // Update cart by simulating a press on the "Update Cart" button
+  const updateCart = () => {
+    $("[name='update_cart']").prop("disabled", false);
+    $("[name='update_cart']").trigger("click");
+  };
+
+  // Update the checkbox depending on if a CLMTE compensation is in cart
+  const updateCheckbox = () => {
+    let checked = false;
+
+    // Check if compensation products is in cart
+    const elements = $("a.remove");
+
+    // Check each item
+    elements.each(function () {
+      const product_id = $(this).attr("data-product_id");
+      if (product_id == clmte.compensation_product_id) {
+        checked = true;
       }
     });
 
-    const updateBtn = $('button[name="update_cart"]');
+    if (checked) {
+      $("#clmte-checkbox").prop("checked", true); // check it
+    } else {
+      // Uncheck it
+      $("#clmte-checkbox").prop("checked", false); // uncheck it
+    }
+  };
 
-    const updateCart = () => {
-      // location.reload();
-      $("[name='update_cart']").prop("disabled", false);
-      $("[name='update_cart']").trigger("click");
-    };
-
-    const updateCheckbox = () => {
-      let checked = false;
-
-      // Check if compensation product is in cart
-      const elements = $("a.remove");
-      elements.each(function () {
-        const product_id = $(this).attr("data-product_id");
-        if (product_id == clmte.compensation_product_id) {
-          checked = true;
-        }
-      });
-
-      // If so, check the checkbox
-      if (checked) {
-        // Check it
-        $("#clmte-checkbox").prop("checked", true);
-      } else {
-        // Uncheck it
-        $("#clmte-checkbox").prop("checked", false);
-      }
-    };
-
+  // ON DOCUMENT LOAD
+  $(window).load(() => {
+    // Update status as soon as cart loads
     updateCheckbox();
 
+    ///////////////////////////////////
+    // EVENT LISTENERS
+    ///////////////////////////////////
+
+    // Check for a cart update
     $("body").on("updated_cart_totals", function () {
       updateCheckbox();
     });
 
-    // If checkbox is clicked
+    // Check for a click on checkbox
     $(".woocommerce").on("click", "#clmte-checkbox", (e) => {
       const isChecked = $("#clmte-checkbox").is(":checked");
-      // localStorage.setItem("clmte-compensation-checkbox-checked", isChecked);
 
       if (isChecked) {
         // Add Compensation
@@ -77,6 +76,19 @@
             updateCart();
           },
         });
+      }
+    });
+
+    // Open panel if info icon is clicked
+    $(".woocommerce").on("click", "#clmte-info", (e) => {
+      // Get panel element
+      const panel = document.getElementById("clmte-panel");
+
+      // Animate the panel section
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
       }
     });
   });

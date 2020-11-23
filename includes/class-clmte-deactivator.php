@@ -30,20 +30,7 @@ class Clmte_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
-		// Check if compensation is already added
-		if ( get_option('clmte_compensation_added') == true ) {
-			// Get product id of compensation
-			$product_id = get_option('clmte_compensation_product_id');
-
-			// Remove product
-			wp_delete_post( $product_id );
-
-			// Update option
-			update_option('clmte_compensation_added', false);
-			
-		}
-
+		
 	}
 
 }

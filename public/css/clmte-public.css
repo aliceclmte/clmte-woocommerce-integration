@@ -5,12 +5,13 @@
 
 /* CLMTE COMPENSATION CHECKBOX */
 #clmte-compensation {
-  background-color: #23b97a;
-  padding: 15px;
+  padding: 10px 0;
+  border-bottom: #23b97a 2px solid;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  color: #eee;
   font-weight: 600;
+  font-size: 14px;
 }
 
 #clmte-compensation .logo {
@@ -19,20 +20,30 @@
   left: 3px;
 }
 
+#clmte-compensation .info {
+  display: flex;
+  align-items: center;
+}
+
 #clmte-compensation p {
   margin: 0 0 0 10px;
 }
 
 #clmte-compensation p b {
-  color: #fff;
+  color: #23b97a;
   font-weight: 700;
+  text-decoration: underline;
 }
 
-#clmte-compensation #clmte-checkbox {
-  width: 20px;
-  height: 20px;
-  margin: 0 20px;
-  filter: hue-rotate(220deg) brightness(1.6);
+#clmte-compensation button {
+  background-color: #23b97a;
+  color: #fff;
+  transition: 0.1s ease-in-out;
+}
+
+#clmte-compensation button:hover {
+  background-color: #1b9763;
+  transition: 0.1s ease-in-out;
 }
 
 #clmte-compensation #clmte-checkbox:focus {
@@ -40,9 +51,49 @@
 }
 
 #clmte-info {
-  width: 30px;
-  margin-left: auto;
   cursor: pointer;
+}
+
+/* CLMTE COMPENSATION INFO TOOLTIP */
+.tooltip {
+  position: relative;
+}
+
+.tooltip:before,
+.tooltip:after {
+  position: absolute;
+  content: "";
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.tooltip:before {
+  border-width: 10px 8px 0 8px;
+  border-style: solid;
+  border-color: #eee transparent transparent transparent;
+  top: -15px;
+  transform: translateY(20px);
+}
+
+.tooltip:after {
+  content: attr(data-tooltip);
+  background: #eee;
+  width: 600px;
+  height: 60px;
+  font-size: 13px;
+  font-weight: 500;
+  top: -95px;
+  left: -10px;
+  padding: 10px;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  transform: translateY(20px);
+}
+
+.tooltip:hover::before,
+.tooltip:hover::after {
+  opacity: 1;
+  transform: translateY(-2px);
 }
 
 /* CLMTE COMPENSATION INFO PANEL */
@@ -54,7 +105,22 @@
   transition: max-height 0.2s ease-out;
 }
 
-#clmte-panel h4 {
-  font-size: 20px;
+#clmte-panel p:first-child {
   margin-top: 15px;
+  font-size: 14px;
+}
+
+#clmte-panel a {
+  color: #23b97a;
+  text-decoration: none;
+  transition: 0.1s ease-in-out;
+}
+
+#clmte-panel a:hover {
+  color: #1b9763;
+  transition: 0.1s ease-in-out;
+}
+
+#clmte-panel a:focus {
+  outline: none;
 }

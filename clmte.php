@@ -102,10 +102,18 @@ function get_compensation_price() {
 
     if ($compensation_price == null or $compensation_price == '') {
 
+        // API
         $api_key = get_option('clmte_api_key');
+
+        // Validate api_key in pluginpanel, trycker ur, border runt med rött/grönt?
+        // API KEY: [sdjfkdsjfkdsf] [Validate]
+
         $organisation_id = get_option('clmte_organisation_id');
 
         $url = 'https://api-sandbox.tundra.clmte.com/organisation/'. $organisation_id .'/cost';
+
+        // Errormeddelande i kundvagn + adminpanel
+        // Logga i pluginpanel
 
         $data = make_json_request( $url );
         $compensation_price = $data->price; 

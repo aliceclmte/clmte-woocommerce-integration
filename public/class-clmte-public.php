@@ -165,26 +165,42 @@ class Clmte_Public {
 	 */
 	public function clmte_add_compensation_checkbox() {
 
+		/*
+
+		<img id="clmte-info" src="'. plugin_dir_url( __FILE__ ) . 'assets/info.png' .'">
+		<img class="logo" src="'. plugin_dir_url( __FILE__ ) . 'assets/logo-white.png' .'" />
+		*/
+
 		$compensation_price = get_compensation_price();
 		
-		if ($compensation_price) {
-			echo '<div id="clmte-compensation">
-					<img class="logo" src="'. plugin_dir_url( __FILE__ ) . 'assets/logo-white.png' .'" />
-					<p>Vill du klimatkompensera dina köp för <b>'. $compensation_price .' SEK</b>?</p> 
-					<input 
-						id="clmte-checkbox"
-						type="checkbox" 
-					/>
-					<img id="clmte-info" src="'. plugin_dir_url( __FILE__ ) . 'assets/info.png' .'">
-				</div>';
+		// if ($compensation_price) {
+		// 	echo '<div id="clmte-compensation">
+		// 			<div class="info">
+		// 				<i id="clmte-info" class="fa fa-info-circle"></i>
+		// 				<p>Vill du klimatkompensera dina köp för <b>'. $compensation_price .' SEK</b>?</p> 
+		// 			</div>
+		// 			<button id="clmte-compensate">Klimatkompensera</button>
+		// 		</div>';
 
-			echo '<div id="clmte-panel">
-					<h4>Vad är klimatkompensering?</h4>
-					<p>En klimatkompensation är när man kompenserar sin negativa påverkan på miljön med något som har en positiv påverkan på miljön. Detta kan exempelvis ske genom att planetera träd som binder koldioxid eller vara med att stödja miljöfrämjande intitiativ. Genom att kompensera sina utsläpp kan man ta det första steget mot att minska sitt ekologiska fotavtryck och förhindra den pågående globala uppvärmningen.</p>
-					<p>Med CLMTE är det enkelt att klimatkompensera, bara klicka i checkboxen ovanför!</p>
-					<p>Läs mer på <a target="_blank" href="https://clmte.com">clmte.com</a></p>
-		  		</div>';
-		}
+		// 	echo '<div id="clmte-panel">
+		// 			<p>CLMTEs klimatkompensation gör ditt köp klimatneutralt genom att finansiera initiativ runt om i världen som minskar koldioxidutsläpp. Kostnaden är beräknad enligt bolagets data- och forskningsbaserade algoritm, och alla finansierade initiativ är FN-certifierade. Läs mer på 
+		// 			<a href="https://clmte.com/about" target="_blank" rel="nofollow">clmte.com/about</a>!</p>	
+		//   		</div>';
+		// }
+
+		if ($compensation_price) {
+			?>
+			<div id="clmte-compensation">
+				<div class="info">
+					<span class="tooltip" data-tooltip="CLMTEs klimatkompensation gör ditt köp klimatneutralt genom att finansiera initiativ runt om i världen som minskar koldioxidutsläpp. Kostnaden är beräknad enligt bolagets data- och forskningsbaserade algoritm, och alla finansierade initiativ är FN-certifierade.">
+						<i id="clmte-info" class="fa fa-info-circle"></i>
+					</span>
+					<p>Vill du klimatkompensera dina köp för <b> <?php echo $compensation_price; ?> SEK</b>?</p> 
+				</div>
+				<button id="clmte-compensate">Klimatkompensera</button>
+			</div>
+			<?php
+			}
 
 	}
 
@@ -222,16 +238,24 @@ class Clmte_Public {
 
 					if ($product_id == get_option('clmte_compensation_product_id')) {
 
+						// API
+
 						// Get the product quantity
 						$product_quantity = $item->get_quantity();
 
 						// Send request to CLMTE tundra API
 						$url = "https://api-sandbox.tundra.clmte.com/compensation?amount=$product_quantity";
+
+						// {
+						// 	amount: $product_quantity
+						// }
+
 						$api_key = get_option('clmte_api_key');
 						
 						$header = array();
 						$header[] = 'Content-length: 0';
-						$header[] = 'Content-type: application/json';
+						$header[] = 'Content-type: application/json'; 
+						//application/img
 						$header[] = 'Authorization: APIKey ' . $api_key;
 
 						$ch = curl_init($url);

@@ -1,5 +1,10 @@
 <?php
 
+$placement_types = array(
+    'cart' => __( 'In cart', 'clmte'),
+    'custom' => __( 'Custom', 'clmte'),
+);
+
 $settings = array(
         array(
             'name' => __( 'General Configuration', 'clmte' ),
@@ -18,6 +23,21 @@ $settings = array(
             'type'      => 'text',
             'desc_tip'  => __( ' Your organisation\'s Organisation ID which can be found by creating an account and organisation at clmte.com', 'clmte')
         ),
+        // array(
+        //     'id'        => $prefix . 'placement',
+        //     'name'      => __( 'Placement', 'clmte' ), 
+        //     'type'      => 'select',
+        //     'class'     => 'wc-enhanced-select',
+        //     'options'   => $placement_types,
+        //     'desc_tip'  => __( ' The placement of the clmte offset box. Use the clmte-offset shortcode for custom placement.', 'clmte')
+        // ),
+        array(
+            'id'        => $prefix . 'custom_placement',
+            'name'      => __( 'Custom Placement?', 'clmte' ),
+            'type'      => 'checkbox',
+            'desc'  => __( 'Ceck this box to use custom placement with shortcode.', 'clmte' ),
+            'default'   => 'no'
+        ),   
         // array(
         //     'id'        => $prefix . 'compensation_price',
         //     'name'      => __( 'Compensation Price', 'clmte' ), 

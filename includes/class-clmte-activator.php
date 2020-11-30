@@ -58,7 +58,7 @@ class Clmte_Activator {
 
 			// Upload img to media library
 			$desc = 'Carbon Offset powered by CLMTE';
-			$file = 'https://i.postimg.cc/L8vDWrWN/website-logo.png';
+			$file = 'https://i.postimg.cc/VLmp0crQ/compensation-Image.jpg';
 
 			$file_array  = [ 'name' => wp_basename( $file ), 'tmp_name' => download_url( $file ) ];
 

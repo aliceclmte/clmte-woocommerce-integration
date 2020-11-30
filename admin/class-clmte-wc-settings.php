@@ -80,10 +80,22 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
         /**
          * Output the settings
          */
-        public function output() {                  
-            $settings = $this->get_settings();
+        public function output() {
+            global $current_section;
 
-            WC_Admin_Settings::output_fields( $settings );
+            switch ($current_section) {
+                case 'usage':
+                    include 'partials/clmte-settings-usage.php';
+                    break;
+                case 'log':
+                    include 'partials/clmte-settings-log.php';
+                    break;
+                default:
+                    $settings = $this->get_settings();
+                    WC_Admin_Settings::output_fields( $settings );
+                    echo '<p>Shortcode: [clmte-offset]</p>';
+            }               
+            
         }
 
         /**

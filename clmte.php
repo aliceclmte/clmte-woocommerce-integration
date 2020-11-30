@@ -64,6 +64,33 @@ function clmte_missing_wc_notice() {
     printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) ); 
 }
 
+/**
+* Display clmte offset box
+*/
+function clmte_create_offset_box(){
+    $compensation_price = get_compensation_price();
+		
+    if ($compensation_price) {
+        ?>
+        <div id="clmte-compensation">
+            <div class="info">
+                <i id="clmte-info" class="fa fa-info-circle"></i>
+                <p>Vill du klimatkompensera ditt köp för <b> <?php echo $compensation_price; ?> SEK</b>?</p> 
+            </div>
+            <button id="clmte-compensate">Lägg till klimatkompensation</button>
+        </div>
+
+        <div id="clmte-panel">
+            <p>CLMTEs klimatkompensation gör ditt köp klimatneutralt genom att finansiera initiativ runt om i världen som minskar koldioxidutsläpp. Kostnaden är beräknad enligt bolagets data- och forskningsbaserade algoritm, och alla finansierade initiativ är FN-certifierade. Läs mer på 
+            <a href="https://clmte.com/faq" target="_blank" rel="nofollow">clmte.com/faq</a>!
+            <p>	
+        </div>
+        <?php
+    }
+        
+    return;
+}
+
 /**********************************
 * HELPER FUNCTIONS
 **********************************/

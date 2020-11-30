@@ -167,42 +167,13 @@ class Clmte_Public {
 	 */
 	public function clmte_add_offset_box() {
 
-		/*
+		// If custom placement is no, automatically add clmte offset box in cart
+		if ( get_option( 'clmte_custom_placement' ) == false ) {
 
-		<img id="clmte-info" src="'. plugin_dir_url( __FILE__ ) . 'assets/info.png' .'">
-		<img class="logo" src="'. plugin_dir_url( __FILE__ ) . 'assets/logo-white.png' .'" />
-		*/
+			// Create the clmte offset box
+			clmte_create_offset_box();
 
-		$compensation_price = get_compensation_price();
-		
-		if ($compensation_price) {
-			?>
-			<div id="clmte-compensation">
-				<div class="info">
-					<i id="clmte-info" class="fa fa-info-circle"></i>
-					<p>Vill du klimatkompensera ditt köp för <b> <?php echo $compensation_price; ?> SEK</b>?</p> 
-				</div>
-				<button id="clmte-compensate">Lägg till klimatkompensation</button>
-			</div>
-
-			<div id="clmte-panel">
-				<p>CLMTEs klimatkompensation gör ditt köp klimatneutralt genom att finansiera initiativ runt om i världen som minskar koldioxidutsläpp. Kostnaden är beräknad enligt bolagets data- och forskningsbaserade algoritm, och alla finansierade initiativ är FN-certifierade. Läs mer på 
-				<a href="https://clmte.com/faq" target="_blank" rel="nofollow">clmte.com/faq</a>!
-				<p>	
-			</div>
-
-			<!-- <div id="clmte-compensation">
-				<div class="info">
-					<span class="tooltip" data-tooltip="CLMTEs klimatkompensation gör ditt köp klimatneutralt genom att finansiera initiativ runt om i världen som minskar koldioxidutsläpp. Kostnaden är beräknad enligt bolagets data- och forskningsbaserade algoritm, och alla finansierade initiativ är FN-certifierade.">
-						<i id="clmte-info" class="fa fa-info-circle"></i>
-					</span>
-					<p>Vill du klimatkompensera dina köp för <b> <?php echo $compensation_price; ?> SEK</b>?</p> 
-				</div>
-				<button id="clmte-compensate">Klimatkompensera</button>
-			</div> -->
-		 <?php
 		}
-
 	}
 
 	/**

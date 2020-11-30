@@ -46,4 +46,5 @@ if ( $img_id && $img_id != '' ) {
 delete_option( 'clmte_compensation_product_id' );
 delete_option( 'clmte_compensation_price' );
 delete_option( 'clmte_img_id' );
+delete_option( 'clmte_custom_placement' );
 	

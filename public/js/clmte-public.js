@@ -17,8 +17,8 @@
     // EVENT LISTENERS
     ///////////////////////////////////
 
-    // Check for a click on checkbox
-    $(".woocommerce").on("click", "#clmte-compensate", (e) => {
+    // Check for a click on offset button
+    $("body").on("click", "#clmte-compensate", (e) => {
       e.preventDefault();
 
       // Add Compensation
@@ -35,7 +35,7 @@
     });
 
     // Open panel if info icon is clicked
-    $(".woocommerce").on("click", "#clmte-info", (e) => {
+    $("body").on("click", "#clmte-info", (e) => {
       // Get panel element
       const panel = document.getElementById("clmte-panel");
 

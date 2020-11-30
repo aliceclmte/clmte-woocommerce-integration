@@ -177,7 +177,7 @@ class Clmte {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		// Add checkbox with climte compensation to checkout cart
-		$this->loader->add_action( 'woocommerce_after_cart_table', $plugin_public, 'clmte_add_compensation_checkbox' );
+		$this->loader->add_action( 'woocommerce_after_cart_table', $plugin_public, 'clmte_add_offset_box' );
 
 		// Add compensation to checkbox
 		$this->loader->add_action( 'wp_ajax_add_compensation_to_cart', 
@@ -196,6 +196,8 @@ class Clmte {
 		
 		// Check cart after checkout
 		$this->loader->add_action('woocommerce_thankyou', $plugin_public, 'send_tundra_request');
+
+		add_shortcode('clmte-offset', 'clmte_test');
 
 	}
 

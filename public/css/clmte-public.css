@@ -6,7 +6,7 @@
 /* CLMTE COMPENSATION CHECKBOX */
 #clmte-compensation {
   padding: 10px 0;
-  border-bottom: #23b97a 2px solid;
+  /* border-bottom: #23b97a 1px solid; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,6 +52,20 @@
 
 #clmte-info {
   cursor: pointer;
+}
+
+/* MOBILE */
+
+@media only screen and (max-width: 620px) {
+  #clmte-compensation {
+    border-bottom: none;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #clmte-compensation button {
+    margin-top: 10px;
+  }
 }
 
 /* CLMTE COMPENSATION INFO TOOLTIP */

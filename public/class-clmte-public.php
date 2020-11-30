@@ -58,6 +58,8 @@ class Clmte_Public {
 		add_action( 'wp_ajax_add_compensation_to_cart', 'add_compensation_to_cart');
 		add_action( 'wp_ajax_remove_compensation_from_cart', 'remove_compensation_from_cart');
 
+		
+
 	}
 
 	/**
@@ -163,7 +165,7 @@ class Clmte_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function clmte_add_compensation_checkbox() {
+	public function clmte_add_offset_box() {
 
 		/*
 
@@ -173,24 +175,23 @@ class Clmte_Public {
 
 		$compensation_price = get_compensation_price();
 		
-		// if ($compensation_price) {
-		// 	echo '<div id="clmte-compensation">
-		// 			<div class="info">
-		// 				<i id="clmte-info" class="fa fa-info-circle"></i>
-		// 				<p>Vill du klimatkompensera dina köp för <b>'. $compensation_price .' SEK</b>?</p> 
-		// 			</div>
-		// 			<button id="clmte-compensate">Klimatkompensera</button>
-		// 		</div>';
-
-		// 	echo '<div id="clmte-panel">
-		// 			<p>CLMTEs klimatkompensation gör ditt köp klimatneutralt genom att finansiera initiativ runt om i världen som minskar koldioxidutsläpp. Kostnaden är beräknad enligt bolagets data- och forskningsbaserade algoritm, och alla finansierade initiativ är FN-certifierade. Läs mer på 
-		// 			<a href="https://clmte.com/about" target="_blank" rel="nofollow">clmte.com/about</a>!</p>	
-		//   		</div>';
-		// }
-
 		if ($compensation_price) {
 			?>
 			<div id="clmte-compensation">
+				<div class="info">
+					<i id="clmte-info" class="fa fa-info-circle"></i>
+					<p>Vill du klimatkompensera ditt köp för <b> <?php echo $compensation_price; ?> SEK</b>?</p> 
+				</div>
+				<button id="clmte-compensate">Lägg till klimatkompensation</button>
+			</div>
+
+			<div id="clmte-panel">
+				<p>CLMTEs klimatkompensation gör ditt köp klimatneutralt genom att finansiera initiativ runt om i världen som minskar koldioxidutsläpp. Kostnaden är beräknad enligt bolagets data- och forskningsbaserade algoritm, och alla finansierade initiativ är FN-certifierade. Läs mer på 
+				<a href="https://clmte.com/faq" target="_blank" rel="nofollow">clmte.com/faq</a>!
+				<p>	
+			</div>
+
+			<!-- <div id="clmte-compensation">
 				<div class="info">
 					<span class="tooltip" data-tooltip="CLMTEs klimatkompensation gör ditt köp klimatneutralt genom att finansiera initiativ runt om i världen som minskar koldioxidutsläpp. Kostnaden är beräknad enligt bolagets data- och forskningsbaserade algoritm, och alla finansierade initiativ är FN-certifierade.">
 						<i id="clmte-info" class="fa fa-info-circle"></i>
@@ -198,9 +199,9 @@ class Clmte_Public {
 					<p>Vill du klimatkompensera dina köp för <b> <?php echo $compensation_price; ?> SEK</b>?</p> 
 				</div>
 				<button id="clmte-compensate">Klimatkompensera</button>
-			</div>
-			<?php
-			}
+			</div> -->
+		 <?php
+		}
 
 	}
 
@@ -214,7 +215,8 @@ class Clmte_Public {
 			return;
 	
 		// Allow code execution only once 
-		if( ! get_post_meta( $order_id, '_thankyou_action_done', true ) ) {
+		// if( ! get_post_meta( $order_id, '_thankyou_action_done', true ) ) {
+		if (true) {
 	
 			// Get an instance of the WC_Order object
 			$order = wc_get_order( $order_id );
@@ -276,6 +278,8 @@ class Clmte_Public {
 
 						$data = json_decode($response);
 
+						var_dump($data);
+
 						// Extract tracking id
 						if (array_key_exists('trackingID', $data)) {
 							$tracking_id = $data->trackingID;
@@ -298,7 +302,7 @@ class Clmte_Public {
 
 							<img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl='. $tracking_url .'&choe=UTF-8" title="Link to clmte.com" />
 							
-							Scan or go to <a target="_blank" href="'. $tracking_url .'">CLMTE.COM/tracking</a> to track your compensation.
+							Scan or go to <a rel="nofollow" target="_blank" href="'. $tracking_url .'">CLMTE.COM/tracking</a> to track your compensation.
 							</li>';
 						}
 
@@ -306,7 +310,7 @@ class Clmte_Public {
 						echo '
 							<li class="woocommerce-order-overview__order 	order">
 							
-							READ MORE AT <a href="https://clmte.com" target="_blank">CLMTE.COM</a>
+							READ MORE AT <a rel="nofollow" href="https://clmte.com" target="_blank">CLMTE.COM</a>
 								
 								</li>
 							</ul>';

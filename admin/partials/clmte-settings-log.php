@@ -13,4 +13,5 @@
 $GLOBALS['hide_save_button'] = true;
 
 ?>
-<h1>Log</h1>
+<h1>Logs</h1>
+<p>There are currently no logs to be displayed.</p>

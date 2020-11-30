@@ -54,6 +54,10 @@
   cursor: pointer;
 }
 
+.clmte-strong {
+  font-size: 14px;
+}
+
 /* MOBILE */
 
 @media only screen and (max-width: 620px) {

@@ -35,7 +35,7 @@ $settings = array(
             'id'        => $prefix . 'custom_placement',
             'name'      => __( 'Custom Placement?', 'clmte' ),
             'type'      => 'checkbox',
-            'desc'  => __( 'Ceck this box to use custom placement with shortcode.', 'clmte' ),
+            'desc'  => __( 'Check this box to use custom placement with shortcode.', 'clmte' ),
             'default'   => 'no'
         ),   
         // array(

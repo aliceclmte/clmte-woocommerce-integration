@@ -168,7 +168,7 @@ class Clmte_Public {
 	public function clmte_add_offset_box() {
 
 		// If custom placement is no, automatically add clmte offset box in cart
-		if ( get_option( 'clmte_custom_placement' ) == false ) {
+		if ( get_option( 'clmte_custom_placement' ) == false or get_option( 'clmte_custom_placement' ) == 'no') {
 
 			// Create the clmte offset box
 			clmte_create_offset_box();
@@ -186,8 +186,7 @@ class Clmte_Public {
 			return;
 	
 		// Allow code execution only once 
-		// if( ! get_post_meta( $order_id, '_thankyou_action_done', true ) ) {
-		if (true) {
+		if( ! get_post_meta( $order_id, '_thankyou_action_done', true ) ) {
 	
 			// Get an instance of the WC_Order object
 			$order = wc_get_order( $order_id );
@@ -216,40 +215,58 @@ class Clmte_Public {
 						// Get the product quantity
 						$product_quantity = $item->get_quantity();
 
-						// Send request to CLMTE tundra API
-						$url = "https://api-sandbox.tundra.clmte.com/compensation?amount=$product_quantity";
+						// Use correct grammar, 1 offset / multiple offsets
+						$offset_string = $product_quantity > 1 ? 'offsets' : 'offset';	
 
-						// {
-						// 	amount: $product_quantity
-						// }
+						$offset_error = False;
+
+						// Send request to CLMTE tundra API
+						$data = array( 'amount' => $product_quantity );
+						$data_string = http_build_query($data);
+
+						$url = "https://api-sandbox.tundra.clmte.com/compensation";
 
 						$api_key = get_option('clmte_api_key');
-						
+			
 						$header = array();
 						$header[] = 'Content-length: 0';
 						$header[] = 'Content-type: application/json'; 
-						//application/img
 						$header[] = 'Authorization: APIKey ' . $api_key;
 
 						$ch = curl_init($url);
-						curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+						curl_setopt($ch, CURLOPT_POST, true);
+    					curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 						curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
 						$response = curl_exec($ch);
 						if (curl_errno($ch)) {
 							$error_msg = curl_error($ch);
+							$offset_error = True;
 						}
 						curl_close($ch);
-						
-						if (isset($error_msg)) {
-							// TODO: Handle error
-							break;
-						}
-
+		
 						$data = json_decode($response);
 
-						var_dump($data);
+						if (array_key_exists('errors', $data)) {
+							$offset_error = True;
+						}
+
+						// Show error message if error occured
+						if ($offset_error) {
+							echo '<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
+								<li class="woocommerce-order-overview__order order">
+								CARBON OFFSETS PURCHASED
+								<strong>' . $product_quantity . ' '. $offset_string .'</strong>
+								<strong style="font-size: 14px">
+								Something went wrong when adding your carbon '. $offset_string .' to the CLMTE database. Please email support@clmte.com to get your '. $offset_string .' added manually.
+								</strong>
+								</td>
+								</ul>';
+
+							// Do not show other messages
+							break;
+						}
 
 						// Extract tracking id
 						if (array_key_exists('trackingID', $data)) {
@@ -258,22 +275,23 @@ class Clmte_Public {
 							// Compose a tracking url
 							$tracking_url = "https://clmte.com/track-compensation/?trackingID=$tracking_id&amount=$product_quantity";
 						}
-						
+		
 						// Create section to display CLMTE information
 						echo '<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
 								<li class="woocommerce-order-overview__order order">
-								COMPENSATIONS PURCHASED
-								<strong>' . $product_quantity . '</strong>
+								CARBON OFFSETS PURCHASED
+								<strong>' . $product_quantity . ' '. $offset_string .', equivalent to '. $data->carbonDioxide .'kg carbon dioxide</strong>
 								</li>';
 
 						// Only display tracking section if trackingId exists
 						if (isset($tracking_url)) {
 							echo '<li class="woocommerce-order-overview__order 	order">
-							TRACK YOUR COMPENSATION
+							TRACK YOUR CARBON OFFSET
 
 							<img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl='. $tracking_url .'&choe=UTF-8" title="Link to clmte.com" />
-							
-							Scan or go to <a rel="nofollow" target="_blank" href="'. $tracking_url .'">CLMTE.COM/tracking</a> to track your compensation.
+							<strong style="font-size: 14px;">
+							Scan or go to <a rel="nofollow" target="_blank" href="'. $tracking_url .'">the tracking page for your offset</a> to track your carbon offset.
+							</strong>
 							</li>';
 						}
 

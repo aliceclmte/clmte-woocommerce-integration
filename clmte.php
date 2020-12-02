@@ -96,9 +96,29 @@ function clmte_create_offset_box(){
 **********************************/
 
 /**
+* Creates a log and inserts it into the clmte_log table
+*
+* @param string $log - the log statement
+* @param string $type - the type of log (error, activity)
+*/
+function clmte_create_log( $log, $type ) {
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'clmte_log';
+
+    $wpdb->insert(
+        $table_name,
+        array(
+            'description' => $log,
+            'type' => $type
+        )
+    );
+}
+
+/**
 * Makes a curl-request and returns an array with the json data
 *
-* @param string $url the url to be fetched and parsed as json
+* @param string $url - the url to be fetched and parsed as json
 * @return array
 */
 function make_json_request( $url ) { 

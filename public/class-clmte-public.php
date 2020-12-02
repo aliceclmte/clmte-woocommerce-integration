@@ -113,6 +113,26 @@ class Clmte_Public {
 	}
 
 	/**
+	 * Change mini cart display for CLMTE carbon offsets
+	 *
+	 * @since    1.0.0
+	 */
+	
+	public function custom_clmte_mini_cart( $output, $cart_item, $cart_item_key ){
+		$product_id = $cart_item['product_id'];
+	
+		if ($product_id == get_option('clmte_compensation_product_id') ) {
+			$price = $cart_item['data']->get_price();
+			$final_price = 100;
+			// The final string with the quantity and price with the discount applied
+			return sprintf( '<span class="quantity">%s &times; <span class="woocommerce-Price-amount amount">%s <span class="woocommerce-Price-currencySymbol">%s</span></span></span>', $cart_item['quantity'], $final_price, get_woocommerce_currency_symbol() );
+		} else {
+			// For the products without discount nothing is done and the initial string remains unchanged
+			return $output;
+  }
+    }
+
+	/**
 	 * Change cart data compensation product price based on settings
 	 *
 	 * @since    1.0.0
@@ -250,6 +270,7 @@ class Clmte_Public {
 
 						if (array_key_exists('errors', $data)) {
 							$offset_error = True;
+							$error_msg = $data->errors[0]->message;
 						}
 
 						// Show error message if error occured
@@ -263,6 +284,9 @@ class Clmte_Public {
 								</strong>
 								</td>
 								</ul>';
+
+							// Add log
+							clmte_create_log( "API POST request error: $error_msg", 'error' );
 
 							// Do not show other messages
 							break;
@@ -303,6 +327,9 @@ class Clmte_Public {
 								
 								</li>
 							</ul>';
+
+						// Add log
+						clmte_create_log( "$product_quantity CLMTE carbon $offset_string purchased!", 'activity' );
 
 						// Prevent code from running multiple times
 						break;

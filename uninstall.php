@@ -25,6 +25,8 @@
  * @package    Clmte
  */
 
+global $wpdb;
+
 // If uninstall not called from WordPress, then exit.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
@@ -47,4 +49,9 @@ delete_option( 'clmte_compensation_product_id' );
 delete_option( 'clmte_compensation_price' );
 delete_option( 'clmte_img_id' );
 delete_option( 'clmte_custom_placement' );
-	
+
+// Remove log table
+$table_name = $wpdb->prefix . 'clmte_log';
+
+$sql = "DROP TABLE IF EXISTS $table_name";
+$wpdb->query( $sql );

@@ -6,11 +6,10 @@
 /* CLMTE COMPENSATION CHECKBOX */
 #clmte-compensation {
   padding: 10px 0;
-  /* border-bottom: #23b97a 1px solid; */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
 }
 
@@ -27,18 +26,30 @@
 
 #clmte-compensation p {
   margin: 0 0 0 10px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 #clmte-compensation p b {
   color: #23b97a;
   font-weight: 700;
-  text-decoration: underline;
 }
 
 #clmte-compensation button {
   background-color: #23b97a;
   color: #fff;
   transition: 0.1s ease-in-out;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  padding: 0.6180469716em 1.41575em;
+  text-decoration: none;
+  font-weight: 500;
+  text-shadow: none;
+  display: inline-block;
+  font-size: 100%;
+  margin: 0;
+  line-height: 1.618;
 }
 
 #clmte-compensation button:hover {
@@ -52,66 +63,6 @@
 
 #clmte-info {
   cursor: pointer;
-}
-
-.clmte-strong {
-  font-size: 14px;
-}
-
-/* MOBILE */
-
-@media only screen and (max-width: 620px) {
-  #clmte-compensation {
-    border-bottom: none;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  #clmte-compensation button {
-    margin-top: 10px;
-  }
-}
-
-/* CLMTE COMPENSATION INFO TOOLTIP */
-.tooltip {
-  position: relative;
-}
-
-.tooltip:before,
-.tooltip:after {
-  position: absolute;
-  content: "";
-  opacity: 0;
-  transition: all 0.4s ease;
-}
-
-.tooltip:before {
-  border-width: 10px 8px 0 8px;
-  border-style: solid;
-  border-color: #eee transparent transparent transparent;
-  top: -15px;
-  transform: translateY(20px);
-}
-
-.tooltip:after {
-  content: attr(data-tooltip);
-  background: #eee;
-  width: 600px;
-  height: 60px;
-  font-size: 13px;
-  font-weight: 500;
-  top: -95px;
-  left: -10px;
-  padding: 10px;
-  border-radius: 5px;
-  letter-spacing: 1px;
-  transform: translateY(20px);
-}
-
-.tooltip:hover::before,
-.tooltip:hover::after {
-  opacity: 1;
-  transform: translateY(-2px);
 }
 
 /* CLMTE COMPENSATION INFO PANEL */
@@ -141,4 +92,17 @@
 
 #clmte-panel a:focus {
   outline: none;
+}
+
+/* MOBILE */
+@media only screen and (max-width: 620px) {
+  #clmte-compensation {
+    border-bottom: none;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #clmte-compensation button {
+    margin-top: 10px;
+  }
 }

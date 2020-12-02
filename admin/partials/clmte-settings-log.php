@@ -12,6 +12,27 @@
 
 $GLOBALS['hide_save_button'] = true;
 
+global $wpdb;
+
+$table_name = $table_name = $wpdb->prefix . 'clmte_log';
+$log_data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY time DESC" );
+
 ?>
+
 <h1>Logs</h1>
-<p>There are currently no logs to be displayed.</p>
+
+<table class="clmte-log-table">
+    <tr>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Time</th>
+    </tr>
+    <?php foreach ($log_data as $log) { ?>
+    <tr class="<?php echo $log->type; ?>">
+        <td><?php echo $log->type; ?></td>
+        <td><?php echo $log->description; ?></td>
+        <td><?php echo $log->time; ?></td>
+    </tr>
+    <?php } // End foreach ?>
+</table>
+

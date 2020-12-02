@@ -197,6 +197,9 @@ class Clmte {
 		// Check cart after checkout
 		$this->loader->add_action('woocommerce_thankyou', $plugin_public, 'send_tundra_request');
 
+		// Minicart filter
+		$this->loader->add_filter('woocommerce_widget_cart_item_quantity',$plugin_public, 'custom_clmte_mini_cart');
+
 		add_shortcode('clmte-offset', 'clmte_create_offset_box');
 
 	}

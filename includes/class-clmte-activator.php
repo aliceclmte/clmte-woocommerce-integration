@@ -31,6 +31,8 @@ class Clmte_Activator {
 	 */
 	public static function activate() {
 
+		global $wpdb;
+
 		// Create compensation product if not already added
 		$product_id = get_option('clmte_compensation_product_id');
 		if ( !$product_id || $product_id == '' ) {
@@ -90,6 +92,26 @@ class Clmte_Activator {
 
 		// Set product image
 		update_post_meta( $post_id, '_thumbnail_id', $img_id );
+
+		// Add log table
+		$table_name = $wpdb->prefix . 'clmte_log';
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		// TYPES: error, activity 
+		$sql = "CREATE TABLE $table_name (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			time datetime DEFAULT CURRENT_TIMESTAMP,
+			type VARCHAR(100),
+			description text NOT NULL,
+			PRIMARY KEY (id) 
+		) $charset_collate;";
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+
+		// Insert activated log
+		clmte_create_log( 'Plugin activated', 'activity' );
 			
 	}
 

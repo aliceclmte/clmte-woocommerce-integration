@@ -29,7 +29,14 @@ $settings = array(
             'type'      => 'checkbox',
             'desc'  => __( 'Check this box to use custom placement with shortcode.', 'clmte' ),
             'default'   => 'no'
-        ),   
+        ),
+        array(
+            'id'        => $prefix . 'production_mode',
+            'name'      => __( 'Production Mode?', 'clmte' ),
+            'type'      => 'checkbox',
+            'desc'  => __( 'Check this box to start using the plugin with real API calls.', 'clmte' ),
+            'default'   => 'no'
+        ),      
         array(
             'id'        => '',
             'name'      => __( 'General Configuration', 'clmte' ),

@@ -2,3 +2,25 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+/* Table styles */
+.clmte-log-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.clmte-log-table th {
+  background-color: #ddd;
+}
+
+.clmte-log-table td,
+.clmte-log-table th {
+  border: 1px solid #878686;
+  text-align: left;
+  padding: 8px;
+}
+
+.clmte-log-table .error {
+  background-color: rgb(234, 186, 186);
+}

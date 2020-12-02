@@ -49,6 +49,8 @@ delete_option( 'clmte_compensation_product_id' );
 delete_option( 'clmte_compensation_price' );
 delete_option( 'clmte_img_id' );
 delete_option( 'clmte_custom_placement' );
+delete_option( 'clmte_production_mode' );
+delete_option( 'reload_cart_on_update' );
 
 // Remove log table
 $table_name = $wpdb->prefix . 'clmte_log';

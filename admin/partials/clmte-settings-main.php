@@ -31,6 +31,13 @@ $settings = array(
             'default'   => 'no'
         ),
         array(
+            'id'        => $prefix . 'reload_cart_on_update',
+            'name'      => __( 'Reload cart?', 'clmte' ),
+            'type'      => 'checkbox',
+            'desc'  => __( 'Check this box if there is trouble adding the offset to cart.', 'clmte' ),
+            'default'   => 'no'
+        ),
+        array(
             'id'        => $prefix . 'production_mode',
             'name'      => __( 'Production Mode?', 'clmte' ),
             'type'      => 'checkbox',

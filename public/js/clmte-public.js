@@ -7,8 +7,14 @@
 
   // Update cart by simulating a press on the "Update Cart" button
   const updateCart = () => {
-    $("[name='update_cart']").prop("disabled", false);
-    $("[name='update_cart']").trigger("click");
+    if (clmte.reload_cart == true || clmte.reload_cart == "yes") {
+      // Reload site
+      location.reload();
+    } else {
+      // Update cart by simulating an update button click
+      $("[name='update_cart']").prop("disabled", false);
+      $("[name='update_cart']").trigger("click");
+    }
   };
 
   // ON DOCUMENT LOAD

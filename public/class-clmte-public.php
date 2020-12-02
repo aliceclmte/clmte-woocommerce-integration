@@ -107,30 +107,10 @@ class Clmte_Public {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/clmte-public.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script( $this->plugin_name, 'clmte', array(
 			'ajax_url' => admin_url('admin-ajax.php'),
-			'compensation_product_id' => get_option('clmte_compensation_product_id')
+			'reload_cart' => get_option('clmte_reload_cart_on_update')
 		));
 
 	}
-
-	/**
-	 * Change mini cart display for CLMTE carbon offsets
-	 *
-	 * @since    1.0.0
-	 */
-	
-	public function custom_clmte_mini_cart( $output, $cart_item, $cart_item_key ){
-		$product_id = $cart_item['product_id'];
-	
-		if ($product_id == get_option('clmte_compensation_product_id') ) {
-			$price = $cart_item['data']->get_price();
-			$final_price = 100;
-			// The final string with the quantity and price with the discount applied
-			return sprintf( '<span class="quantity">%s &times; <span class="woocommerce-Price-amount amount">%s <span class="woocommerce-Price-currencySymbol">%s</span></span></span>', $cart_item['quantity'], $final_price, get_woocommerce_currency_symbol() );
-		} else {
-			// For the products without discount nothing is done and the initial string remains unchanged
-			return $output;
-  }
-    }
 
 	/**
 	 * Change cart data compensation product price based on settings

@@ -34,7 +34,7 @@ $settings = array(
             'id'        => $prefix . 'production_mode',
             'name'      => __( 'Production Mode?', 'clmte' ),
             'type'      => 'checkbox',
-            'desc'  => __( 'Check this box to start using the plugin with real API calls.', 'clmte' ),
+            'desc'  => __( 'Check this box to start using the plugin with real Api calls.', 'clmte' ),
             'default'   => 'no'
         ),      
         array(

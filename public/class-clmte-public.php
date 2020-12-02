@@ -243,8 +243,11 @@ class Clmte_Public {
 						// Send request to CLMTE tundra API
 						$data = array( 'amount' => $product_quantity );
 						$data_string = http_build_query($data);
-
-						$url = "https://api-sandbox.tundra.clmte.com/compensation";
+	
+						$url = get_clmte_url( 
+							"https://api.tundra.clmte.com/compensation",
+							"https://api-sandbox.tundra.clmte.com/compensation"
+						);
 
 						$api_key = get_option('clmte_api_key');
 			

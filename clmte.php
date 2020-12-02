@@ -115,6 +115,26 @@ function clmte_create_log( $log, $type ) {
     );
 }
 
+
+/**
+* Decides if the sandbox or real api url should be used
+*
+* @param string $production - the production api url
+* @param string $sandbox - the sandbox api url
+* @return string 
+*/
+function get_clmte_url( $production, $sandbox ) { 
+    
+    $in_production = get_option('clmte_production_mode');
+    if ( $in_production == 'yes' || $in_production == True ) {
+        // Use real api
+        return $production;
+    } else {
+        // Use sandbox api
+        return $sandbox;
+    }
+}
+
 /**
 * Makes a curl-request and returns an array with the json data
 *
@@ -154,7 +174,12 @@ function get_compensation_price() {
 
         $organisation_id = get_option('clmte_organisation_id');
 
-        $url = 'https://api-sandbox.tundra.clmte.com/organisation/'. $organisation_id .'/cost';
+        $api_url = get_clmte_url( 
+            'https://api.tundra.clmte.com/organisation/',
+            'https://api-sandbox.tundra.clmte.com/organisation/'
+        );
+
+        $url = $api_url . $organisation_id .'/cost';
 
         $data = make_json_request( $url );
         $compensation_price = $data->price; 

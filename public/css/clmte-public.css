@@ -3,6 +3,10 @@
  * included in this file.
  */
 
+ :root {
+     --main: #23b97a;
+ }
+
 /* CLMTE COMPENSATION CHECKBOX */
 #clmte-compensation {
   padding: 10px 0;
@@ -31,12 +35,12 @@
 }
 
 #clmte-compensation p b {
-  color: #23b97a;
+  color: var(--main);
   font-weight: 700;
 }
 
 #clmte-compensation button {
-  background-color: #23b97a;
+  background-color: var(--main);
   color: #fff;
   transition: 0.1s ease-in-out;
   border: none;
@@ -80,7 +84,7 @@
 }
 
 #clmte-panel a {
-  color: #23b97a;
+  color: var(--main);
   text-decoration: none;
   transition: 0.1s ease-in-out;
 }
@@ -105,4 +109,33 @@
   #clmte-compensation button {
     margin-top: 10px;
   }
+}
+
+/* CLMTE THANK YOU AND QR CODE */
+
+#clmte-order .clmte-order-content {
+    background-color: #f8f8f8; 
+    padding: 1em 1.618em;
+    position: relative;
+    margin: 0 0 3.706325903em 0;
+}
+
+.clmte-order-content::before, .clmte-order-content::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -16px;
+    left: 0;
+    width: 100%;
+    height: 16px;
+    background-size: 0 100%, 16px 16px, 16px 16px;
+}
+
+.clmte-order-title  {
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+.clmte-order-content span {
+    font-weight: 900;
 }

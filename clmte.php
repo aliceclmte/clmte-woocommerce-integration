@@ -91,6 +91,55 @@ function clmte_create_offset_box(){
     return;
 }
 
+/**
+* Display QR-code if CLMTE offset was purchased.
+*/
+function clmte_checkout(){
+
+    // Get saved options
+    $clmte_error = get_option( 'clmte-offset-error');
+    $clmte_tracking_url = get_option( 'clmte-tracking-url');
+    $clmte_offsets_amount = get_option( 'clmte-offsets-amount');
+    $clmte_offsets_carbon = get_option( 'clmte-offsets-carbon');
+
+    // Check if CLMTE carbon offset purchased
+    if ( !$clmte_offsets_amount ) {
+        return;
+    }
+
+    ?>
+
+    <div id="clmte-order">
+        <h2>Your Carbon Offset</h2>
+    
+        <div class="clmte-order-content">
+
+            <p>Thank you for carbon offsetting your purchase with CLMTE!</p>
+            <p><span><?php echo $clmte_offsets_carbon; ?>kg carbon dioxide </span> will be compensated due to your offset.</p>
+
+            <?php
+            // Display QR code and thank you message
+            if ( isset($clmte_tracking_url) ) {
+            ?>
+
+            <p class="clmte-order-title"><b>CLMTE Carbon Tracking</b></p>
+
+            <div id="clmte-qr-code">
+                <p>Scan the QR-code below or visit <a rel="nofollow" target="_blank" href="<?php echo $clmte_tracking_url; ?>">your tracking page</a> to follow the impact of your offset in real time and see which offset initiative it contributes towards.</p>
+
+                <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=<?php echo $clmte_tracking_url; ?>&choe=UTF-8" title="Scan to track your CLMTE carbon offset!" alt="CLMTE offset tracking QR-code"/>
+
+                <p>For more information, visit <a href="https://clmte.com/faq" target="_blank" rel="nofollow">clmte.com/faq</a>.</p>
+            </div>
+
+            <?php } // End isset clmte tracking url ?>
+
+        </div>
+        
+    </div>
+    <?php
+}
+
 /**********************************
 * HELPER FUNCTIONS
 **********************************/
@@ -126,7 +175,7 @@ function clmte_create_log( $log, $type ) {
 function get_clmte_url( $production, $sandbox ) { 
     
     $in_production = get_option('clmte_production_mode');
-    if ( $in_production == 'yes' || $in_production == True ) {
+    if ( $in_production == 'yes' ) {
         // Use real api
         return $production;
     } else {

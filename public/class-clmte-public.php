@@ -176,6 +176,160 @@ class Clmte_Public {
 		}
 	}
 
+    /**
+	 * Add QR-Code for carbon offset tracking and a thank you message
+	 *
+	 * @since    1.0.0
+	 */
+    public function clmte_thank_you() {
+
+        // Create QR-code
+        clmte_checkout();
+    }
+
+    /**
+	 * Check if clmte carbon offset is purchased and send API post request to Tundra API. 
+	 *
+	 * @since    1.0.0
+	 */
+    public function clmte_purchase_carbon_offset( $order_id ) {
+        // If not order_id, return
+        if ( ! $order_id )
+			return;
+
+        // Allow code execution only once 
+		if( ! get_post_meta( $order_id, '_clmte_offset_purchased', true ) ) {
+            
+            // Reset CLMTE options
+            update_option( 'clmte-offset-purchased', false );
+            update_option( 'clmte-offset-error', false );
+            update_option( 'clmte-tracking-url', false );
+            update_option( 'clmte-offsets-amount', false );
+            update_option( 'clmte-offsets-carbon', false );
+
+            // Get an instance of the WC_Order object
+			$order = wc_get_order( $order_id );
+
+            // Check if order is payed fully
+            if($order->is_paid()) {
+                
+                // Loop through all order items to check if offset was purchased
+				foreach ( $order->get_items() as $item_id => $item ) {
+                    
+                    // Get the product object
+					$product = $item->get_product();
+		
+					// Get the product Id
+					$product_id = $product->get_id();
+
+                    // Check if product is carbon offset
+                    if ($product_id == get_option('clmte_compensation_product_id')) {
+
+                        // Get the product quantity
+						$product_quantity = $item->get_quantity();
+
+                        // Add log
+                        clmte_create_log( "$product_quantity CLMTE carbon $offset_string purchased!", 'activity' );
+
+                        // Catch errors
+                        $offset_error = False;
+
+                        ////////////////////////////////////
+                        // Send request to CLMTE tundra API
+                        ////////////////////////////////////
+
+                        // Build the data query
+						$data = array( 'amount' => $product_quantity );
+						$data_string = json_encode($data);
+                        
+                        // Get correct api url (production or sandbox)
+						$url = get_clmte_url( 
+							"https://api.tundra.clmte.com/compensation",
+							"https://api-sandbox.tundra.clmte.com/compensation"
+						);
+
+                        // Get organisations api_key
+						$api_key = get_option( 'clmte_api_key' );
+                        
+                        // TODO: If not api_key?
+
+                        // Create request header
+						$header = array();
+						$header[] = 'Content-type: application/json'; 
+						$header[] = 'Authorization: APIKey ' . $api_key;
+
+                        // Create curl request
+						$ch = curl_init();
+						curl_setopt($ch, CURLOPT_POST, 1);
+    					curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+						curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+                        // Execute request and catch errors
+						$response = curl_exec($ch);
+						if (curl_errno($ch)) {
+							$error_msg = curl_error($ch);
+
+                            // Add log
+							clmte_create_log( "CURL request failed: $error_msg", 'error' );
+						}
+						curl_close($ch);
+                        
+                        // Get the response
+						$body = json_decode($response);
+
+                        // If errors, get the error message
+						if (array_key_exists('errors', $body) && $body->errors[0]->message != '') {
+
+                            // Get server error message
+							$error_msg = $body->errors[0]->message;
+
+                            // Update option with error
+                            update_option( 'clmte-offset-error', $error_msg );
+
+                            // Add log
+							clmte_create_log( "API POST request error: $error_msg", 'error' );
+
+                            // Do not continue
+                            return;
+						}
+
+                        ////////////////////////
+                        // Purchase success
+                        ////////////////////////
+
+                        // Save how many offsets pruchased and the carbon dioxide equivalent
+                        update_option( 'clmte-offsets-amount', $product_quantity );
+
+                        update_option( 'clmte-offsets-carbon', $body->carbonDioxide );
+
+                        // If tracking ID exists, create a tracking url
+                        if (array_key_exists('trackingID', $body)) {
+							$tracking_id = $body->trackingID;
+
+							// Compose a tracking url
+							$tracking_url = "https://clmte.com/track?trackingId=$tracking_id&amount=$product_quantity";
+
+                            // Save tracking URL
+                            update_option('clmte-tracking-url', $tracking_url );
+						}
+
+                        // Flag the action as done (to avoid repetitions on reload for example)
+                        $order->update_meta_data( '_clmte_offset_purchased', true );
+                        $order->save();
+
+                        // Break!
+                        break;
+
+                    }
+
+                }
+
+            }
+        }    
+    }
+
 	/**
 	 * Check if compensation has been purchased, send API tundra post request
 	 *

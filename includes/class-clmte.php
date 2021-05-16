@@ -195,9 +195,12 @@ class Clmte {
 		$plugin_public, 'remove_compensation_from_cart' );
 		
 		// Check cart after checkout
-		$this->loader->add_action('woocommerce_thankyou', $plugin_public, 'send_tundra_request');
+        $this->loader->add_action('woocommerce_payment_complete', $plugin_public, 'clmte_purchase_carbon_offset');
+
+        $this->loader->add_action('woocommerce_thankyou', $plugin_public, 'clmte_thank_you');
 
 		add_shortcode('clmte-offset', 'clmte_create_offset_box');
+        add_shortcode('clmte-checkout', 'clmte_checkout');
 
 	}
 

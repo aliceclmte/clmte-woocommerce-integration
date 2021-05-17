@@ -168,7 +168,7 @@ class Clmte_Public {
 	public function clmte_add_offset_box() {
 
 		// If custom placement is no, automatically add clmte offset box in cart
-		if ( get_option( 'clmte_custom_placement' ) == false or get_option( 'clmte_custom_placement' ) == 'no') {
+		if ( get_option( 'clmte_custom_offset_placement' ) == false or get_option( 'clmte_custom_offset_placement' ) == 'no') {
 
 			// Create the clmte offset box
 			clmte_create_offset_box();
@@ -177,14 +177,21 @@ class Clmte_Public {
 	}
 
     /**
-	 * Add QR-Code for carbon offset tracking and a thank you message
+	 * Add clmte receipt with tracking QR-Code automatically if custom placement has not been specified.
 	 *
 	 * @since    1.0.0
 	 */
     public function clmte_thank_you() {
 
-        // Create QR-code
-        clmte_checkout();
+        // If custom placement is no, automatically add clmte receipt in the order details section
+		if ( get_option( 'clmte_custom_receipt_placement' ) == false or get_option( 'clmte_custom_receipt_placement' ) == 'no') {
+
+			// Create CLMTE offset receipt with QR-code
+            clmte_create_receipt();
+
+		}
+
+        
     }
 
     /**

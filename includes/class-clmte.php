@@ -200,7 +200,7 @@ class Clmte {
         $this->loader->add_action('woocommerce_thankyou', $plugin_public, 'clmte_thank_you');
 
 		add_shortcode('clmte-offset', 'clmte_create_offset_box');
-        add_shortcode('clmte-checkout', 'clmte_checkout');
+        add_shortcode('clmte-receipt', 'clmte_create_receipt');
 
 	}
 

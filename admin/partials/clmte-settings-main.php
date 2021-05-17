@@ -24,10 +24,10 @@ $settings = array(
             'desc_tip'  => __( ' Your organisation\'s Organisation ID which can be found by creating an account and organisation at clmte.com', 'clmte')
         ),
         array(
-            'id'        => $prefix . 'custom_placement',
-            'name'      => __( 'Custom Placement?', 'clmte' ),
+            'id'        => $prefix . 'production_mode',
+            'name'      => __( 'Production Mode?', 'clmte' ),
             'type'      => 'checkbox',
-            'desc'  => __( 'Check this box to use custom placement with shortcode.', 'clmte' ),
+            'desc'  => __( 'Check this box to start using the plugin with real Api calls.', 'clmte' ),
             'default'   => 'no'
         ),
         array(
@@ -36,14 +36,21 @@ $settings = array(
             'type'      => 'checkbox',
             'desc'  => __( 'Check this box if there is trouble adding the offset to cart.', 'clmte' ),
             'default'   => 'no'
+        ),  
+        array(
+            'id'        => $prefix . 'custom_offset_placement',
+            'name'      => __( 'Custom Offset Placement?', 'clmte' ),
+            'type'      => 'checkbox',
+            'desc'  => __( 'Check this box to use custom placement for the carbon offseting box with the shortcode below.', 'clmte' ),
+            'default'   => 'no'
         ),
         array(
-            'id'        => $prefix . 'production_mode',
-            'name'      => __( 'Production Mode?', 'clmte' ),
+            'id'        => $prefix . 'custom_receipt_placement',
+            'name'      => __( 'Custom Receipt Placement?', 'clmte' ),
             'type'      => 'checkbox',
-            'desc'  => __( 'Check this box to start using the plugin with real Api calls.', 'clmte' ),
+            'desc'  => __( 'Check this box to use custom placement for the carbon offset receipt, displayed after a completed payment with the shortcode below.', 'clmte' ),
             'default'   => 'no'
-        ),      
+        ),
         array(
             'id'        => '',
             'name'      => __( 'General Configuration', 'clmte' ),

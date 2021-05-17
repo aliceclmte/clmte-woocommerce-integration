@@ -94,7 +94,7 @@ function clmte_create_offset_box(){
 /**
 * Display QR-code if CLMTE offset was purchased.
 */
-function clmte_checkout(){
+function clmte_create_receipt(){
 
     // Get saved options
     $clmte_error = get_option( 'clmte-offset-error');

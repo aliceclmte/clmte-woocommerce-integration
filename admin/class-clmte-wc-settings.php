@@ -93,7 +93,8 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                 default:
                     $settings = $this->get_settings();
                     WC_Admin_Settings::output_fields( $settings );
-                    echo '<p>Shortcode: [clmte-offset]</p>';
+                    echo '<p>Shortcode offset box: [clmte-offset]</p>';
+                    echo '<p>Shortcode clmte receipt: [clmte-receipt]</p>';
             }               
             
         }

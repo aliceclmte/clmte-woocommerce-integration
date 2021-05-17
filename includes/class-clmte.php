@@ -194,11 +194,13 @@ class Clmte {
 		$this->loader->add_action( 'wp_ajax_nopriv_remove_compensation_from_cart', 
 		$plugin_public, 'remove_compensation_from_cart' );
 		
-		// Check cart after checkout
+		// Send request to CLMTE server if a carbon offset has been purchased
         $this->loader->add_action('woocommerce_payment_complete', $plugin_public, 'clmte_purchase_carbon_offset');
 
+        // Display the clmte receipt in order details section
         $this->loader->add_action('woocommerce_thankyou', $plugin_public, 'clmte_thank_you');
 
+        // Custom shortcodes
 		add_shortcode('clmte-offset', 'clmte_create_offset_box');
         add_shortcode('clmte-receipt', 'clmte_create_receipt');
 

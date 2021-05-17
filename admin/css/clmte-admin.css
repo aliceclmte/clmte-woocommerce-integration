@@ -4,23 +4,31 @@
  */
 
 /* Table styles */
-.clmte-log-table {
+.clmte-table {
   border-collapse: collapse;
   width: 100%;
   margin-top: 20px;
 }
 
-.clmte-log-table th {
+.clmte-table th {
   background-color: #ddd;
 }
 
-.clmte-log-table td,
-.clmte-log-table th {
+.clmte-table td,
+.clmte-table th {
   border: 1px solid #878686;
   text-align: left;
   padding: 8px;
 }
 
-.clmte-log-table .error {
+.clmte-table .error {
   background-color: rgb(234, 186, 186);
+}
+
+.clmte-table .CREATED {
+    background-color: rgb(217, 238, 224);
+}
+
+.clmte-table .PENDING {
+    background-color: rgb(249, 237, 202);
 }

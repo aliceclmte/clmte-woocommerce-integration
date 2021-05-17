@@ -298,6 +298,9 @@ class Clmte_Public {
                             // Add log
 							clmte_create_log( "API POST request error: $error_msg", 'error' );
 
+                            // Add purchase log
+                            clmte_add_purchase( $product_quantity );
+
                             // Do not continue
                             return;
 						}
@@ -322,6 +325,9 @@ class Clmte_Public {
                             update_option('clmte-tracking-url', $tracking_url );
 						}
 
+                        // Add purchase log
+                        clmte_add_purchase( $product_quantity, 'CREATED', $body->id, $body->trackingID, $body->carbonDioxide );
+
                         // Flag the action as done (to avoid repetitions on reload for example)
                         $order->update_meta_data( '_clmte_offset_purchased', true );
                         $order->save();
@@ -336,158 +342,5 @@ class Clmte_Public {
             }
         }    
     }
-
-	/**
-	 * Check if compensation has been purchased, send API tundra post request
-	 *
-	 * @since    1.0.0
-	 */
-	public function send_tundra_request( $order_id ) {
-		if ( ! $order_id )
-			return;
 	
-		// Allow code execution only once 
-		if( ! get_post_meta( $order_id, '_thankyou_action_done', true ) ) {
-	
-			// Get an instance of the WC_Order object
-			$order = wc_get_order( $order_id );
-	
-			// Get the order key
-			$order_key = $order->get_order_key();
-	
-			// Get the order number
-			$order_key = $order->get_order_number();
-	
-			if($order->is_paid()) {
-
-				// Loop through order items
-				foreach ( $order->get_items() as $item_id => $item ) {
-		
-					// Get the product object
-					$product = $item->get_product();
-		
-					// Get the product Id
-					$product_id = $product->get_id();
-
-					if ($product_id == get_option('clmte_compensation_product_id')) {
-
-						// API
-
-						// Get the product quantity
-						$product_quantity = $item->get_quantity();
-
-						// Use correct grammar, 1 offset / multiple offsets
-						$offset_string = $product_quantity > 1 ? 'offsets' : 'offset';	
-
-						$offset_error = False;
-
-						// Send request to CLMTE tundra API
-						$data = array( 'amount' => $product_quantity );
-						$data_string = http_build_query($data);
-	
-						$url = get_clmte_url( 
-							"https://api.tundra.clmte.com/compensation",
-							"https://api-sandbox.tundra.clmte.com/compensation"
-						);
-
-						$api_key = get_option('clmte_api_key');
-			
-						$header = array();
-						$header[] = 'Content-length: 0';
-						$header[] = 'Content-type: application/json'; 
-						$header[] = 'Authorization: APIKey ' . $api_key;
-
-						$ch = curl_init($url);
-						curl_setopt($ch, CURLOPT_POST, true);
-    					curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-						curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-
-						$response = curl_exec($ch);
-						if (curl_errno($ch)) {
-							$error_msg = curl_error($ch);
-							$offset_error = True;
-						}
-						curl_close($ch);
-		
-						$data = json_decode($response);
-
-						if (array_key_exists('errors', $data)) {
-							$offset_error = True;
-							$error_msg = $data->errors[0]->message;
-						}
-
-						// Show error message if error occured
-						if ($offset_error) {
-							echo '<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
-								<li class="woocommerce-order-overview__order order">
-								CARBON OFFSETS PURCHASED
-								<strong>' . $product_quantity . ' '. $offset_string .'</strong>
-								<strong style="font-size: 14px">
-								Something went wrong when adding your carbon '. $offset_string .' to the CLMTE database. Please email support@clmte.com to get your '. $offset_string .' added manually.
-								</strong>
-								</td>
-								</ul>';
-
-							// Add log
-							clmte_create_log( "API POST request error: $error_msg", 'error' );
-
-							// Do not show other messages
-							break;
-						}
-
-						// Extract tracking id
-						if (array_key_exists('trackingID', $data)) {
-							$tracking_id = $data->trackingID;
-
-							// Compose a tracking url
-							$tracking_url = "https://clmte.com/track?trackingId=$tracking_id&amount=$product_quantity";
-						}
-		
-						// Create section to display CLMTE information
-						echo '<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
-								<li class="woocommerce-order-overview__order order">
-								CARBON OFFSETS PURCHASED
-								<strong>' . $product_quantity . ' '. $offset_string .', equivalent to '. $data->carbonDioxide .'kg carbon dioxide</strong>
-								</li>';
-
-						// Only display tracking section if trackingId exists
-						if (isset($tracking_url)) {
-							echo '<li class="woocommerce-order-overview__order 	order">
-							TRACK YOUR CARBON OFFSET
-
-							<img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl='. $tracking_url .'&choe=UTF-8" title="Link to clmte.com" />
-							<strong style="font-size: 14px;">
-							Scan or go to <a rel="nofollow" target="_blank" href="'. $tracking_url .'">the tracking page for your offset</a> to track your carbon offset.
-							</strong>
-							</li>';
-						}
-
-						// Close of the CLMTE information
-						echo '
-							<li class="woocommerce-order-overview__order 	order">
-							
-							READ MORE AT <a rel="nofollow" href="https://clmte.com" target="_blank">CLMTE.COM</a>
-								
-								</li>
-							</ul>';
-
-						// Add log
-						clmte_create_log( "$product_quantity CLMTE carbon $offset_string purchased!", 'activity' );
-
-						// Prevent code from running multiple times
-						break;
-					}
-
-				}
-
-			}
-	
-			// Flag the action as done (to avoid repetitions on reload for example)
-			$order->update_meta_data( '_thankyou_action_done', true );
-			$order->save();
-		}
-	}
-	
-
 }

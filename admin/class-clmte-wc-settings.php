@@ -47,7 +47,8 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
         public function get_sections() {
             $sections = array(
                 '' => __( 'Settings', 'clmte' ),
-                'log' => __( 'Log', 'clmte' )
+                'log' => __( 'Log', 'clmte' ),
+                'purchases' => __( 'Purchases', 'clmte' )
             );
 
             return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
@@ -66,6 +67,11 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
 
             switch ($current_section) {
                 case 'log':
+                    $settings = array(                              
+                            array()
+                    );
+                    break;
+                case 'purchases':
                     $settings = array(                              
                             array()
                     );
@@ -89,6 +95,9 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     break;
                 case 'log':
                     include 'partials/clmte-settings-log.php';
+                    break;
+                case 'purchases':
+                    include 'partials/clmte-settings-purchases.php';
                     break;
                 default:
                     $settings = $this->get_settings();

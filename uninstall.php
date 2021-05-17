@@ -48,9 +48,18 @@ if ( $img_id && $img_id != '' ) {
 delete_option( 'clmte_compensation_product_id' );
 delete_option( 'clmte_compensation_price' );
 delete_option( 'clmte_img_id' );
-delete_option( 'clmte_custom_placement' );
+
+delete_option( 'clmte_api_key' );
+delete_option( 'clmte_organisation_id' );
 delete_option( 'clmte_production_mode' );
 delete_option( 'reload_cart_on_update' );
+delete_option( 'clmte_custom_offset_placement' );
+delete_option( 'clmte_custom_receipt_placement' );
+
+delete_option( 'clmte-offset-error');
+delete_option( 'clmte-tracking-url');
+delete_option( 'clmte-offsets-amount');
+delete_option( 'clmte-offsets-carbon');
 
 // Remove log table
 $table_name = $wpdb->prefix . 'clmte_log';

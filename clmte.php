@@ -92,7 +92,7 @@ function clmte_create_offset_box(){
 }
 
 /**
-* Display QR-code if CLMTE offset was purchased.
+* Display CLMTE receipt with carbon offset order information and a QR-code to track the offset if a CLMTE offset was purchased.
 */
 function clmte_create_receipt(){
 
@@ -164,6 +164,34 @@ function clmte_create_log( $log, $type ) {
     );
 }
 
+/**
+* Creates an offset log and inserts it into the clmte_offsets_purchased table
+*
+* @param int $amount - how many offsets purchased
+* @param string $status - [CREATED or PENDING], if the purchase has been logged
+* @param string $offset_id - id of purchased carbon offset
+* @param string $tracking_id - tracking id of purchased carbon offset
+* @param int $carbon_dioxide - CO2 compensated by the purchased carbon offset
+*/
+
+function clmte_add_purchase( $amount, $status = 'PENDING', $offset_id = NULL, $tracking_id = NULL, $carbon_dioxide = NULL ) {
+    
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'clmte_offsets_purchased';
+
+    $wpdb->insert(
+        $table_name,
+        array(
+            'offset_id' => $offset_id,
+            'tracking_id' => $tracking_id,
+            'carbon_dioxide' => $carbon_dioxide,
+            'amount' => $amount,
+            'status' => $status
+        )
+    );
+}
+
 
 /**
 * Decides if the sandbox or real api url should be used
@@ -218,18 +246,20 @@ function get_compensation_price() {
 
     if ($compensation_price == null or $compensation_price == '') {
 
-        // API
+        // Get API key and organisation id
         $api_key = get_option('clmte_api_key');
-
         $organisation_id = get_option('clmte_organisation_id');
 
+        // Use the correct api endpoint
         $api_url = get_clmte_url( 
             'https://api.tundra.clmte.com/organisation/',
             'https://api-sandbox.tundra.clmte.com/organisation/'
         );
 
+        // Build url
         $url = $api_url . $organisation_id .'/cost';
 
+        // Get price of offset
         $data = make_json_request( $url );
         $compensation_price = $data->price; 
 

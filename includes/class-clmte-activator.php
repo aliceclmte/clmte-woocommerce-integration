@@ -93,10 +93,15 @@ class Clmte_Activator {
 		// Set product image
 		update_post_meta( $post_id, '_thumbnail_id', $img_id );
 
+        // ****************************
+        // Add Custom Tables
+        // ****************************
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        $charset_collate = $wpdb->get_charset_collate();
+        
 		// Add log table
 		$table_name = $wpdb->prefix . 'clmte_log';
-
-		$charset_collate = $wpdb->get_charset_collate();
 
 		// TYPES: error, activity 
 		$sql = "CREATE TABLE $table_name (
@@ -107,7 +112,30 @@ class Clmte_Activator {
 			PRIMARY KEY (id) 
 		) $charset_collate;";
 
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+
+        // Add offsets purchased table
+		$table_name = $wpdb->prefix . 'clmte_offsets_purchased';
+
+		/*
+        Parameters:
+            offset_id - id of purchased carbon offset
+            tracking_id - tracking id of purchased carbon offset
+            carbon_dioxide - CO2 compensated by the purchased carbon offset
+            amount - how many carbon offsets purchased
+            status - [CREATED or PENDING], if the purchase has been logged
+        */
+		$sql = "CREATE TABLE $table_name (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			time datetime DEFAULT CURRENT_TIMESTAMP,
+            offset_id VARCHAR(200),
+            tracking_id VARCHAR(300),
+            carbon_dioxide INT,
+			amount SMALLINT,
+			status VARCHAR(10) DEFAULT 'PENDING',
+			PRIMARY KEY (id) 
+		) $charset_collate;";
+
 		dbDelta( $sql );
 
 		// Insert activated log

@@ -55,7 +55,7 @@ function clmte_check_requirements() {
 
 
 /**
-* Display a message advising WooCommerce is required
+* Display a message showing that WooCommerce is required
 */
 function clmte_missing_wc_notice() { 
     $class = 'notice notice-error';

@@ -235,6 +235,9 @@ class Clmte_Public {
                         // Get the product quantity
 						$product_quantity = $item->get_quantity();
 
+                        // Save how many offsets pruchased and the carbon dioxide equivalent
+                        update_option( 'clmte-offsets-amount', $product_quantity );
+
                         // Add log
                         clmte_create_log( "$product_quantity CLMTE carbon $offset_string purchased!", 'activity' );
 
@@ -308,9 +311,6 @@ class Clmte_Public {
                         ////////////////////////
                         // Purchase success
                         ////////////////////////
-
-                        // Save how many offsets pruchased and the carbon dioxide equivalent
-                        update_option( 'clmte-offsets-amount', $product_quantity );
 
                         update_option( 'clmte-offsets-carbon', $body->carbonDioxide );
 

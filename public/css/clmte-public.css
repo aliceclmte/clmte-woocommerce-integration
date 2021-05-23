@@ -132,8 +132,10 @@
 }
 
 .clmte-order-title  {
-    font-size: 1em;
+    font-size: 1.1em;
     text-transform: uppercase;
+    /* text-decoration: underline; */
+    margin-bottom: 5px;
 }
 
 .clmte-order-content span {

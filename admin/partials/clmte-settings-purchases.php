@@ -20,7 +20,6 @@ $log_data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY time DESC" )
 
 // Get how many pruchased which have not been synced with the CLMTE database
 $not_synced = sizeof($wpdb->get_results( "SELECT * FROM $table_name WHERE status = 'PENDING'" ));
-$not_synced = 2;
 
 ?>
 

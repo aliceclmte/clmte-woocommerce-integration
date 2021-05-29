@@ -241,7 +241,7 @@ function clmte_purchase_offset( $url, $api_key, $amount ) {
     // Get the response
     $body = json_decode($response);
 
-    return $body
+    return $body;
 }
 
 /**
@@ -382,8 +382,27 @@ function clmte_align_offset_price() {
 * Makes sure to sync all pending offsets with the CLMTE servers
 */
 function clmte_sync_offsets() { 
+
+    global $wpdb;
+
+    // Get all pending offsets
+    $table_name = $wpdb->prefix . 'clmte_offsets_purchased';
+    $pending = $wpdb->get_results( "SELECT * FROM $table_name WHERE status = 'PENDING'" );
     
-    return;
+    // Go through every pending offset
+    foreach( $pending as $p ) {
+
+        $wpdb->update(
+            $table_name, 
+            array(
+                'id' => $p->id, 
+                'tracking_id' => 'TEST', 
+            )
+        );
+
+    }
+
+    // $body = clmte_purchase_offset( $url, $api_key, $product_quantity );
 }
 
 /**********************************

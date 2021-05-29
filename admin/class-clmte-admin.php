@@ -54,6 +54,7 @@ class Clmte_Admin {
 
 		add_action( 'wp_ajax_clmte_update_offset_price', 'clmte_update_offset_price');
 		add_action( 'wp_ajax_clmte_trigger_sync_offsets', 'clmte_trigger_sync_offsets');
+
 	}
 
 	/**
@@ -109,7 +110,7 @@ class Clmte_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function clmte_sync_offsets() {
+	public function clmte_trigger_sync_offsets() {
 		// Sync all offsets
 		clmte_sync_offsets();
 

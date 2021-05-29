@@ -166,6 +166,12 @@ class Clmte {
 		$this->loader->add_action( 'wp_ajax_nopriv_clmte_update_offset_price', 
 		$plugin_admin, 'clmte_update_offset_price' );
 
+		// Sync offsets
+		$this->loader->add_action( 'wp_ajax_clmte_trigger_sync_offsets', 
+		$plugin_admin, 'clmte_trigger_sync_offsets' );
+		$this->loader->add_action( 'wp_ajax_nopriv_clmte_trigger_sync_offsets', 
+		$plugin_admin, 'clmte_trigger_sync_offsets' );
+
 	}
 
 	/**

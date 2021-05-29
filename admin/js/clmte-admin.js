@@ -36,7 +36,7 @@
 					action: "clmte_trigger_sync_offsets",
 				},
 				complete: () => {
-					//location.reload();
+					location.reload();
 				},
 			});
 		});

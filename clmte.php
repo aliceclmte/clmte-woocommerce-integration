@@ -136,7 +136,7 @@ function clmte_create_receipt(){
             <p class="clmte-order-title"><b>CLMTE Carbon Tracking</b></p>
 
             <div id="clmte-qr-code">
-                <p>Scan the QR-code below or visit <a rel="nofollow" target="_blank" href="<?php echo $clmte_purchase['clmte-tracking-url']; ?>">your tracking page</a> to follow the impact of your offset in real time and see which offset initiative it contributes towards.</p>
+                <p>Scan the QR-code below or visit <a rel="nofollow" target="_blank" href="<?php echo $clmte_purchase['clmte-tracking-url']; ?>">your tracking page</a> to follow the impact of your offset in real-time and see which offset initiative it contributes towards.</p>
 
                 <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=<?php echo $clmte_purchase['clmte-tracking-url']; ?>&choe=UTF-8" title="Scan to track your CLMTE carbon offset!" alt="CLMTE offset tracking QR-code"/>
 
@@ -277,7 +277,7 @@ function make_json_request( $url ) {
 *
 * @return float
 */
-function get_offset_price( $new_request = FALSE ) { 
+function get_offset_price( $new_request = FALSE, $value = 'no' ) { 
 
     // Check for saved price of option
     $offset_price = get_option('clmte_offset_price', NULL);

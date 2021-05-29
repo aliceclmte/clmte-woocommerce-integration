@@ -119,8 +119,8 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     ?>
                     <h3>CLMTE Offsets</h3>
                     <p><b>Offset Price:</b> <?php echo (($has_correct_credentials) ? get_option('clmte_offset_price') . ' ' . get_woocommerce_currency() : 'Price not available.'); ?></p>
-                    <p><i>Note:<I/>The offset price is updated when changes are saved OR the number of decimal places are updated.</p>
-
+                    <button id="update-offset-price">Update Price</button>
+             
                     <h3>Shortcodes</h3>
                     <p><b>CLMTE Cart Offset Box:</b> [clmte-offset]</p>
                     <p><b>CLMTE Receipt: [clmte-receipt]:</b> [clmte-offset]</p>

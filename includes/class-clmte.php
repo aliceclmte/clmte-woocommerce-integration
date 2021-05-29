@@ -160,6 +160,12 @@ class Clmte {
 		// Add plugin settings to WooCommerce
 		$this->loader->add_filter( 'woocommerce_get_settings_pages', $plugin_admin, 'clmte_add_settings' );
 
+		// Update offset price
+		$this->loader->add_action( 'wp_ajax_clmte_update_offset_price', 
+		$plugin_admin, 'clmte_update_offset_price' );
+		$this->loader->add_action( 'wp_ajax_nopriv_clmte_update_offset_price', 
+		$plugin_admin, 'clmte_update_offset_price' );
+
 	}
 
 	/**

@@ -52,6 +52,7 @@ class Clmte_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
+		add_action( 'wp_ajax_clmte_update_offset_price', 'clmte_update_offset_price');
 	}
 
 	/**
@@ -97,6 +98,21 @@ class Clmte_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/clmte-admin.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( $this->plugin_name, 'clmte', array(
+			'ajax_url' => admin_url('admin-ajax.php'),
+		));
+	}
+
+	/**
+	 * Update offset price
+	 *
+	 * @since    1.0.0
+	 */
+	public function clmte_update_offset_price() {
+		// Get new offset price
+		get_offset_price(TRUE);
+
+		wp_die();
 	}
 
 	/**

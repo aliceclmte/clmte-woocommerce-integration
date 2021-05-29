@@ -205,10 +205,11 @@ class Clmte_Public {
 		if( ! get_post_meta( $order_id, '_clmte_offset_purchased', true ) ) {
             
             // Reset CLMTE options
-			update_option( 'clmte-purchase', NULL );
-
-			// Initialize new array with options for clmte-purchase
-			$clmte_purchase = array();
+            update_option( 'clmte-offset-purchased', false );
+            update_option( 'clmte-offset-error', false );
+            update_option( 'clmte-tracking-url', false );
+            update_option( 'clmte-offsets-amount', false );
+            update_option( 'clmte-offsets-carbon', false );
 
             // Get an instance of the WC_Order object
 			$order = wc_get_order( $order_id );
@@ -232,7 +233,7 @@ class Clmte_Public {
 						$product_quantity = $item->get_quantity();
 
                         // Save how many offsets pruchased and the carbon dioxide equivalent
-						$clmte_purchase['clmte-offsets-amount'] = $product_quantity;
+                        update_option( 'clmte-offsets-amount', $product_quantity );
 
                         // Add log
                         clmte_create_log( "$product_quantity CLMTE carbon $offset_string purchased!", 'activity' );
@@ -243,11 +244,7 @@ class Clmte_Public {
                         ////////////////////////////////////
                         // Send request to CLMTE tundra API
                         ////////////////////////////////////
-
-                        // Build the data query
-						$data = array( 'amount' => $product_quantity );
-						$data_string = json_encode($data);
-                        
+            
                         // Get correct api url (production or sandbox)
 						$url = get_clmte_url( 
 							"https://api.tundra.clmte.com/compensation",
@@ -256,32 +253,8 @@ class Clmte_Public {
 
                         // Get organisations api_key
 						$api_key = get_option( 'clmte_api_key' );
-                        
-                        // Create request header
-						$header = array();
-						$header[] = 'Content-type: application/json'; 
-						$header[] = 'Authorization: APIKey ' . $api_key;
 
-                        // Create curl request
-						$ch = curl_init();
-						curl_setopt($ch, CURLOPT_POST, 1);
-    					curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-						curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-                        curl_setopt($ch, CURLOPT_URL, $url);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-                        // Execute request and catch errors
-						$response = curl_exec($ch);
-						if (curl_errno($ch)) {
-							$error_msg = curl_error($ch);
-
-                            // Add log
-							clmte_create_log( "CURL request failed: $error_msg", 'error' );
-						}
-						curl_close($ch);
-                        
-                        // Get the response
-						$body = json_decode($response);
+                        $body = clmte_purchase_offset( $url, $api_key, $product_quantity );
 
                         // If errors, get the error message
 						if (array_key_exists('errors', $body) && $body->errors[0]->message != '') {
@@ -290,7 +263,7 @@ class Clmte_Public {
 							$error_msg = $body->errors[0]->message;
 
                             // Update option with error
-							$clmte_purchase['clmte-offset-error'] = $error_msg;
+                            update_option( 'clmte-offset-error', $error_msg );
 
                             // Add log
 							clmte_create_log( "API POST request error: $error_msg", 'error' );
@@ -298,39 +271,36 @@ class Clmte_Public {
                             // Add purchase log
                             clmte_add_purchase( $product_quantity );
 
-						} else {
-
-							////////////////////////
-							// Purchase success
-							////////////////////////
-
-							$clmte_purchase['clmte-offsets-carbon'] = $body->carbonDioxide;
-
-							// If tracking ID exists, create a tracking url
-							if (array_key_exists('trackingID', $body)) {
-								$tracking_id = $body->trackingID;
-
-								// Compose a tracking url
-								$tracking_url = "https://clmte.com/track?trackingId=$tracking_id&amount=$product_quantity";
-
-								// Save tracking URL
-								$clmte_purchase['clmte-tracking-url'] = $tracking_url;
-							}
-
-							// Add purchase log
-							clmte_add_purchase( $product_quantity, 'CREATED', $body->id, $body->trackingID, $body->carbonDioxide );
-
-							// Flag the action as done (to avoid repetitions on reload for example)
-							$order->update_meta_data( '_clmte_offset_purchased', true );
-							$order->save();
-
+                            // Do not continue
+                            return;
 						}
 
-						// Save clmte purchase options
-						update_option( 'clmte-purchase', $clmte_purchase );
+                        ////////////////////////
+                        // Purchase success
+                        ////////////////////////
 
-						// Break!
-						break;
+                        update_option( 'clmte-offsets-carbon', $body->carbonDioxide );
+
+                        // If tracking ID exists, create a tracking url
+                        if (array_key_exists('trackingID', $body)) {
+							$tracking_id = $body->trackingID;
+
+							// Compose a tracking url
+							$tracking_url = "https://clmte.com/track?trackingId=$tracking_id&amount=$product_quantity";
+
+                            // Save tracking URL
+                            update_option('clmte-tracking-url', $tracking_url );
+						}
+
+                        // Add purchase log
+                        clmte_add_purchase( $product_quantity, 'CREATED', $body->id, $body->trackingID, $body->carbonDioxide );
+
+                        // Flag the action as done (to avoid repetitions on reload for example)
+                        $order->update_meta_data( '_clmte_offset_purchased', true );
+                        $order->save();
+
+                        // Break!
+                        break;
 
                     }
 

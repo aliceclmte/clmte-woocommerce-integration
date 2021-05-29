@@ -201,6 +201,50 @@ function clmte_create_log( $log, $type ) {
 }
 
 /**
+* Sends an API Post request to the CLMTE servers
+*
+* @param string $url     - the url to the CLMTE api
+* @param string $api_key - the clients api key
+* @param int $amount  - how many offsets to buy
+*
+* @return responseobject
+*/
+function clmte_purchase_offset( $url, $api_key, $amount ) {
+    
+    // Create request header
+    $header = array();
+    $header[] = 'Content-type: application/json'; 
+    $header[] = 'Authorization: APIKey ' . $api_key;
+
+    // Build the data query
+    $data = array( 'amount' => $amount );
+    $data_string = json_encode($data);
+
+    // Create curl request
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    // Execute request and catch errors
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        $error_msg = curl_error($ch);
+
+        // Add log
+        clmte_create_log( "CURL request failed: $error_msg", 'error' );
+    }
+    curl_close($ch);
+    
+    // Get the response
+    $body = json_decode($response);
+
+    return $body
+}
+
+/**
 * Creates an offset log and inserts it into the clmte_offsets_purchased table
 *
 * @param int $amount - how many offsets purchased
@@ -332,6 +376,14 @@ function clmte_align_offset_price() {
             get_offset_price( TRUE );
         }
     }
+}
+
+/**
+* Makes sure to sync all pending offsets with the CLMTE servers
+*/
+function clmte_sync_offsets() { 
+    
+    return;
 }
 
 /**********************************

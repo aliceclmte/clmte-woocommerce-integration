@@ -23,6 +23,23 @@
 				},
 			});
 		});
+
+		// Sync purchases
+		$("body").on("click", "#clmte-sync-offsets", (e) => {
+			e.preventDefault();
+
+			// Update offset price
+			jQuery.ajax({
+				method: "post",
+				url: clmte.ajax_url,
+				data: {
+					action: "clmte_trigger_sync_offsets",
+				},
+				complete: () => {
+					//location.reload();
+				},
+			});
+		});
 	});
 	
 })( jQuery );

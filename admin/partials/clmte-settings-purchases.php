@@ -20,23 +20,18 @@ $log_data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY time DESC" )
 
 // Get how many pruchased which have not been synced with the CLMTE database
 $not_synced = sizeof($wpdb->get_results( "SELECT * FROM $table_name WHERE status = 'PENDING'" ));
+$not_synced = 2;
 
 ?>
 
 <h1>Purchases</h1>
 
-<?php
+<?php if ( $not_synced != 0 ) { // Not all purchases are synced ?>
 
-if ( $not_synced == 0 ) {
-    echo '<p>All offsets synced with the CLMTE database!</p>';
-} elseif ( $not_synced == 1 ) {
-    echo '<p>1 offset not synced with the CLMTE database.</p>';
-} else {
-    var_dump('hello');
-    echo "<p>$not_synced offsets not synced with the CLMTE database.</p>";
-}
+<p><?php echo ($not_synced == 1) ? ('1 offset') : ($not_synced . ' offsets') ?> not synced with the CLMTE servers.</p>
+<button id="clmte-sync-offsets">Manual Sync</button>
 
-?>
+<?php } ?>
 
 <table class="clmte-table">
     <tr>

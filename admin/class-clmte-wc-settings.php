@@ -114,10 +114,12 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     $settings = $this->get_settings();
                     WC_Admin_Settings::output_fields( $settings );
 
+                    clmte_align_offset_price();
+
                     ?>
                     <h3>CLMTE Offsets</h3>
-                    <p><b>Offset Price:</b> <?php echo (($has_correct_credentials) ? get_option('clmte_offset_price') : 'Price not available.'); ?></p>
-                    <p>The offset price is updated when changes are saved.</p>
+                    <p><b>Offset Price:</b> <?php echo (($has_correct_credentials) ? get_option('clmte_offset_price') . ' ' . get_woocommerce_currency() : 'Price not available.'); ?></p>
+                    <p><i>Note:<I/>The offset price is updated when changes are saved OR the number of decimal places are updated.</p>
 
                     <h3>Shortcodes</h3>
                     <p><b>CLMTE Cart Offset Box:</b> [clmte-offset]</p>

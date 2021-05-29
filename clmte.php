@@ -75,6 +75,7 @@ function clmte_create_offset_box(){
     }
 
     // Get stored price of offset
+    clmte_align_offset_price();
     $offset_price = get_offset_price();
 		
     if ( isset($offset_price) ) {
@@ -82,7 +83,7 @@ function clmte_create_offset_box(){
         <div id="clmte-compensation">
             <div class="info">
                 <i id="clmte-info" class="fa fa-info-circle"></i>
-                <p>Vill du klimatkompensera ditt köp för <b> <?php echo $offset_price; ?> SEK</b>?</p> 
+                <p>Vill du klimatkompensera ditt köp för <b> <?php echo $offset_price . ' ' . get_woocommerce_currency(); ?></b>?</p> 
             </div>
             <button id="clmte-compensate">Lägg till klimatkompensation</button>
         </div>
@@ -104,13 +105,10 @@ function clmte_create_offset_box(){
 function clmte_create_receipt(){
 
     // Get saved options
-    $clmte_error = get_option( 'clmte-offset-error');
-    $clmte_tracking_url = get_option( 'clmte-tracking-url');
-    $clmte_offsets_amount = get_option( 'clmte-offsets-amount');
-    $clmte_offsets_carbon = get_option( 'clmte-offsets-carbon');
+    $clmte_purchase = get_option( 'clmte-purchase' );
 
     // Check if CLMTE carbon offset purchased
-    if ( !$clmte_offsets_amount ) {
+    if ( !array_key_exists('clmte-offsets-amount', $clmte_purchase) ) {
         return;
     }
 
@@ -125,22 +123,22 @@ function clmte_create_receipt(){
 
             <?php
             // Display carbon dioxide
-            if ( isset($clmte_offsets_carbon) ) {
+            if ( array_key_exists('clmte-offsets-carbon', $clmte_purchase) ) {
             ?>
-            <p><span><?php echo $clmte_offsets_carbon; ?>kg of carbon dioxide</span> will be offset thanks to your contribution.</p>
+            <p><span><?php echo $clmte_purchase['clmte-offsets-carbon']; ?>kg of carbon dioxide</span> will be offset thanks to your contribution.</p>
             <?php } // End isset clmte carbon dioxide ?>
 
             <?php
             // Display QR code and thank you message
-            if ( isset($clmte_tracking_url) ) {
+            if ( array_key_exists('clmte-tracking-url', $clmte_purchase) ) {
             ?>
 
             <p class="clmte-order-title"><b>CLMTE Carbon Tracking</b></p>
 
             <div id="clmte-qr-code">
-                <p>Scan the QR-code below or visit <a rel="nofollow" target="_blank" href="<?php echo $clmte_tracking_url; ?>">your tracking page</a> to follow the impact of your offset in real time and see which offset initiative it contributes towards.</p>
+                <p>Scan the QR-code below or visit <a rel="nofollow" target="_blank" href="<?php echo $clmte_purchase['clmte-tracking-url']; ?>">your tracking page</a> to follow the impact of your offset in real time and see which offset initiative it contributes towards.</p>
 
-                <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=<?php echo $clmte_tracking_url; ?>&choe=UTF-8" title="Scan to track your CLMTE carbon offset!" alt="CLMTE offset tracking QR-code"/>
+                <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=<?php echo $clmte_purchase['clmte-tracking-url']; ?>&choe=UTF-8" title="Scan to track your CLMTE carbon offset!" alt="CLMTE offset tracking QR-code"/>
 
                 <p>For more information, visit <a href="https://clmte.com/faq" target="_blank" rel="nofollow">clmte.com/faq</a>.</p>
             </div>
@@ -173,7 +171,7 @@ function clmte_check_credentials() {
     }
 
     // API key and Org ID set, attempt to get and set offset price
-    if (get_offset_price() == NULL) {
+    if (get_offset_price(TRUE) == NULL) {
         update_option( $option_name, FALSE );
         return;
     }
@@ -279,17 +277,17 @@ function make_json_request( $url ) {
 *
 * @return float
 */
-function get_offset_price() { 
+function get_offset_price( $new_request = FALSE ) { 
 
     // Check for saved price of option
     $offset_price = get_option('clmte_offset_price', NULL);
 
-    if ($offset_price == '0,00') {
+    if ($offset_price == '0,00' or $offset_price == '0.00') {
         $offset_price = NULL;
     } 
 
     // Make api request if no previously saved price
-    if ($offset_price == NULL) {
+    if ($offset_price == NULL or $new_request) {
 
         // Get API key and organisation id
         $api_key = get_option('clmte_api_key');
@@ -309,9 +307,9 @@ function get_offset_price() {
         $offset_price = $data->price; 
 
         // Format compensation price to two decimals
-        $offset_price = number_format((float)$offset_price, 2, ',', '');
+        $offset_price = number_format((float)$offset_price, wc_get_price_decimals(), wc_get_price_decimal_separator(), '');
 
-        if ($offset_price == '0,00') {
+        if ($offset_price == '0,00' or $offset_price == '0.00') {
             $offset_price = NULL;
         } 
         
@@ -321,6 +319,19 @@ function get_offset_price() {
 
     // Return the offset price
     return $offset_price;
+}
+
+/**
+* Makes sure the offset has an equal amount of decimal places as the site configuration.
+*/
+function clmte_align_offset_price() {
+    // Check if offset has correct amount of decimals
+    if (get_option('clmte_offset_price') != NULL) {
+        if (wc_get_price_decimals() != strlen(substr(strrchr(get_option('clmte_offset_price'), "."), 1))) {
+            // Reformat the price with correct number of decimals
+            get_offset_price( TRUE );
+        }
+    }
 }
 
 /**********************************

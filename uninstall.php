@@ -56,10 +56,7 @@ delete_option( 'reload_cart_on_update' );
 delete_option( 'clmte_custom_offset_placement' );
 delete_option( 'clmte_custom_receipt_placement' );
 
-delete_option( 'clmte-offset-error');
-delete_option( 'clmte-tracking-url');
-delete_option( 'clmte-offsets-amount');
-delete_option( 'clmte-offsets-carbon');
+delete_option( 'clmte-purchase');
 
 // Remove log table
 $table_name = $wpdb->prefix . 'clmte_log';

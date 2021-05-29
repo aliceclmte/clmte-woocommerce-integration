@@ -207,9 +207,13 @@ function clmte_create_log( $log, $type ) {
 * @param string $api_key - the clients api key
 * @param int $amount  - how many offsets to buy
 *
-* @return responseobject
+* @return array
 */
-function clmte_purchase_offset( $url, $api_key, $amount ) {
+function clmte_send_offset_request( $url, $api_key, $amount ) {
+
+    // Save how many offsets pruchased
+	$clmte_purchase = array();
+	$clmte_purchase['clmte-offsets-amount'] = $amount;
     
     // Create request header
     $header = array();
@@ -241,7 +245,35 @@ function clmte_purchase_offset( $url, $api_key, $amount ) {
     // Get the response
     $body = json_decode($response);
 
-    return $body;
+    // If errors, get the error message
+    if (array_key_exists('errors', $body) && $body->errors[0]->message != '') { // Purchase failed
+
+        // Get server error message
+        $error_msg = $body->errors[0]->message;
+
+        // Update option with error
+        $clmte_purchase['clmte-offset-error'] = $error_msg;
+
+    } else { // Purchase succeeded
+
+        $clmte_purchase['clmte-offset-id'] = $body->id;
+        $clmte_purchase['clmte-offsets-carbon'] = $body->carbonDioxide;
+
+        // If tracking ID exists, create a tracking url
+        if (array_key_exists('trackingID', $body)) {
+            $tracking_id = $body->trackingID;
+
+            // Compose a tracking url
+            $tracking_url = "https://clmte.com/track?trackingId=$tracking_id&amount=$product_quantity";
+
+            // Save tracking URL and ID
+            $clmte_purchase['clmte-tracking-id'] = $tracking_id;
+            $clmte_purchase['clmte-tracking-url'] = $tracking_url;
+        }
+
+    }
+
+    return $clmte_purchase;
 }
 
 /**
@@ -254,7 +286,7 @@ function clmte_purchase_offset( $url, $api_key, $amount ) {
 * @param int $carbon_dioxide - CO2 compensated by the purchased carbon offset
 */
 
-function clmte_add_purchase( $amount, $status = 'PENDING', $offset_id = NULL, $tracking_id = NULL, $carbon_dioxide = NULL ) {
+function clmte_create_purchase_log( $amount, $status = 'PENDING', $offset_id = NULL, $tracking_id = NULL, $carbon_dioxide = NULL ) {
     
     global $wpdb;
 
@@ -378,27 +410,53 @@ function clmte_align_offset_price() {
     }
 }
 
-/**
-* Makes sure to sync all pending offsets with the CLMTE servers
-*/
-function clmte_sync_offsets() { 
+function clmte_sync_offsets( $limit = FALSE ) { 
 
     global $wpdb;
 
     // Get all pending offsets
     $table_name = $wpdb->prefix . 'clmte_offsets_purchased';
-    $pending = $wpdb->get_results( "SELECT * FROM $table_name WHERE status = 'PENDING'" );
+    $pending = $wpdb->get_results( "SELECT * FROM $table_name WHERE status = 'PENDING' ORDER BY time ASC" );
+
+    // Get correct api url (production or sandbox)
+    $url = get_clmte_url( 
+        "https://api.tundra.clmte.com/compensation",
+        "https://api-sandbox.tundra.clmte.com/compensation"
+    );
+
+    // Get organisations api_key
+    $api_key = get_option( 'clmte_api_key' );
     
     // Go through every pending offset
+
+    $num_synced = 0;
     foreach( $pending as $p ) {
 
-        $wpdb->update(
-            $table_name, 
-            array(
-                'id' => $p->id, 
-                'tracking_id' => 'TEST', 
-            )
-        );
+        // If limit reached, do not continue
+        if ( $limit && $num_synced >= $limit ) { break; }
+
+        // Call API
+        $clmte_purchase = clmte_send_offset_request( $url, $api_key, $p->amount );
+
+        // Check for no errors
+        if ( !array_key_exists('clmte-offset-error', $clmte_purchase) ) {
+
+            $wpdb->update(
+                $table_name, 
+                array(
+                    'offset_id'      => $clmte_purchase['clmte-offset-id'] ?? NULL,
+                    'tracking_id'    => $clmte_purchase['clmte-tracking-id'] ?? NULL, 
+                    'carbon_dioxide' => $clmte_purchase['clmte-offsets-carbon'] ?? NULL,
+                    'status'         => 'CREATED'
+                ),
+                array(
+                    'id' => $p->id
+                )
+            );
+
+            $num_synced++;
+
+        }
 
     }
 

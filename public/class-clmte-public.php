@@ -191,6 +191,16 @@ class Clmte_Public {
         
     }
 
+	/**
+	 * Syncs pending offsets every day at 04:00
+	 *
+	 * @since    1.0.0
+	 */
+	function clmte_start_sync_offsets() {
+		clmte_sync_offsets();
+	}
+	
+
     /**
 	 * Check if clmte carbon offset is purchased and send API post request to Tundra API. 
 	 *
@@ -206,9 +216,6 @@ class Clmte_Public {
             
             // Reset CLMTE options
 			update_option( 'clmte-purchase', NULL );
-
-			// Initialize new array with options for clmte-purchase
-			$clmte_purchase = array();
 
             // Get an instance of the WC_Order object
 			$order = wc_get_order( $order_id );
@@ -231,14 +238,8 @@ class Clmte_Public {
                         // Get the product quantity
 						$product_quantity = $item->get_quantity();
 
-                        // Save how many offsets pruchased and the carbon dioxide equivalent
-						$clmte_purchase['clmte-offsets-amount'] = $product_quantity;
-
                         // Add log
                         clmte_create_log( "$product_quantity CLMTE carbon $offset_string purchased!", 'activity' );
-
-                        // Catch errors
-                        $offset_error = False;
 
                         ////////////////////////////////////
                         // Send request to CLMTE tundra API
@@ -253,44 +254,26 @@ class Clmte_Public {
                         // Get organisations api_key
 						$api_key = get_option( 'clmte_api_key' );
                         
-                        $body = clmte_purchase_offset( $url, $api_key, $product_quantity );
+                        $clmte_purchase = clmte_send_offset_request( $url, $api_key, $product_quantity );
 
-                        // If errors, get the error message
-						if (array_key_exists('errors', $body) && $body->errors[0]->message != '') {
+						if (array_key_exists('clmte-offset-error', $clmte_purchase) ) { // Purchase failed 
 
-                            // Get server error message
-							$error_msg = $body->errors[0]->message;
-
-                            // Update option with error
-							$clmte_purchase['clmte-offset-error'] = $error_msg;
-
-                            // Add log
+							// Add log
 							clmte_create_log( "API POST request error: $error_msg", 'error' );
 
                             // Add purchase log
-                            clmte_add_purchase( $product_quantity );
+                            clmte_create_purchase_log( $product_quantity );
 
-						} else {
-
-							////////////////////////
-							// Purchase success
-							////////////////////////
-
-							$clmte_purchase['clmte-offsets-carbon'] = $body->carbonDioxide;
-
-							// If tracking ID exists, create a tracking url
-							if (array_key_exists('trackingID', $body)) {
-								$tracking_id = $body->trackingID;
-
-								// Compose a tracking url
-								$tracking_url = "https://clmte.com/track?trackingId=$tracking_id&amount=$product_quantity";
-
-								// Save tracking URL
-								$clmte_purchase['clmte-tracking-url'] = $tracking_url;
-							}
+						} else { // Purchases succeeded
 
 							// Add purchase log
-							clmte_add_purchase( $product_quantity, 'CREATED', $body->id, $body->trackingID, $body->carbonDioxide );
+							clmte_create_purchase_log( 
+								$product_quantity, 
+								'CREATED', 
+								$clmte_purchase['clmte-offset-id'] ?? NULL, 
+								$clmte_purchase['clmte-tracking-id'] ?? NULL, 
+								$clmte_purchase['clmte-offsets-carbon'] ?? NULL,
+							);
 
 							// Flag the action as done (to avoid repetitions on reload for example)
 							$order->update_meta_data( '_clmte_offset_purchased', true );
@@ -300,6 +283,9 @@ class Clmte_Public {
 
 						// Save clmte purchase options
 						update_option( 'clmte-purchase', $clmte_purchase );
+
+						// Sync PENDING offsets QUESTION
+						clmte_sync_offsets(2);
 
 						// Break!
 						break;

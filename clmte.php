@@ -279,7 +279,7 @@ function make_json_request( $url ) {
 *
 * @return float
 */
-function get_offset_price( $defaultUpdate = FALSE) { 
+function get_offset_price() { 
 
     // Check for saved price of option
     $offset_price = get_option('clmte_offset_price', NULL);
@@ -289,7 +289,7 @@ function get_offset_price( $defaultUpdate = FALSE) {
     } 
 
     // Make api request if no previously saved price
-    if ($offset_price == NULL or $defaultUpdate) {
+    if ($offset_price == NULL) {
 
         // Get API key and organisation id
         $api_key = get_option('clmte_api_key');
@@ -312,15 +312,11 @@ function get_offset_price( $defaultUpdate = FALSE) {
         $offset_price = number_format((float)$offset_price, 2, ',', '');
 
         if ($offset_price == '0,00') {
-
             $offset_price = NULL;
-
-        } else {
-            // Update offset price
-            update_option('clmte_offset_price', $offset_price);
-        }
-
+        } 
         
+        // Update offset price
+        update_option('clmte_offset_price', $offset_price);
     }
 
     // Return the offset price

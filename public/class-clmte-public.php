@@ -188,7 +188,6 @@ class Clmte_Public {
             clmte_create_receipt();
 
 		}
-
         
     }
 

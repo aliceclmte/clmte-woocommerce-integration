@@ -116,11 +116,12 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
 
                     ?>
                     <h3>CLMTE Offsets</h3>
-                    <p>Offset Price: <?php echo (($has_correct_credentials) ? get_option('clmte_offset_price') : 'Not set'); ?></p>
-                    
+                    <p><b>Offset Price:</b> <?php echo (($has_correct_credentials) ? get_option('clmte_offset_price') : 'Price not available.'); ?></p>
+                    <p>The offset price is updated when changes are saved.</p>
+
                     <h3>Shortcodes</h3>
-                    <p>CLMTE Cart Offset Box: [clmte-offset]</p>
-                    <p>CLMTE Receipt: [clmte-receipt]: [clmte-offset]</p>
+                    <p><b>CLMTE Cart Offset Box:</b> [clmte-offset]</p>
+                    <p><b>CLMTE Receipt: [clmte-receipt]:</b> [clmte-offset]</p>
                     <?php
             }               
             

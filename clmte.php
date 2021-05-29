@@ -127,7 +127,7 @@ function clmte_create_receipt(){
             // Display carbon dioxide
             if ( isset($clmte_offsets_carbon) ) {
             ?>
-            <p><span><?php echo $clmte_offsets_carbon; ?>kg carbon dioxide </span> will be compensated due to your offset.</p>
+            <p><span><?php echo $clmte_offsets_carbon; ?>kg of carbon dioxide</span> will be offset thanks to your contribution.</p>
             <?php } // End isset clmte carbon dioxide ?>
 
             <?php

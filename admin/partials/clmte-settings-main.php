@@ -13,9 +13,9 @@ $settings = array(
         ),
         array(
             'id'        => $prefix . 'api_key',
-            'name'      => __( 'Api Key', 'clmte' ), 
+            'name'      => __( 'API Key', 'clmte' ), 
             'type'      => 'text',
-            'desc_tip'  => __( ' Your organisation\'s Api Key which can be found by creating an account and organisation at clmte.com', 'clmte')
+            'desc_tip'  => __( ' Your organisation\'s API Key which can be found by creating an account and organisation at clmte.com', 'clmte')
         ),
         array(
             'id'        => $prefix . 'organisation_id',
@@ -27,7 +27,7 @@ $settings = array(
             'id'        => $prefix . 'production_mode',
             'name'      => __( 'Production Mode?', 'clmte' ),
             'type'      => 'checkbox',
-            'desc'  => __( 'Check this box to start using the plugin with real Api calls.', 'clmte' ),
+            'desc'  => __( 'Check this box to start using the plugin with real API calls.', 'clmte' ),
             'default'   => 'no'
         ),
         array(

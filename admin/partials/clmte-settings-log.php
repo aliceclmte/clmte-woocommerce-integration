@@ -19,7 +19,7 @@ $log_data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY time DESC" )
 
 ?>
 
-<h1>CLMTE offset purchases</h1>
+<h1>CLMTE Plugin Logs</h1>
 
 <table class="clmte-table">
     <tr>

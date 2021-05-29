@@ -3,6 +3,18 @@
  * included in this file.
  */
 
+/* Settings styles */
+.offset-price-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.offset-price-box button {
+  height: 25px;
+  margin: 0 20px;
+}
+
 /* Table styles */
 .clmte-table {
   border-collapse: collapse;

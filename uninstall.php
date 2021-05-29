@@ -46,7 +46,7 @@ if ( $img_id && $img_id != '' ) {
 
 // Reset options
 delete_option( 'clmte_compensation_product_id' );
-delete_option( 'clmte_compensation_price' );
+delete_option( 'clmte_offset_price' );
 delete_option( 'clmte_img_id' );
 
 delete_option( 'clmte_api_key' );

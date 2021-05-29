@@ -68,14 +68,21 @@ function clmte_missing_wc_notice() {
 * Display clmte offset box
 */
 function clmte_create_offset_box(){
-    $compensation_price = get_compensation_price();
+
+    // Check if API key and organisation ID are set and correct
+    if (get_option('clmte_has_correct_credentials') == FALSE) {
+        return;
+    }
+
+    // Get stored price of offset
+    $offset_price = get_offset_price();
 		
-    if ($compensation_price) {
+    if ( isset($offset_price) ) {
         ?>
         <div id="clmte-compensation">
             <div class="info">
                 <i id="clmte-info" class="fa fa-info-circle"></i>
-                <p>Vill du klimatkompensera ditt köp för <b> <?php echo $compensation_price; ?> SEK</b>?</p> 
+                <p>Vill du klimatkompensera ditt köp för <b> <?php echo $offset_price; ?> SEK</b>?</p> 
             </div>
             <button id="clmte-compensate">Lägg till klimatkompensation</button>
         </div>
@@ -151,6 +158,31 @@ function clmte_create_receipt(){
 **********************************/
 
 /**
+* Makes sure that the API and Organisation IDs are correct.
+* If correct and working: set clmte_has_correct_credentials to true
+* Otherwise, set it to false
+*/
+function clmte_check_credentials() {
+
+    $option_name = 'clmte_has_correct_credentials';
+
+    // Check if API key and Organisation_id even exists
+    if ( empty(get_option('clmte_api_key')) or empty(get_option('clmte_organisation_id')) ) {
+        update_option( $option_name, FALSE );
+        return;
+    }
+
+    // API key and Org ID set, attempt to get and set offset price
+    if (get_offset_price() == NULL) {
+        update_option( $option_name, FALSE );
+        return;
+    }
+
+    // It works
+    update_option( $option_name, TRUE );
+}
+
+/**
 * Creates a log and inserts it into the clmte_log table
 *
 * @param string $log - the log statement
@@ -209,6 +241,7 @@ function clmte_add_purchase( $amount, $status = 'PENDING', $offset_id = NULL, $t
 function get_clmte_url( $production, $sandbox ) { 
     
     $in_production = get_option('clmte_production_mode');
+
     if ( $in_production == 'yes' ) {
         // Use real api
         return $production;
@@ -242,15 +275,21 @@ function make_json_request( $url ) {
 }
 
 /**
-* Fetches the compensation price from the tundra api
+* Fetches the offset price from the tundra api
 *
 * @return float
 */
-function get_compensation_price() { 
+function get_offset_price( $defaultUpdate = FALSE) { 
 
-    $compensation_price = get_option('clmte_compensation_price');
+    // Check for saved price of option
+    $offset_price = get_option('clmte_offset_price', NULL);
 
-    if ($compensation_price == null or $compensation_price == '') {
+    if ($offset_price == '0,00') {
+        $offset_price = NULL;
+    } 
+
+    // Make api request if no previously saved price
+    if ($offset_price == NULL or $defaultUpdate) {
 
         // Get API key and organisation id
         $api_key = get_option('clmte_api_key');
@@ -267,14 +306,25 @@ function get_compensation_price() {
 
         // Get price of offset
         $data = make_json_request( $url );
-        $compensation_price = $data->price; 
+        $offset_price = $data->price; 
 
+        // Format compensation price to two decimals
+        $offset_price = number_format((float)$offset_price, 2, ',', '');
+
+        if ($offset_price == '0,00') {
+
+            $offset_price = NULL;
+
+        } else {
+            // Update offset price
+            update_option('clmte_offset_price', $offset_price);
+        }
+
+        
     }
 
-    // Format compensation price to two decimals
-    $compensation_price = number_format((float)$compensation_price, 2, ',', '');
-    
-    return $compensation_price;
+    // Return the offset price
+    return $offset_price;
 }
 
 /**********************************

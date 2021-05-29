@@ -50,7 +50,7 @@ class Clmte_Activator {
 
 			// Save product id and option added
 			update_option('clmte_compensation_product_id', $post_id);
-			update_option('clmte_compensation_price', '');
+			update_option('clmte_offset_price', '');
 		}
 
 		$post_id = get_option('clmte_compensation_product_id');

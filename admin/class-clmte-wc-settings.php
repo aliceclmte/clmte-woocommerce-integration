@@ -100,10 +100,32 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     include 'partials/clmte-settings-purchases.php';
                     break;
                 default:
+
+                    // Check if API key and Organisation ID are correct
+                    $has_correct_credentials = get_option('clmte_has_correct_credentials', false);
+
+                    // If not, display error warning
+                    if ($has_correct_credentials == false) {
+                        echo '<div class="notice notice-warning is-dismissible">
+                                <p>The API key and Organisation ID seems to be missing or be incorrect.</p>
+                            </div>';
+                    } 
+
                     $settings = $this->get_settings();
                     WC_Admin_Settings::output_fields( $settings );
-                    echo '<p>Shortcode offset box: [clmte-offset]</p>';
-                    echo '<p>Shortcode clmte receipt: [clmte-receipt]</p>';
+
+                    ?>
+                    <h3>CLMTE Offsets</h3>
+
+                    <div class="offset-price-box">
+                        <p>Offset Price: <?php echo (($has_correct_credentials) ? get_option('clmte_offset_price') : 'Not set'); ?></p>
+                        <button id="update-offset-price">Update Price</button>
+                    </div>
+                    
+                    <h3>Shortcodes</h3>
+                    <p>CLMTE Cart Offset Box: [clmte-offset]</p>
+                    <p>CLMTE Receipt: [clmte-receipt]: [clmte-offset]</p>
+                    <?php
             }               
             
         }
@@ -117,6 +139,9 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
             $settings = $this->get_settings();
 
             WC_Admin_Settings::save_fields( $settings );
+
+            // Check if credentials are correct
+            clmte_check_credentials();
         }
 
     }

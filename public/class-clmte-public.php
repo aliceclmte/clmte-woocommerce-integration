@@ -57,9 +57,7 @@ class Clmte_Public {
 
 		add_action( 'wp_ajax_add_compensation_to_cart', 'add_compensation_to_cart');
 		add_action( 'wp_ajax_remove_compensation_from_cart', 'remove_compensation_from_cart');
-
 		
-
 	}
 
 	/**
@@ -124,10 +122,10 @@ class Clmte_Public {
 		foreach( $cart_obj->get_cart() as $key => $item ) {
 			if( $item['product_id'] == $compensation_id ) {
 				// Get product price
-				$compensation_price = get_compensation_price();
+				$offset_price = get_offset_price();
 				
 				// Update the price of compensation product
-				$item['data']->set_price( ( $compensation_price ) );
+				$item['data']->set_price( ( $offset_price ) );
 			}
 		}
 	}

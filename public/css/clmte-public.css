@@ -120,6 +120,10 @@
     margin: 0 0 3.706325903em 0;
 }
 
+#clmte-order .clmte-order-content #clmte-thank-you {
+  margin-top: 15px;
+}
+
 .clmte-order-content::before, .clmte-order-content::after {
     content: '';
     display: block;

@@ -19,13 +19,13 @@ $log_data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY time DESC" )
 
 ?>
 
-<h1>CLMTE Plugin Logs</h1>
+<h1><?php _e('CLMTE Plugin-loggar', 'clmte'); ?></h1>
 
 <table class="clmte-table">
     <tr>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Time</th>
+        <th><?php _e('Typ', 'clmte'); ?></th>
+        <th><?php _e('Beskrivning', 'clmte'); ?></th>
+        <th><?php _e('Tid', 'clmte'); ?></th>
     </tr>
     <?php foreach ($log_data as $log) { ?>
     <tr class="<?php echo $log->type; ?>">

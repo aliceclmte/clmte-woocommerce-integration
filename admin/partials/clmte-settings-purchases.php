@@ -27,19 +27,20 @@ $not_synced = sizeof($wpdb->get_results( "SELECT * FROM $table_name WHERE status
 
 <?php if ( $not_synced != 0 ) { // Not all purchases are synced ?>
 
-<p><?php echo ($not_synced == 1) ? ('1 offset') : ($not_synced . ' offsets') ?> not synced with the CLMTE servers.</p>
-<button id="clmte-sync-offsets">Manual Sync</button>
+<p><?php echo esc_html(($not_synced == 1) ? (__('1 kompensation', 'clmte')) : ($not_synced . __(' kompensationer', 'clmte'))); ?> <?php _e('ej synkroniserade med CLMTE’s servrar.', 'clmte'); ?></p>
+<p><i><?php _e('Obs: Högst 2 stycken kompensationer med statusen PENDING kommer att synkroniseras automatiskt vid varje nytt köp av klimatkompensationer.', 'clmte'); ?></i></p>
+<button id="clmte-sync-offsets">M<?php _e('Manuell Synkronisering', 'clmte'); ?></button>
 
 <?php } ?>
 
 <table class="clmte-table">
     <tr>
-        <th>Time</th>
-        <th>Amount</th>
-        <th>Status</th>
-        <th>Carbon Dioxide Offset</th>
-        <th>Tracking Id</th>
-        <th>Offset Id</th>
+        <th><?php _e('Tid', 'clmte'); ?></th>
+        <th><?php _e('Antal', 'clmte'); ?></th>
+        <th><?php _e('Status', 'clmte'); ?></th>
+        <th><?php _e('Kg koldioxid kompenserad', 'clmte'); ?></th>
+        <th><?php _e('Spårnings-id', 'clmte'); ?></th>
+        <th><?php _e('Kompensations-id', 'clmte'); ?></th>
     </tr>
     <?php foreach ($log_data as $log) { ?>
     <tr class="<?php echo $log->status; ?>">

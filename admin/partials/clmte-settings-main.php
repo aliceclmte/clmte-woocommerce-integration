@@ -1,59 +1,54 @@
 <?php
 
-$placement_types = array(
-    'cart' => __( 'In cart', 'clmte'),
-    'custom' => __( 'Custom', 'clmte'),
-);
-
 $settings = array(
         array(
-            'name' => __( 'General Configuration', 'clmte' ),
+            'name' => __( 'Allmän Konfiguration', 'clmte' ),
             'type' => 'title',
             'id'   => $prefix . 'general_config_settings'
         ),
         array(
             'id'        => $prefix . 'api_key',
-            'name'      => __( 'API Key', 'clmte' ), 
+            'name'      => __( 'API-Nyckel', 'clmte' ), 
             'type'      => 'text',
-            'desc_tip'  => __( ' Your organisation\'s API Key which can be found by creating an account and organisation at clmte.com', 'clmte')
+            'desc_tip'  => __( ' Din organisations API-nyckel, som kan fås genom att skapa ett konto och en organisation hos clmte.com', 'clmte')
         ),
         array(
             'id'        => $prefix . 'organisation_id',
-            'name'      => __( 'Organisation ID', 'clmte' ), 
+            'name'      => __( 'Organisations-ID', 'clmte' ), 
             'type'      => 'text',
-            'desc_tip'  => __( ' Your organisation\'s Organisation ID which can be found by creating an account and organisation at clmte.com', 'clmte')
+            'desc_tip'  => __( ' Din organisations Organisations-ID, som kan fås genom att skapa ett konto och en organisation hos clmte.com', 'clmte')
         ),
         array(
             'id'        => $prefix . 'production_mode',
-            'name'      => __( 'Production Mode?', 'clmte' ),
+            'name'      => __( 'Produktionsläge?', 'clmte' ),
             'type'      => 'checkbox',
-            'desc'  => __( 'Check this box to start using the plugin with real API calls.', 'clmte' ),
+            'desc'  => __( 'Klicka i rutan för att börja använda pluginet med riktiga API-anrop.', 'clmte' ),
             'default'   => 'no'
         ),
         array(
             'id'        => $prefix . 'reload_cart_on_update',
-            'name'      => __( 'Reload cart?', 'clmte' ),
+            'name'      => __( 'Ladda om kundvagnen?', 'clmte' ),
             'type'      => 'checkbox',
-            'desc'  => __( 'Check this box if there is trouble adding the offset to cart.', 'clmte' ),
+            'desc'  => __( 'Klicka i rutan om det uppstår svårigheter med att lägga till klimatkompensationen i varukorgen.', 'clmte' ),
             'default'   => 'no'
         ),  
         array(
             'id'        => $prefix . 'custom_offset_placement',
-            'name'      => __( 'Custom Offset Placement?', 'clmte' ),
+            'name'      => __( 'Egen placering av kompensations-ruta?', 'clmte' ),
             'type'      => 'checkbox',
-            'desc'  => __( 'Check this box to use custom placement for the carbon offseting box with the shortcode below.', 'clmte' ),
+            'desc'  => __( 'Klicka i rutan för att använda egen placering för klimatkompensations-rutan med en shortcode nedan.', 'clmte' ),
             'default'   => 'no'
         ),
         array(
             'id'        => $prefix . 'custom_receipt_placement',
-            'name'      => __( 'Custom Receipt Placement?', 'clmte' ),
+            'name'      => __( 'Egen placering av kompensations-kvitto?', 'clmte' ),
             'type'      => 'checkbox',
-            'desc'  => __( 'Check this box to use custom placement for the carbon offset receipt, displayed after a completed payment with the shortcode below.', 'clmte' ),
+            'desc'  => __( 'Klicka I rutan för att använda egen placering för kompensations-kvittot med en shortcode nedan.', 'clmte' ),
             'default'   => 'no'
         ),
         array(
             'id'        => '',
-            'name'      => __( 'General Configuration', 'clmte' ),
+            'name'      => __( 'Allmän Konfiguration', 'clmte' ),
             'type'      => 'sectionend',
             'desc'      => '',
             'id'        => $prefix . 'general_config_settings'

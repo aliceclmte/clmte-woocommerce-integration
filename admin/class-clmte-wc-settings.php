@@ -46,9 +46,9 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
          */
         public function get_sections() {
             $sections = array(
-                '' => __( 'Settings', 'clmte' ),
-                'log' => __( 'Log', 'clmte' ),
-                'purchases' => __( 'Purchases', 'clmte' )
+                '' => __( 'Inställningar', 'clmte' ),
+                'log' => __( 'Loggar', 'clmte' ),
+                'purchases' => __( 'Köp', 'clmte' )
             );
 
             return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
@@ -106,9 +106,9 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
 
                     // If not, display error warning
                     if ($has_correct_credentials == false) {
-                        echo '<div class="notice notice-warning is-dismissible">
-                                <p>The API key and Organisation ID seems to be missing or be incorrect.</p>
-                            </div>';
+                        echo '<div class="notice notice-warning is-dismissible">';
+                        echo ('<p>' . __('API-nyckeln och/eller Organisations-ID:et verkar saknas eller vara felaktiga.', 'clmte') . '</p>');
+                        echo '</div>';
                     } 
 
                     $settings = $this->get_settings();
@@ -117,13 +117,13 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     clmte_align_offset_price();
 
                     ?>
-                    <h3>CLMTE Offsets</h3>
-                    <p><b>Offset Price:</b> <?php echo (($has_correct_credentials) ? get_option('clmte_offset_price') . ' ' . get_woocommerce_currency() : 'Price not available.'); ?></p>
-                    <button id="update-offset-price">Update Price</button>
+                    <h3><?php _e('CLMTE Klimatkompensationer', 'clmte'); ?></h3>
+                    <p><b><?php _e('Kompensationens Kostnad:', 'clmte'); ?></b> <?php echo esc_html(($has_correct_credentials) ? get_option('clmte_offset_price') . ' ' . get_woocommerce_currency() : __('Priset ej tillgängligt', 'clmte')); ?></p>
+                    <button id="update-offset-price"><?php _e('Uppdatera Pris', 'clmte'); ?></button>
              
-                    <h3>Shortcodes</h3>
-                    <p><b>CLMTE Cart Offset Box:</b> [clmte-offset]</p>
-                    <p><b>CLMTE Receipt: [clmte-receipt]:</b> [clmte-offset]</p>
+                    <h3><?php _e('Shortcodes', 'clmte'); ?></h3>
+                    <p><b><?php _e('CLMTE Klimatkompensations-ruta:', 'clmte'); ?></b> [clmte-offset]</p>
+                    <p><b><?php _e('CLMTE Kvitto:', 'clmte'); ?></b> [clmte-receipt]</p>
                     <?php
             }               
             

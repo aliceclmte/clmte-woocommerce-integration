@@ -3,7 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://github.com/FluffyKod
+ * @link       https://github.com/aliceclmte/clmte-woocommerce-integration
  * @since      1.0.0
  *
  * @package    Clmte

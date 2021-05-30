@@ -1,6 +1,6 @@
 === CLMTE - WooCommerce Integration  ===
 Contributors: (this should be a list of wordpress.org userid's)
-Donate link: https://github.com/FluffyKod
+Donate link: https://github.com/aliceclmte/clmte-woocommerce-integration
 Tags: climate, ecommerce, shop
 Requires at least: 3.0.1
 Tested up to: 3.4

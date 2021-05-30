@@ -390,7 +390,7 @@ function get_offset_price( $new_request = FALSE ) {
         } 
         
         // Update offset price
-        update_option('clmte_offset_price', $offset_price);
+        update_option( 'clmte_offset_price', $offset_price );
     }
 
     // Return the offset price
@@ -441,6 +441,7 @@ function clmte_sync_offsets( $limit = FALSE ) {
         // Check for no errors
         if ( !array_key_exists('clmte-offset-error', $clmte_purchase) ) {
 
+            // Update the row for the clmte purchase
             $wpdb->update(
                 $table_name, 
                 array(
@@ -454,13 +455,12 @@ function clmte_sync_offsets( $limit = FALSE ) {
                 )
             );
 
+            // Keep track of offsets synced
             $num_synced++;
 
         }
 
     }
-
-    // $body = clmte_purchase_offset( $url, $api_key, $product_quantity );
 }
 
 /**********************************

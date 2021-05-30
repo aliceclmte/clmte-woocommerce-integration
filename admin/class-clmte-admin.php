@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -43,17 +42,17 @@ class Clmte_Admin {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @since 1.0.0
+	 * @param string $plugin_name  The name of this plugin.
+	 * @param string $version      The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
-		add_action( 'wp_ajax_clmte_update_offset_price', 'clmte_update_offset_price');
-		add_action( 'wp_ajax_clmte_trigger_sync_offsets', 'clmte_trigger_sync_offsets');
+		add_action( 'wp_ajax_clmte_update_offset_price', 'clmte_update_offset_price' );
+		add_action( 'wp_ajax_clmte_trigger_sync_offsets', 'clmte_trigger_sync_offsets' );
 
 	}
 
@@ -100,9 +99,13 @@ class Clmte_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/clmte-admin.js', array( 'jquery' ), $this->version, false );
-		wp_localize_script( $this->plugin_name, 'clmte', array(
-			'ajax_url' => admin_url('admin-ajax.php'),
-		));
+		wp_localize_script(
+			$this->plugin_name,
+			'clmte',
+			array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+			)
+		);
 	}
 
 	/**
@@ -111,7 +114,7 @@ class Clmte_Admin {
 	 * @since    1.0.0
 	 */
 	public function clmte_trigger_sync_offsets() {
-		// Sync all offsets
+		// Sync all offsets.
 		clmte_sync_offsets();
 
 		wp_die();
@@ -123,8 +126,8 @@ class Clmte_Admin {
 	 * @since    1.0.0
 	 */
 	public function clmte_update_offset_price() {
-		// Get new offset price
-		get_offset_price(TRUE);
+		// Get new offset price.
+		get_offset_price( true );
 
 		wp_die();
 	}
@@ -133,6 +136,7 @@ class Clmte_Admin {
 	 * Load dependencies for additional WooCommerce settings
 	 *
 	 * @since    1.0.0
+	 * @param array $settings An array with all settings.
 	 * @access   private
 	 */
 	public function clmte_add_settings( $settings ) {

@@ -127,7 +127,7 @@ class Clmte_Public {
 		$compensation_id = get_option( 'clmte_compensation_product_id' );
 
 		foreach ( $cart_obj->get_cart() as $key => $item ) {
-			if ( $item['product_id'] === $compensation_id ) {
+			if ( $item['product_id'] == $compensation_id ) {
 				// Get product price.
 				$offset_price = get_offset_price();
 
@@ -157,7 +157,7 @@ class Clmte_Public {
 	public function remove_compensation_from_cart() {
 		// Remove all compensation products.
 		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-			if ( get_option( 'clmte_compensation_product_id' ) === $cart_item['product_id'] ) {
+			if ( get_option( 'clmte_compensation_product_id' ) == $cart_item['product_id'] ) {
 				WC()->cart->remove_cart_item( $cart_item_key );
 			}
 		}
@@ -173,7 +173,7 @@ class Clmte_Public {
 	public function clmte_add_offset_box() {
 
 		// If custom placement is no, automatically add clmte offset box in cart.
-		if ( get_option( 'clmte_custom_offset_placement' ) === false || get_option( 'clmte_custom_offset_placement' ) === 'no' ) {
+		if ( get_option( 'clmte_custom_offset_placement' ) == false || get_option( 'clmte_custom_offset_placement' ) == 'no' ) {
 
 			// Create the clmte offset box.
 			clmte_create_offset_box();
@@ -189,7 +189,7 @@ class Clmte_Public {
 	public function clmte_thank_you() {
 
 		// If custom placement is no, automatically add clmte receipt in the order details section.
-		if ( get_option( 'clmte_custom_receipt_placement' ) === false || get_option( 'clmte_custom_receipt_placement' ) === 'no' ) {
+		if ( get_option( 'clmte_custom_receipt_placement' ) == false || get_option( 'clmte_custom_receipt_placement' ) == 'no' ) {
 
 			// Create CLMTE offset receipt with QR-code.
 			clmte_create_receipt();
@@ -232,7 +232,7 @@ class Clmte_Public {
 					$product_id = $product->get_id();
 
 					// Check if product is carbon offset.
-					if ( get_option( 'clmte_compensation_product_id' ) === $product_id ) {
+					if ( get_option( 'clmte_compensation_product_id' ) == $product_id ) {
 
 						// Get the product quantity.
 						$product_quantity = $item->get_quantity();

@@ -70,7 +70,7 @@ function clmte_missing_wc_notice() {
 function clmte_create_offset_box() {
 
     // Check if API key and organisation ID are set and correct.
-    if ( get_option( 'clmte_has_correct_credentials' ) === false ) {
+    if ( get_option( 'clmte_has_correct_credentials' ) == false ) {
         return;
     }
 
@@ -169,7 +169,7 @@ function clmte_check_credentials() {
     }
 
     // API key and Org ID set, attempt to get and set offset price.
-    if ( get_offset_price( true ) === null ) {
+    if ( get_offset_price( true ) == null ) {
         update_option( $option_name, false );
         return;
     }
@@ -314,7 +314,7 @@ function get_clmte_url( $production, $sandbox ) {
 
     $in_production = get_option( 'clmte_production_mode' );
 
-    if ( 'yes' === $in_production ) {
+    if ( 'yes' == $in_production ) {
         // Use real api.
         return $production;
     } else {
@@ -357,12 +357,12 @@ function get_offset_price( $new_request = false ) {
     // Check for saved price of option.
     $offset_price = get_option( 'clmte_offset_price', null );
 
-    if ( '0,00' === $offset_price || '0.00' === $offset_price ) {
+    if ( '0,00' == $offset_price || '0.00' == $offset_price ) {
         $offset_price = null;
     }
 
     // Make api request if no previously saved price.
-    if ( null === $offset_price || $new_request ) {
+    if ( null == $offset_price || $new_request ) {
 
         // Get API key and organisation id.
         $api_key         = get_option( 'clmte_api_key' );
@@ -384,7 +384,7 @@ function get_offset_price( $new_request = false ) {
         // Format compensation price to two decimals.
         $offset_price = number_format( (float) $offset_price, wc_get_price_decimals(), wc_get_price_decimal_separator(), '' );
 
-        if ( '0,00' === $offset_price || '0.00' === $offset_price ) {
+        if ( '0,00' == $offset_price || '0.00' == $offset_price ) {
             $offset_price = null;
         }
         

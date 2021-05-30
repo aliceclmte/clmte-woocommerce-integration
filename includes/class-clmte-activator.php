@@ -35,7 +35,7 @@ class Clmte_Activator {
 
 		// Create compensation product if not already added.
 		$product_id = get_option( 'clmte_compensation_product_id' );
-		if ( ! $product_id || '' === $product_id ) {
+		if ( ! $product_id || '' == $product_id ) {
 			// Add compensation product on plugin activation.
 			$post_id = wp_insert_post(
 				array(
@@ -58,7 +58,7 @@ class Clmte_Activator {
 		$post_id = get_option( 'clmte_compensation_product_id' );
 
 		// Add img to product.
-		if ( ! get_option( 'clmte_img_id' ) || '' === get_option( 'clmte_img_id' ) ) {
+		if ( ! get_option( 'clmte_img_id' ) || '' == get_option( 'clmte_img_id' ) ) {
 
 			// Upload img to media library.
 			$desc = 'Carbon Offset powered by CLMTE';

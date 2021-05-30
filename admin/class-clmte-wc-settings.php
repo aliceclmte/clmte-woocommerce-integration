@@ -107,7 +107,7 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     $has_correct_credentials = get_option( 'clmte_has_correct_credentials', false );
 
                     // If not, display error warning.
-                    if ( false === $has_correct_credentials ) {
+                    if ( false == $has_correct_credentials ) {
                         echo '<div class="notice notice-warning is-dismissible">';
                         echo ( '<p>' . esc_html__( 'API-nyckeln och/eller Organisations-ID:et verkar saknas eller vara felaktiga.', 'clmte' ) . '</p>' );
                         echo '</div>';

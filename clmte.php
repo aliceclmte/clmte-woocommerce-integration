@@ -117,7 +117,7 @@ function clmte_create_receipt() {
     
         <div class="clmte-order-content">
 
-            <p><?php esc_html_e( 'Tack för du klimatkompenserade ditt köp med CLMTE!', 'clmte' ); ?></p>
+            <p id="clmte-thank-you"><?php esc_html_e( 'Tack för du klimatkompenserade ditt köp med CLMTE!', 'clmte' ); ?></p>
 
             <?php
             // Display carbon dioxide.

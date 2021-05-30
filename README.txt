@@ -1,5 +1,5 @@
 === CLMTE - WooCommerce Integration  ===
-Contributors: (this should be a list of wordpress.org userid's)
+Contributors: aliceclmte
 Donate link: https://github.com/aliceclmte/clmte-woocommerce-integration
 Tags: climate, ecommerce, shop
 Requires at least: 3.0.1
@@ -12,7 +12,7 @@ CLMTE WooCommerce integration easily allows your customers to carbon offset thei
 
 == Description ==
 
-CLMTE WooCommerce adds a checkbox to the WooCommerce checkout page which allows your customers to carbon offset their purchases. By linking your organisation with our plugin, CLMTE provides a solution for carbon offsetting your buissness.
+CLMTE WooCommerce Integration adds a checkbox to the WooCommerce checkout page which allows your customers to carbon offset their purchases. By linking your organisation with our plugin, CLMTE provides a solution for carbon offsetting your buissness.
 
 == Required Plugins ==
 
@@ -33,17 +33,20 @@ First, go to [CLMTE.com](https://clmte.com/ "CLMTE.com website") and create or l
 
 = Where do I fill in my Organisation Details? =
 
-Under WooCommerce->Settings, there is a tab called CLMTE. Click on it and you should see two fields named "Api Key" and "Organisation ID".
-
-== Screenshots ==
-
-Screenshots to be added.
+Under WooCommerce->Settings, there is a tab called CLMTE. Click on it and you should see two fields named "API Key" and "Organisation ID".
 
 == Changelog ==
+
+= 1.1 =
+* Purchases history view
+* Offset syncing capability
+* Translation capabilities
+* Security fixes
 
 = 1.0 =
 * Initial Release
 
 == Upgrade Notice ==
 
-No upgrades yet.
+= 1.1 =
+This version fixes a more robust communication between your site and the CLMTE servers.

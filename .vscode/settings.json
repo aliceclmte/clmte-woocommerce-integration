@@ -1,7 +1,0 @@
-{
-  "phpcs.enable": true,
-  "phpcs.executablePath": "./vendor/bin/phpcs",
-  "phpcs.standard": "WordPress",
-  "php-cs-fixer.executablePat": "php-cs-fixer.bat",
-  "php-cs-fixer.executablePathWindows": "php-cs-fixer.bat"
-}

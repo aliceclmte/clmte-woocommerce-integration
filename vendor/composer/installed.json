@@ -190,7 +190,6 @@
     "dev": true,
     "dev-package-names": [
         "dealerdirect/phpcodesniffer-composer-installer",
-        "squizlabs/php_codesniffer",
         "wp-coding-standards/wpcs"
     ]
 }

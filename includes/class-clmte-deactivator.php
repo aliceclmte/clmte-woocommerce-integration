@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired during plugin deactivation
  *
@@ -31,9 +30,9 @@ class Clmte_Deactivator {
 	 */
 	public static function deactivate() {
 
-		// Add log
+		// Add log.
 		clmte_create_log( 'Plugin deactivated', 'activity' );
-	
+
 	}
 
 }

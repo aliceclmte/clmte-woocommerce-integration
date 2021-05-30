@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -157,20 +156,32 @@ class Clmte {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-		// Add plugin settings to WooCommerce
+		// Add plugin settings to WooCommerce.
 		$this->loader->add_filter( 'woocommerce_get_settings_pages', $plugin_admin, 'clmte_add_settings' );
 
-		// Update offset price
-		$this->loader->add_action( 'wp_ajax_clmte_update_offset_price', 
-		$plugin_admin, 'clmte_update_offset_price' );
-		$this->loader->add_action( 'wp_ajax_nopriv_clmte_update_offset_price', 
-		$plugin_admin, 'clmte_update_offset_price' );
+		// Update offset price.
+		$this->loader->add_action(
+			'wp_ajax_clmte_update_offset_price',
+			$plugin_admin,
+			'clmte_update_offset_price',
+		);
+		$this->loader->add_action(
+			'wp_ajax_nopriv_clmte_update_offset_price',
+			$plugin_admin,
+			'clmte_update_offset_price'
+		);
 
-		// Sync offsets
-		$this->loader->add_action( 'wp_ajax_clmte_trigger_sync_offsets', 
-		$plugin_admin, 'clmte_trigger_sync_offsets' );
-		$this->loader->add_action( 'wp_ajax_nopriv_clmte_trigger_sync_offsets', 
-		$plugin_admin, 'clmte_trigger_sync_offsets' );
+		// Sync offsets.
+		$this->loader->add_action(
+			'wp_ajax_clmte_trigger_sync_offsets',
+			$plugin_admin,
+			'clmte_trigger_sync_offsets'
+		);
+		$this->loader->add_action(
+			'wp_ajax_nopriv_clmte_trigger_sync_offsets',
+			$plugin_admin,
+			'clmte_trigger_sync_offsets'
+		);
 
 	}
 
@@ -188,33 +199,63 @@ class Clmte {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		// Add checkbox with climte compensation to checkout cart
+		// Add checkbox with climte compensation to checkout cart.
 		$this->loader->add_action( 'woocommerce_after_cart_table', $plugin_public, 'clmte_add_offset_box' );
 
-		// Add compensation to checkbox
-		$this->loader->add_action( 'wp_ajax_add_compensation_to_cart', 
-		$plugin_public, 'add_compensation_to_cart' );
-		$this->loader->add_action( 'wp_ajax_nopriv_add_compensation_to_cart', 
-		$plugin_public, 'add_compensation_to_cart' );
+		// Add compensation to checkbox.
+		$this->loader->add_action(
+			'wp_ajax_add_compensation_to_cart',
+			$plugin_public,
+			'add_compensation_to_cart'
+		);
+		$this->loader->add_action(
+			'wp_ajax_nopriv_add_compensation_to_cart',
+			$plugin_public,
+			'add_compensation_to_cart'
+		);
 
-		// Change price
-		$this->loader->add_action('woocommerce_before_calculate_totals', $plugin_public, 'before_calculate_totals');
+		// Change price.
+		$this->loader->add_action(
+			'woocommerce_before_calculate_totals',
+			$plugin_public,
+			'before_calculate_totals'
+		);
 
-		// Remove compensation from checkout
-		$this->loader->add_action( 'wp_ajax_remove_compensation_from_cart', 
-		$plugin_public, 'remove_compensation_from_cart' );
-		$this->loader->add_action( 'wp_ajax_nopriv_remove_compensation_from_cart', 
-		$plugin_public, 'remove_compensation_from_cart' );
-		
-		// Send request to CLMTE server if a carbon offset has been purchased
-        $this->loader->add_action('woocommerce_payment_complete', $plugin_public, 'clmte_purchase_carbon_offset');
+		// Remove compensation from checkout.
+		$this->loader->add_action(
+			'wp_ajax_remove_compensation_from_cart',
+			$plugin_public,
+			'remove_compensation_from_cart'
+		);
+		$this->loader->add_action(
+			'wp_ajax_nopriv_remove_compensation_from_cart',
+			$plugin_public,
+			'remove_compensation_from_cart'
+		);
 
-        // Display the clmte receipt in order details section
-        $this->loader->add_action('woocommerce_thankyou', $plugin_public, 'clmte_thank_you');
+		// Send request to CLMTE server if a carbon offset has been purchased.
+		$this->loader->add_action(
+			'woocommerce_payment_complete',
+			$plugin_public,
+			'clmte_purchase_carbon_offset'
+		);
 
-        // Custom shortcodes
-		add_shortcode('clmte-offset', 'clmte_create_offset_box');
-        add_shortcode('clmte-receipt', 'clmte_create_receipt');
+		// Display the clmte receipt in order details section.
+		$this->loader->add_action(
+			'woocommerce_thankyou',
+			$plugin_public,
+			'clmte_thank_you'
+		);
+
+		// Custom shortcodes.
+		add_shortcode(
+			'clmte-offset',
+			'clmte_create_offset_box'
+		);
+		add_shortcode(
+			'clmte-receipt',
+			'clmte_create_receipt'
+		);
 
 	}
 

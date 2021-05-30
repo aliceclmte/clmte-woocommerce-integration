@@ -19,11 +19,13 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
      * Settings class
      *
      * @since 1.0.0
+     * 
      */
     class Clmte_WC_Settings extends WC_Settings_Page {
 
         /**
          * Constructor
+         * 
          * @since  1.0
          */
         public function __construct() {
@@ -31,7 +33,7 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
             $this->id    = 'clmte';
             $this->label = __( 'CLMTE', 'clmte' );
 
-            // Define all hooks instead of inheriting from parent.               
+            // Define all hooks instead of inheriting from parent.
             add_filter( 'woocommerce_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
             add_action( 'woocommerce_sections_' . $this->id, array( $this, 'output_sections' ) );
             add_action( 'woocommerce_settings_' . $this->id, array( $this, 'output' ) );
@@ -79,9 +81,9 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     break;
                 default:
                     include 'partials/clmte-settings-main.php';
-            }   
+            } 
 
-            return apply_filters( 'woocommerce_get_settings_' . $this->id, $settings, $current_section );                   
+            return apply_filters( 'woocommerce_get_settings_' . $this->id, $settings, $current_section );
         }
 
         /**
@@ -90,7 +92,7 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
         public function output() {
             global $current_section;
 
-            switch ($current_section) {
+            switch ( $current_section ) {
                 case 'usage':
                     include 'partials/clmte-settings-usage.php';
                     break;
@@ -101,16 +103,15 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     include 'partials/clmte-settings-purchases.php';
                     break;
                 default:
+                    // Check if API key and Organisation ID are correct.
+                    $has_correct_credentials = get_option( 'clmte_has_correct_credentials', false );
 
-                    // Check if API key and Organisation ID are correct
-                    $has_correct_credentials = get_option('clmte_has_correct_credentials', false);
-
-                    // If not, display error warning
-                    if ($has_correct_credentials == false) {
+                    // If not, display error warning.
+                    if ( false === $has_correct_credentials ) {
                         echo '<div class="notice notice-warning is-dismissible">';
-                        echo ('<p>' . __('API-nyckeln och/eller Organisations-ID:et verkar saknas eller vara felaktiga.', 'clmte') . '</p>');
+                        echo ( '<p>' . esc_html__( 'API-nyckeln och/eller Organisations-ID:et verkar saknas eller vara felaktiga.', 'clmte' ) . '</p>' );
                         echo '</div>';
-                    } 
+                    }
 
                     $settings = $this->get_settings();
                     WC_Admin_Settings::output_fields( $settings );
@@ -118,16 +119,15 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     clmte_align_offset_price();
 
                     ?>
-                    <h3><?php _e('CLMTE Klimatkompensationer', 'clmte'); ?></h3>
-                    <p><b><?php _e('Kompensationens Kostnad:', 'clmte'); ?></b> <?php echo esc_html(($has_correct_credentials) ? get_option('clmte_offset_price') . ' ' . get_woocommerce_currency() : __('Priset ej tillgängligt', 'clmte')); ?></p>
-                    <button id="update-offset-price"><?php _e('Uppdatera Pris', 'clmte'); ?></button>
-             
-                    <h3><?php _e('Shortcodes', 'clmte'); ?></h3>
-                    <p><b><?php _e('CLMTE Klimatkompensations-ruta:', 'clmte'); ?></b> [clmte-offset]</p>
-                    <p><b><?php _e('CLMTE Kvitto:', 'clmte'); ?></b> [clmte-receipt]</p>
+                    <h3><?php esc_html_e( 'CLMTE Klimatkompensationer', 'clmte' ); ?></h3>
+                    <p><b><?php esc_html_e( 'Kompensationens Kostnad:', 'clmte' ); ?></b> <?php echo esc_html( ( $has_correct_credentials ) ? get_option( 'clmte_offset_price' ) . ' ' . get_woocommerce_currency() : __( 'Priset ej tillgängligt', 'clmte' ) ); ?></p>
+                    <button id="update-offset-price"><?php esc_html_e( 'Uppdatera Pris', 'clmte') ; ?></button>
+
+                    <h3><?php esc_html_e( 'Shortcodes', 'clmte' ); ?></h3>
+                    <p><b><?php esc_html_e( 'CLMTE Klimatkompensations-ruta:', 'clmte' ); ?></b> [clmte-offset]</p>
+                    <p><b><?php esc_html_e( 'CLMTE Kvitto:', 'clmte' ); ?></b> [clmte-receipt]</p>
                     <?php
-            }               
-            
+            }
         }
 
         /**
@@ -135,17 +135,15 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
          *
          * @since 1.0
          */
-        public function save() {                    
+        public function save() {
             $settings = $this->get_settings();
 
             WC_Admin_Settings::save_fields( $settings );
 
-            // Check if credentials are correct
+            // Check if credentials are correct.
             clmte_check_credentials();
         }
-
     }
-
 }
 
 

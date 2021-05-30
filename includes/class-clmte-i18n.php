@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Define the internationalization functionality
  *
@@ -26,7 +25,6 @@
  */
 class Clmte_i18n {
 
-
 	/**
 	 * Load the plugin text domain for translation.
 	 *
@@ -41,7 +39,5 @@ class Clmte_i18n {
 		);
 
 	}
-
-
 
 }

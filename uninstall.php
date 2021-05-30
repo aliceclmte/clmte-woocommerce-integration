@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired when the plugin is uninstalled.
  *
@@ -17,7 +16,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-// Delete multiple options
+// Delete multiple options.
 $options = array(
 	'clmte_compensation_product_id',
 	'clmte_offset_price',
@@ -29,35 +28,37 @@ $options = array(
 	'clmte_custom_offset_placement',
 	'clmte_custom_receipt_placement',
 	'clmte_has_correct_credentials',
-	'clmte-purchase'
+	'clmte-purchase',
 );
 
 foreach ( $options as $option ) {
-	if ( get_option( $option ) ) delete_option( $option );
+	if ( get_option( $option ) ) {
+		delete_option( $option );
+	}
 }
 
-// Remove compensation product
+// Remove compensation product.
 $product_id = get_option( 'clmte_compensation_product_id' );
-if ( $product_id && $product_id != '' ) {
+if ( $product_id && '' !== $product_id ) {
 	wp_delete_post( $product_id );
 }
 
-// Remove img
+// Remove img.
 $img_id = get_option( 'clmte_img_id' );
-if ( $img_id && $img_id != '' ) {
+if ( $img_id && '' !== $img_id ) {
 	wp_delete_attachment( $img_id );
 }
 
-// REMOVE TABLES
+// REMOVE TABLES.
 global $wpdb;
 
-// Remove log table
+// Remove log table.
 $table_name = $wpdb->prefix . 'clmte_log';
 
 $sql = "DROP TABLE IF EXISTS $table_name";
 $wpdb->query( $sql );
 
-// Remove purchases table
+// Remove purchases table.
 $table_name = $wpdb->prefix . 'clmte_offsets_purchased';
 
 $sql = "DROP TABLE IF EXISTS $table_name";

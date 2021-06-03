@@ -18,7 +18,6 @@
  * Description:       Easily allow your customers to carbon offset their purchases in your WooCommerce shop. Read more at clmte.com.
  * Version:           1.0.0
  * Author:            CLMTE
- * Author URI:        https://github.com/aliceheiman/clmte-ecommerce-integration
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       clmte

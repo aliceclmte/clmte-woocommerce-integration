@@ -151,10 +151,6 @@ msgstr "For more information, visit "
 msgid "https://github.com/aliceheiman/clmte-ecommerce-integration"
 msgstr "https://github.com/aliceheiman/clmte-ecommerce-integration"
 
-#. Author URI of the plugin
-msgid "https://github.com/FluffyKod"
-msgstr ""
-
 #: admin/class-clmte-wc-settings.php:49
 msgid "Inställningar"
 msgstr ""

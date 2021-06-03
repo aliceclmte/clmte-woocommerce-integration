@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: CLMTE - WooCommerce Integration\n"
+"Project-Id-Version: CLMTE - Ecommerce Integration\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-29 18:29+0000\n"
 "PO-Revision-Date: 2021-05-29 18:29+0000\n"
@@ -63,7 +63,7 @@ msgid "CLMTE"
 msgstr ""
 
 #. Name of the plugin
-msgid "CLMTE - WooCommerce Integration"
+msgid "CLMTE - Ecommerce Integration"
 msgstr ""
 
 #: admin/class-clmte-wc-settings.php:120
@@ -135,11 +135,11 @@ msgid "För mer information, besök"
 msgstr ""
 
 #. URI of the plugin
-msgid "https://github.com/aliceclmte/clmte-woocommerce-integration"
+msgid "https://github.com/aliceheiman/clmte-ecommerce-integration"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://github.com/aliceclmte/clmte-woocommerce-integration"
+msgid "https://github.com/aliceheiman/clmte-ecommerce-integration"
 msgstr ""
 
 #: admin/class-clmte-wc-settings.php:49

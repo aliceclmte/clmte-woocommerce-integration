@@ -5,7 +5,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       https://github.com/aliceclmte/clmte-woocommerce-integration
+ * @link       https://github.com/aliceheiman/clmte-ecommerce-integration
  * @since      1.0.0
  *
  * @package    Clmte

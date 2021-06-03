@@ -2,7 +2,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       https://github.com/aliceclmte/clmte-woocommerce-integration
+ * @link       https://github.com/aliceheiman/clmte-ecommerce-integration
  * @since      1.0.0
  *
  * @package    Clmte

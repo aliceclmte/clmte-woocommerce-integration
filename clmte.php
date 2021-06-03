@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://github.com/aliceclmte/clmte-woocommerce-integration
+ * @link              https://github.com/aliceheiman/clmte-ecommerce-integration
  * @since             1.0.0
  * @package           Clmte
  *
  * @wordpress-plugin
- * Plugin Name:       CLMTE - WooCommerce Integration
- * Plugin URI:        https://github.com/aliceclmte/clmte-woocommerce-integration
+ * Plugin Name:       CLMTE - Ecommerce Integration
+ * Plugin URI:        https://github.com/aliceheiman/clmte-ecommerce-integration
  * Description:       Easily allow your customers to carbon offset their purchases in your WooCommerce shop. Read more at clmte.com.
  * Version:           1.0.0
  * Author:            CLMTE
- * Author URI:        https://github.com/aliceclmte/clmte-woocommerce-integration
+ * Author URI:        https://github.com/aliceheiman/clmte-ecommerce-integration
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       clmte

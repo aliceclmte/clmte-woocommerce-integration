@@ -1,6 +1,6 @@
-=== CLMTE - WooCommerce Integration  ===
+=== CLMTE - Ecommerce Integration  ===
 Contributors: aliceclmte
-Donate link: https://github.com/aliceclmte/clmte-woocommerce-integration
+Donate link: https://github.com/aliceheiman/clmte-ecommerce-integration
 Tags: climate, ecommerce, shop
 Requires at least: 3.0.1
 Tested up to: 3.4
@@ -8,11 +8,11 @@ Stable tag: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-CLMTE WooCommerce integration easily allows your customers to carbon offset their purchases in your WooCommerce shop. Read more at clmte.com.
+CLMTE Ecommerce integration easily allows your customers to carbon offset their purchases in your WooCommerce shop. Read more at clmte.com.
 
 == Description ==
 
-CLMTE WooCommerce Integration adds a checkbox to the WooCommerce checkout page which allows your customers to carbon offset their purchases. By linking your organisation with our plugin, CLMTE provides a solution for carbon offsetting your buissness.
+CLMTE Ecommerce Integration adds a checkbox to the WooCommerce checkout page which allows your customers to carbon offset their purchases. By linking your organisation with our plugin, CLMTE provides a solution for carbon offsetting your buissness.
 
 == Required Plugins ==
 

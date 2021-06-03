@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://github.com/aliceclmte/clmte-woocommerce-integration
+ * @link              https://github.com/aliceheiman/clmte-ecommerce-integration
  * @since             1.0.0
  * @package           Clmte
  *
  * @wordpress-plugin
- * Plugin Name:       CLMTE - WooCommerce Integration
- * Plugin URI:        https://github.com/aliceclmte/clmte-woocommerce-integration
+ * Plugin Name:       CLMTE - Ecommerce Integration
+ * Plugin URI:        https://github.com/aliceheiman/clmte-ecommerce-integration
  * Description:       Easily allow your customers to carbon offset their purchases in your WooCommerce shop. Read more at clmte.com.
  * Version:           1.0.0
  * Author:            CLMTE
- * Author URI:        https://github.com/aliceclmte/clmte-woocommerce-integration
+ * Author URI:        https://github.com/aliceheiman/clmte-ecommerce-integration
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       clmte
@@ -125,23 +125,6 @@ function clmte_create_receipt() {
             ?>
             <p><span><?php echo esc_html( $clmte_purchase['clmte-offsets-carbon'] ); ?><?php esc_html_e( 'kg koldioxid', 'clmte' ); ?></span> <?php esc_html_e( 'kommer att klimatkompenseras tack vare din insats.', 'clmte' ); ?></p>
             <?php } // End isset clmte carbon dioxide. ?>
-
-            <?php
-            // Display QR code and thank you message.
-            if ( array_key_exists( 'clmte-tracking-url', $clmte_purchase ) ) {
-            ?>
-
-            <p class="clmte-order-title"><b><?php esc_html_e( 'CLMTE Klimatspårning', 'clmte' ); ?></b></p>
-
-            <div id="clmte-qr-code">
-                <p><?php esc_html_e( 'Skanna QR-koden nedan eller besök', 'clmte' ); ?> <a rel="nofollow" target="_blank" href="<?php echo esc_url( $clmte_purchase['clmte-tracking-url'] ); ?>"><?php esc_html_e( 'din spårningssida', 'clmte' ); ?></a> <?php esc_html_e( 'för att följa din klimatkompensations påverkan i realtid och se vilket klimatinitiativ det bidrar till.', 'clmte' ); ?></p>
-
-                <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=<?php echo esc_url( $clmte_purchase['clmte-tracking-url'] ); ?>&choe=UTF-8" title="<?php esc_html_e( 'Skanna för att följa din klimatkompensation!', 'clmte' ); ?>" alt="<?php esc_html_e( 'QR-kod för CLMTE klimatkompensation', 'clmte' ); ?>"/>
-
-                <p><?php esc_html_e( 'För mer information, besök', 'clmte' ); ?> <a href="https://clmte.com/faq" target="_blank" rel="nofollow">clmte.com/faq</a>.</p>
-            </div>
-
-            <?php } // End isset clmte tracking url ?>
 
         </div>
         

@@ -194,54 +194,42 @@ function clmte_send_offset_request( $url, $api_key, $amount ) {
     // Save how many offsets pruchased.
 	$clmte_purchase = array();
 	$clmte_purchase['clmte-offsets-amount'] = $amount;
+
+    $parameters = array(
+        'amount'  => $amount,
+    );
+
+    $headers = array(
+        'Content-Type'  => 'application/json; charset=utf-8',
+        'Authorization' => 'APIKey ' . $api_key
+    );
+
+    $response = wp_remote_post($url, array(
+        'headers'     => $headers,
+        'body'        => json_encode($parameters),
+        'method'      => 'POST',
+        'data_format' => 'body',
+    ));
+
+    $data = json_decode( wp_remote_retrieve_body( $response ) );    
     
-    // Create request header.
-    $header   = array();
-    $header[] = 'Content-type: application/json';
-    $header[] = 'Authorization: APIKey ' . $api_key;
-
-    // Build the data query
-    $data        = array( 'amount' => $amount );
-    $data_string = json_encode( $data );
-
-    // Create curl request.
-    $ch = curl_init();
-    curl_setopt( $ch, CURLOPT_POST, 1 );
-    curl_setopt( $ch, CURLOPT_POSTFIELDS, $data_string );
-    curl_setopt( $ch, CURLOPT_HTTPHEADER, $header );
-    curl_setopt( $ch, CURLOPT_URL, $url );
-    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-
-    // Execute request and catch errors.
-    $response = curl_exec( $ch );
-    if ( curl_errno( $ch ) ) {
-        $error_msg = curl_error( $ch );
-
-        // Add log.
-        clmte_create_log( "CURL request failed: $error_msg", 'error' );
-    }
-    curl_close( $ch );
-    
-    // Get the response.
-    $body = json_decode( $response );
-
     // If errors, get the error message.
-    if ( array_key_exists( 'errors', $body ) && '' !== $body->errors[0]->message ) { // Purchase failed.
+    if ( array_key_exists( 'errors', $data ) && '' !== $data->errors[0]->message ) { // Purchase failed.
 
         // Get server error message.
-        $error_msg = $body->errors[0]->message;
+        $error_msg = $data->errors[0]->message;
 
         // Update option with error.
         $clmte_purchase['clmte-offset-error'] = $error_msg;
 
     } else { // Purchase succeeded.
 
-        $clmte_purchase['clmte-offset-id']      = $body->id;
-        $clmte_purchase['clmte-offsets-carbon'] = $body->carbonDioxide;
+        $clmte_purchase['clmte-offset-id']      = $data->id;
+        $clmte_purchase['clmte-offsets-carbon'] = $data->carbonDioxide;
 
         // If tracking ID exists, create a tracking url.
-        if ( array_key_exists( 'trackingID', $body ) ) {
-            $tracking_id = $body->trackingID;
+        if ( array_key_exists( 'trackingID', $data ) ) {
+            $tracking_id = $data->trackingID;
 
             // Compose a tracking url.
             $tracking_url = "https://clmte.com/track?trackingId=$tracking_id&amount=$product_quantity";
@@ -306,29 +294,6 @@ function get_clmte_url( $production, $sandbox ) {
 }
 
 /**
- * Makes a curl-request and returns an array with the json data
- *
- * @param string $url - the url to be fetched and parsed as json.
- * @return array
- */
-function make_json_request( $url ) {
-
-    // Initialize curl request.
-    $ch = curl_init( $url );
-    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-    curl_setopt( $ch, CURLOPT_HEADER, 0 );
-
-    // Execute curl request and save response.
-    $response = curl_exec( $ch );
-    curl_close( $ch );
-
-    // Save the json formatted data as an array.
-    $data = json_decode( $response );
-
-    return $data;
-}
-
-/**
  * Fetches the offset price from the tundra api
  *
  * @param bool $new_request - force a new api call to be made.
@@ -360,7 +325,9 @@ function get_offset_price( $new_request = false ) {
         $url = $api_url . $organisation_id .'/cost';
 
         // Get price of offset.
-        $data         = make_json_request( $url );
+        $body = wp_remote_retrieve_body( wp_remote_get( $url ) );
+        $data = json_decode( $body );
+
         $offset_price = $data->price;
 
         // Format compensation price to two decimals.

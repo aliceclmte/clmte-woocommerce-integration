@@ -3,8 +3,8 @@ Contributors: aliceclmte
 Donate link: https://github.com/aliceheiman/clmte-ecommerce-integration
 Tags: climate, ecommerce, shop
 Requires at least: 3.0.1
-Tested up to: 3.4
-Stable tag: 4.3
+Tested up to: 5.7.2
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,16 +37,7 @@ Under WooCommerce->Settings, there is a tab called CLMTE. Click on it and you sh
 
 == Changelog ==
 
-= 1.1 =
-* Purchases history view
-* Offset syncing capability
-* Translation capabilities
-* Security fixes
-
-= 1.0 =
+= 1.0.0 =
 * Initial Release
 
 == Upgrade Notice ==
-
-= 1.1 =
-This version fixes a more robust communication between your site and the CLMTE servers.

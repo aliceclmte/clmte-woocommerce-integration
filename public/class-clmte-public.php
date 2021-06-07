@@ -237,9 +237,6 @@ class Clmte_Public {
 						// Get the product quantity.
 						$product_quantity = $item->get_quantity();
 
-						// Add log.
-						clmte_create_log( "$product_quantity CLMTE carbon $offset_string purchased!", 'activity' );
-
 						// //////////////////////////////////
 						// Send request to CLMTE tundra API
 						// //////////////////////////////////
@@ -258,7 +255,7 @@ class Clmte_Public {
 						if ( array_key_exists( 'clmte-offset-error', $clmte_purchase ) ) { // Purchase failed.
 
 							// Add log.
-							clmte_create_log( "API POST request error: $error_msg", 'error' );
+							clmte_create_log( "API POST request error: " . $clmte_purchase['clmte-offset-error'], 'error' );
 
 							// Add purchase log.
 							clmte_create_purchase_log( $product_quantity );

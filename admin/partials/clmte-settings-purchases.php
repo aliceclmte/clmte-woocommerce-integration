@@ -26,9 +26,9 @@ $not_synced = count( $wpdb->get_results( "SELECT * FROM $table_name WHERE status
 
 <?php if ( 0 !== $not_synced ) { // Not all purchases are synced. ?>
 
-<p><?php echo esc_html( ( 1 == $not_synced ) ? ( __( '1 kompensation', 'clmte' ) ) : ( $not_synced . __( ' kompensationer', 'clmte' ) ) ); ?> <?php _esc_html_e( 'ej synkroniserade med CLMTE’s servrar.', 'clmte' ); ?></p>
-<p><i><?php _esc_html_e( 'Obs: Högst 2 stycken kompensationer med statusen PENDING kommer att synkroniseras automatiskt vid varje nytt köp av klimatkompensationer.', 'clmte' ); ?></i></p>
-<button id="clmte-sync-offsets"><?php _esc_html_e( 'Manuell Synkronisering', 'clmte' ); ?></button>
+<p><?php echo esc_html( ( 1 == $not_synced ) ? ( __( '1 kompensation', 'clmte' ) ) : ( $not_synced . __( ' kompensationer', 'clmte' ) ) ); ?> <?php esc_html_e( 'ej synkroniserade med CLMTE’s servrar.', 'clmte' ); ?></p>
+<p><i><?php esc_html_e( 'Obs: Högst 2 stycken kompensationer med statusen PENDING kommer att synkroniseras automatiskt vid varje nytt köp av klimatkompensationer.', 'clmte' ); ?></i></p>
+<button id="clmte-sync-offsets"><?php esc_html_e( 'Manuell Synkronisering', 'clmte' ); ?></button>
 
 <?php } ?>
 

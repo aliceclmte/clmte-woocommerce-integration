@@ -22,7 +22,7 @@ $not_synced = count( $wpdb->get_results( "SELECT * FROM $table_name WHERE status
 
 ?>
 
-<h1>Purchases</h1>
+<h1><?php esc_html_e( 'Köp', 'clmte' ); ?></h1>
 
 <?php if ( 0 !== $not_synced ) { // Not all purchases are synced. ?>
 

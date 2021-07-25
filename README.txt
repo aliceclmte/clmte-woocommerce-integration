@@ -4,7 +4,7 @@ Donate link: https://github.com/aliceheiman/clmte-ecommerce-integration
 Tags: climate, ecommerce, shop
 Requires at least: 3.0.1
 Tested up to: 5.8
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,10 @@ First, go to [CLMTE.com](https://clmte.com/ "CLMTE.com website") and create or l
 Under WooCommerce->Settings, there is a tab called CLMTE. Click on it and you should see two fields named "API Key" and "Organisation ID".
 
 == Changelog ==
+
+= 1.0.1 =
+* Tested with Wordpress 5.8
+* Added additional translations to plugin
 
 = 1.0.0 =
 * Initial Release

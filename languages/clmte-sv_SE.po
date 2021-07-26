@@ -166,7 +166,7 @@ msgid "kg carbon dioxide"
 msgstr "kg koldioxid"
 
 #: admin/partials/clmte-settings-purchases.php:40
-msgid "Kg carbon dioxide offsetted"
+msgid "Kg CO2 offsetted"
 msgstr "Kg koldioxid kompenserad"
 
 #: admin/class-clmte-wc-settings.php:53

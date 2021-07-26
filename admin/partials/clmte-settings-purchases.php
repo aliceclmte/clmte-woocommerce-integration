@@ -37,7 +37,7 @@ $not_synced = count( $wpdb->get_results( "SELECT * FROM $table_name WHERE status
         <th><?php esc_html_e( 'Time', 'clmte' ); ?></th>
         <th><?php esc_html_e( 'Amount', 'clmte' ); ?></th>
         <th><?php esc_html_e( 'Status', 'clmte' ); ?></th>
-        <th><?php esc_html_e( 'Kg carbon dioxide offsetted', 'clmte' ); ?></th>
+        <th><?php esc_html_e( 'Kg CO2 offsetted', 'clmte' ); ?></th>
         <th><?php esc_html_e( 'Tracking id', 'clmte' ); ?></th>
         <th><?php esc_html_e( 'Offset id', 'clmte' ); ?></th>
     </tr>

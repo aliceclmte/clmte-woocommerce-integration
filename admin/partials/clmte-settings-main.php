@@ -43,7 +43,7 @@ $settings = array(
         'id'      => $prefix . 'custom_receipt_placement',
         'name'    => __( 'Egen placering av kompensations-kvitto?', 'clmte' ),
         'type'    => 'checkbox',
-        'desc'    => __( 'Klicka I rutan för att använda egen placering för kompensations-kvittot med en shortcode nedan.', 'clmte' ),
+        'desc'    => __( 'Klicka i rutan för att använda egen placering för kompensations-kvittot med en shortcode nedan.', 'clmte' ),
         'default' => 'no',
     ),
     array(

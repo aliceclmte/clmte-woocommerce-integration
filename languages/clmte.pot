@@ -159,7 +159,7 @@ msgstr ""
 
 #: admin/partials/clmte-settings-main.php:46
 msgid ""
-"Klicka I rutan för att använda egen placering för kompensations-kvittot med "
+"Klicka i rutan för att använda egen placering för kompensations-kvittot med "
 "en shortcode nedan."
 msgstr ""
 

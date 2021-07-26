@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: CLMTE - Ecommerce Integration\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-29 18:29+0000\n"
-"PO-Revision-Date: 2021-07-26 09:01+0000\n"
+"PO-Revision-Date: 2021-07-26 09:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: English (United States)\n"
 "Language: en_US\n"
@@ -210,7 +210,7 @@ msgstr "Purchases"
 
 #: admin/partials/clmte-settings-main.php:30
 msgid "Ladda om kundvagnen?"
-msgstr "Reload cart?"
+msgstr "Reload Cart?"
 
 #: admin/class-clmte-wc-settings.php:50
 msgid "Loggar"
@@ -262,7 +262,7 @@ msgstr "Scan the QR code below or visit"
 
 #: admin/partials/clmte-settings-purchases.php:42
 msgid "Spårnings-id"
-msgstr "Tracking Id"
+msgstr "Tracking id"
 
 #: admin/partials/clmte-settings-purchases.php:40
 msgid "Status"

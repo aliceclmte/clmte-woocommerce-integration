@@ -123,7 +123,7 @@ if ( ! class_exists( 'Clmte_WC_Settings' ) ) {
                     <p><b><?php esc_html_e( 'Kompensationens Kostnad:', 'clmte' ); ?></b> <?php echo esc_html( ( $has_correct_credentials ) ? get_option( 'clmte_offset_price' ) . ' ' . get_woocommerce_currency() : __( 'Priset ej tillgängligt', 'clmte' ) ); ?></p>
                     <button id="update-offset-price"><?php esc_html_e( 'Uppdatera Pris', 'clmte') ; ?></button>
 
-                    <h2><?php esc_html_e( 'Shortcodes', 'clmte' ); ?></h3>
+                    <h2 id="shortcodes"><?php esc_html_e( 'Shortcodes', 'clmte' ); ?></h3>
                     <p><b><?php esc_html_e( 'CLMTE Klimatkompensations-ruta:', 'clmte' ); ?></b> [clmte-offset]</p>
                     <p><b><?php esc_html_e( 'CLMTE Kvitto:', 'clmte' ); ?></b> [clmte-receipt]</p>
                     <?php

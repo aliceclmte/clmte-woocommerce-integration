@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: CLMTE - Ecommerce Integration\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-29 18:29+0000\n"
-"PO-Revision-Date: 2021-07-26 08:44+0000\n"
+"PO-Revision-Date: 2021-07-26 09:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: English (United States)\n"
 "Language: en_US\n"
@@ -20,15 +20,15 @@ msgid ""
 " Din organisations API-nyckel, som kan fås genom att skapa ett konto och en "
 "organisation hos clmte.com"
 msgstr ""
-" Your organisation\\'s API Key which can be found by creating an account and "
-"organisation at clmte.com "
+" Your organisation\\'s API Key, which can be found by creating an account "
+"and organisation at clmte.com "
 
 #: admin/partials/clmte-settings-main.php:19
 msgid ""
 " Din organisations Organisations-ID, som kan fås genom att skapa ett konto "
 "och en organisation hos clmte.com"
 msgstr ""
-"Your organisation\\'s Organisation ID which can be found by creating an "
+"Your organisation\\'s Organisation ID, which can be found by creating an "
 "account and organisation at clmte.com"
 
 #: admin/partials/clmte-settings-purchases.php:30
@@ -133,15 +133,15 @@ msgstr "Custom Offset Placement?"
 
 #: admin/partials/clmte-settings-purchases.php:30
 msgid "ej synkroniserade med CLMTE’s servrar."
-msgstr "not synced with the CLMTE’s servers."
+msgstr "not synced with CLMTE’s servers."
 
 #: clmte.php:139
 msgid ""
 "för att följa din klimatkompensations påverkan i realtid och se vilket "
 "klimatinitiativ det bidrar till."
 msgstr ""
-"to track the impact of your carbon offset in real time and see which climate "
-"initiative it contributes to."
+"to track the impact of your carbon offset in real-time and view which "
+"climate initiative it contributes to."
 
 #: clmte.php:143
 msgid "För mer information, besök"
@@ -168,20 +168,19 @@ msgid ""
 "Klicka i rutan för att använda egen placering för klimatkompensations-rutan "
 "med en shortcode nedan."
 msgstr ""
-"Check this box to use custom placement for the carbon offseting box with the "
-"shortcode below."
+"Check this box to use custom placement for the carbon offsetting box with "
+"the shortcode below."
 
 #: admin/partials/clmte-settings-main.php:46
-#, fuzzy
 #| msgid ""
-#| "Klicka i rutan för att använda egen placering för kompensations-kvittot "
+#| "Klicka I rutan för att använda egen placering för kompensations-kvittot "
 #| "med en shortcode nedan."
 msgid ""
-"Klicka I rutan för att använda egen placering för kompensations-kvittot med "
+"Klicka i rutan för att använda egen placering för kompensations-kvittot med "
 "en shortcode nedan."
 msgstr ""
 "Check this box to use custom placement for the carbon offset receipt with "
-"the shortcode below. "
+"the shortcode below."
 
 #: admin/partials/clmte-settings-main.php:25
 msgid "Klicka i rutan för att börja använda pluginet med riktiga API-anrop."
@@ -191,7 +190,7 @@ msgstr "Check this box to start using the plugin with real API calls."
 msgid ""
 "Klicka i rutan om det uppstår svårigheter med att lägga till "
 "klimatkompensationen i varukorgen."
-msgstr "Check this box if there is trouble adding the offset to cart."
+msgstr "Check this box if there is trouble adding the offset to the cart."
 
 #: clmte.php:128
 msgid "kommer att klimatkompenseras tack vare din insats."
@@ -247,7 +246,7 @@ msgstr "Production Mode? "
 
 #: clmte.php:141
 msgid "QR-kod för CLMTE klimatkompensation"
-msgstr "QR code for CLMTE offset"
+msgstr "QR code for CLMTE carbon offset"
 
 #: admin/class-clmte-wc-settings.php:124
 msgid "Shortcodes"
@@ -284,8 +283,8 @@ msgstr "Type"
 
 #: admin/class-clmte-wc-settings.php:122
 msgid "Uppdatera Pris"
-msgstr "Fetch Updated Price"
+msgstr "Update Price"
 
 #: clmte.php:86
 msgid "Vill du klimatkompensera ditt köp för"
-msgstr "Do you want to carbon offset your purchase for "
+msgstr "Do you wish to carbon offset your purchase for "

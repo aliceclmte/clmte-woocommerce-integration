@@ -39,8 +39,8 @@ class Clmte_Activator {
 			// Add compensation product on plugin activation.
 			$post_id = wp_insert_post(
 				array(
-					'post_title'   => 'Klimatkompensation',
-					'post_content' => 'Climate compensation by clmte.com',
+					'post_title'   => __( 'Klimatkompensation', 'clmte' ),
+					'post_content' => __( 'Klimatkompensation från CLMTE.', 'clmte' ),
 					'post_status'  => 'publish',
 					'post_type'    => 'product',
 				)

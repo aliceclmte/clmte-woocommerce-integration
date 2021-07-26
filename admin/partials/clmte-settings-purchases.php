@@ -22,24 +22,24 @@ $not_synced = count( $wpdb->get_results( "SELECT * FROM $table_name WHERE status
 
 ?>
 
-<h1><?php esc_html_e( 'Köp', 'clmte' ); ?></h1>
+<h1><?php esc_html_e( 'Purchases', 'clmte' ); ?></h1>
 
 <?php if ( 0 !== $not_synced ) { // Not all purchases are synced. ?>
 
-<p><?php echo esc_html( ( 1 == $not_synced ) ? ( __( '1 kompensation', 'clmte' ) ) : ( $not_synced . __( ' kompensationer', 'clmte' ) ) ); ?> <?php esc_html_e( 'ej synkroniserade med CLMTE’s servrar.', 'clmte' ); ?></p>
-<p><i><?php esc_html_e( 'Obs: Högst 2 stycken kompensationer med statusen PENDING kommer att synkroniseras automatiskt vid varje nytt köp av klimatkompensationer.', 'clmte' ); ?></i></p>
-<button id="clmte-sync-offsets"><?php esc_html_e( 'Manuell Synkronisering', 'clmte' ); ?></button>
+<p><?php echo esc_html( ( 1 == $not_synced ) ? ( __( '1 offset', 'clmte' ) ) : ( $not_synced . __( ' offsets', 'clmte' ) ) ); ?> <?php esc_html_e( 'not synchronised with CLMTE’s servers.', 'clmte' ); ?></p>
+<p><i><?php esc_html_e( 'Note: A maximum of 2 PENDING offsets will be synced automatically at each subsequent offset purchase.', 'clmte' ); ?></i></p>
+<button id="clmte-sync-offsets"><?php esc_html_e( 'Manual Synchronisation', 'clmte' ); ?></button>
 
 <?php } ?>
 
 <table class="clmte-table">
     <tr>
-        <th><?php esc_html_e( 'Tid', 'clmte' ); ?></th>
-        <th><?php esc_html_e( 'Antal', 'clmte' ); ?></th>
+        <th><?php esc_html_e( 'Time', 'clmte' ); ?></th>
+        <th><?php esc_html_e( 'Amount', 'clmte' ); ?></th>
         <th><?php esc_html_e( 'Status', 'clmte' ); ?></th>
-        <th><?php esc_html_e( 'Kg koldioxid kompenserad', 'clmte' ); ?></th>
-        <th><?php esc_html_e( 'Spårnings-id', 'clmte' ); ?></th>
-        <th><?php esc_html_e( 'Kompensations-id', 'clmte' ); ?></th>
+        <th><?php esc_html_e( 'Kg carbon dioxide offsetted', 'clmte' ); ?></th>
+        <th><?php esc_html_e( 'Tracking id', 'clmte' ); ?></th>
+        <th><?php esc_html_e( 'Offset id', 'clmte' ); ?></th>
     </tr>
     <?php foreach ( $log_data as $log ) { ?>
     <tr class="<?php echo esc_attr( $log->status ); ?>">

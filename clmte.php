@@ -82,13 +82,13 @@ function clmte_create_offset_box() {
         <div id="clmte-compensation">
             <div class="info">
                 <i id="clmte-info" class="fa fa-info-circle"></i>
-                <p><?php esc_html_e( 'Vill du klimatkompensera ditt köp för', 'clmte' ); ?> <b><?php echo esc_html( $offset_price . ' ' . get_woocommerce_currency() ); ?></b>?</p> 
+                <p><?php esc_html_e( 'Do you wish to carbon offset your purchase for', 'clmte' ); ?> <b><?php echo esc_html( $offset_price . ' ' . get_woocommerce_currency() ); ?></b>?</p> 
             </div>
-            <button id="clmte-compensate"><?php esc_html_e( 'Lägg till klimatkompensation', 'clmte' ); ?></button>
+            <button id="clmte-compensate"><?php esc_html_e( 'Add carbon offset', 'clmte' ); ?></button>
         </div>
 
         <div id="clmte-panel">
-            <p><?php esc_html_e( 'CLMTEs klimatkompensation gör ditt köp klimatneutralt genom att finansiera initiativ runt om i världen som minskar koldioxidutsläpp. Kostnaden är beräknad enligt bolagets data- och forskningsbaserade algoritm, och alla finansierade initiativ är FN-certifierade. Läs mer på', 'clmte' ); ?> 
+            <p><?php esc_html_e( 'CLMTE\'s climate offsetting makes your purchase carbon neutral by financing initiatives around the world that reduce carbon dioxide emissions. The cost is calculated according to the company\'s data and research-based algorithm, and all funded initiatives are UN-certified. Read more at', 'clmte' ); ?> 
             <a href="https://clmte.com/faq" target="_blank" rel="nofollow">clmte.com/faq</a>!
             <p>	
         </div>
@@ -112,17 +112,17 @@ function clmte_create_receipt() {
     ?>
 
     <div id="clmte-order">
-        <h2><?php esc_html_e( 'Din Klimatkompensation', 'clmte' ); ?></h2>
+        <h2><?php esc_html_e( 'Your Carbon Offset', 'clmte' ); ?></h2>
     
         <div class="clmte-order-content">
 
-            <p id="clmte-thank-you"><?php esc_html_e( 'Tack för du klimatkompenserade ditt köp med CLMTE!', 'clmte' ); ?></p>
+            <p id="clmte-thank-you"><?php esc_html_e( 'Thank you for carbon offsetting your purchase with CLMTE!', 'clmte' ); ?></p>
 
             <?php
             // Display carbon dioxide.
             if ( array_key_exists( 'clmte-offsets-carbon', $clmte_purchase ) ) {
             ?>
-            <p><span><?php echo esc_html( $clmte_purchase['clmte-offsets-carbon'] ); ?><?php esc_html_e( 'kg koldioxid', 'clmte' ); ?></span> <?php esc_html_e( 'kommer att klimatkompenseras tack vare din insats.', 'clmte' ); ?></p>
+            <p><span><?php echo esc_html( $clmte_purchase['clmte-offsets-carbon'] ); ?><?php esc_html_e( 'kg carbon dioxide', 'clmte' ); ?></span> <?php esc_html_e( 'will be offset thanks to your contribution.', 'clmte' ); ?></p>
             <?php } // End isset clmte carbon dioxide. ?>
 
         </div>
